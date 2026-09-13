@@ -1,0 +1,9 @@
+.sites-runtime/
+node_modules/
+.env
+.env.*
+dist/
+qa/
+
+# Hosting identity is managed separately from the public GitHub snapshot.
+.openai/
