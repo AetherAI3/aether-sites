@@ -21,6 +21,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `harbor-and-hollow/` | A coastal hand wash concept with a scroll-driven film journey, scent story, and product presentation. |
 | `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; mint and cyan gradients, glass service cards, restrained scroll effects, verified reviews, real location photography, and an optional service-note planner. |
 | `mach-detail/` | Mach Detail, Torrington; bold automotive type, cyan HUD styling, scroll-driven scenes, nine real photos, a cinematic Google review carousel, and an appointment-request planner. |
+| `empanadas-togo/` | Empanada's The place TOGO, Meriden; Golden Counter gradients, bold expanding menu frames, and a local pickup-list builder. |
 | `waterbury-aquarium/` | Waterbury Aquarium; detailed illustrative aquatic imagery, water gradients, scroll-driven frames, category filters and a local aquascape visit planner. |
 | `barbers-ink/` | Barber’s Ink, Torrington; black, chrome and cyan, bold expanding frames, a direct Booksy link and a local appointment-request planner. |
 
@@ -83,3 +84,7 @@ Static HTML now loads CSS and JavaScript through content-versioned filenames gen
 ### Barber’s Ink
 
 `/barbers-ink/` follows the supplied Precision Frame direction with locally hosted Barlow type, decorative chrome planes, a contracting hero, an expanding shop frame and a stationary appointment planner. Its Booksy link leads to the business’s public booking page. Drafts remain in page memory and are never submitted or stored. The original creative handoff remains in the supplied attachments; source verification, scope and activation requirements are in [docs/barbers-ink.md](docs/barbers-ink.md).
+
+### Empanada's The place TOGO
+
+`/empanadas-togo/` adds the Golden Counter concept with expanding menu frames, native scroll motion and a persistent item bag. The pickup form generates a local list to copy or save; no order is sent and no payment is taken. Supplied design references are preserved in `reference/empanadas-togo/`. See [the implementation and source notes](docs/empanadas-togo.md).

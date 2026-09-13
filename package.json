@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check barbers-ink/site.js && node --check assets/map/project-map.js && node --check waterbury-aquarium/motion.js && node --check reworxct/script.js && node --check ember-and-iron/script.js && node --check garys-hilltop/script.js && node --check garys-hilltop/enhancements.js && node --check scripts/version-static-assets.mjs && node --check mach-detail/js/site.js && node --check mach-detail/js/motion.js && node --check mach-detail/js/reviews.js && node --check mach-detail/js/booking.js && node --test tests/mach-detail.test.mjs && python scripts/check.py && tsc --noEmit -p harbor-and-hollow/tsconfig.json",
+    "check": "node --check empanadas-togo/script.js && node --check barbers-ink/site.js && node --check assets/map/project-map.js && node --check waterbury-aquarium/motion.js && node --check reworxct/script.js && node --check ember-and-iron/script.js && node --check garys-hilltop/script.js && node --check garys-hilltop/enhancements.js && node --check scripts/version-static-assets.mjs && node --check mach-detail/js/site.js && node --check mach-detail/js/motion.js && node --check mach-detail/js/reviews.js && node --check mach-detail/js/booking.js && node --test tests/mach-detail.test.mjs && python scripts/check.py && tsc --noEmit -p harbor-and-hollow/tsconfig.json",
     "dev": "vite --config vite.config.mjs"
   },
   "dependencies": {
