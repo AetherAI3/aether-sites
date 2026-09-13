@@ -8,7 +8,8 @@ A fresh industrial presentation for Reworx: charcoal surfaces, ember accents, sh
 
 - `reworxct/index.html` — rewritten content and semantic page structure.
 - `reworxct/styles.css` — responsive visual system, based on the supplied guide.
-- `reworxct/script.js` — progressive mobile navigation.
+- `reworxct/motion.css` — supplied palette gradients, expanding frames, process reveals, and button interactions.
+- `reworxct/script.js` — mobile navigation and progressive scroll choreography.
 - `reworxct/assets/` — four supplied images, optimized to WebP.
 - `docs/reworxct-sources.md` — sources, factual boundaries, and asset provenance.
 - `reference/reworxct/` — supplied brand guide and CSS, with image references localized for this repository.
@@ -31,6 +32,12 @@ Open `/reworxct/`. The root currently redirects there. New client concepts shoul
 The build creates `dist/reworxct/` and a root entrypoint. The site is portable static HTML/CSS/JavaScript. The private design preview is managed separately; its hosting identity is excluded from this portable GitHub snapshot. Configure `aethersites.net` separately through its authorized hosting and DNS account when ready.
 
 The concept has visible disclosure, `noindex` metadata, and robots exclusion. External contact and booking links point to the real business, and no local form collects leads. Supplied imagery is identified as concept art, not a verified customer portfolio. Do not remove these boundaries when moving hosts without an approved change in project status.
+
+## Motion
+
+Native scrolling drives a contracting hero frame, slow image movement, expanding section edges, and the process rail. Recover, Refine, Design, and Build settle into view in sequence. On desktop the material image holds briefly beside the copy; mobile uses normal document flow and a vertical process rail. Numbered section preheaders and decorative counters have been removed.
+
+The supplied motion CSS and scroll handoff are preserved under `reference/reworxct/`. The shipped adaptation in `motion.css` uses one animation-frame controller for consistent browser behavior. There is no scroll hijacking, autoplay video, or continuous render loop. Reveals remain visible without JavaScript or IntersectionObserver; reduced-motion changes disable the scroll effects and reveal all content. Keyboard focus immediately exposes the focused content.
 
 ## Repository and checks
 

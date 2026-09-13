@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>re.worx — Motion &amp; Scroll Handoff</title>
+<link rel="stylesheet" href="re-worx-industrial.css">
+<style>
+  body { margin:0; background:var(--ink); color:var(--bone);
+         font-family:var(--font-body); font-size:15px; line-height:1.65; }
+  .wrap { max-width:1040px; margin:0 auto; padding:72px 32px 96px; }
+  section { margin:0 0 80px; }
+  h1 { font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+       letter-spacing:-0.02em; font-size:clamp(32px,5vw,50px); line-height:.96; margin:0 0 8px; }
+  h2 { font-family:var(--font-mono); font-size:12px; letter-spacing:.18em;
+       text-transform:uppercase; color:var(--ember); margin:0 0 20px; }
+  h2::before { content:"— "; color:var(--ash); }
+  p.lede { color:var(--ash); max-width:660px; margin:0 0 28px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+  td, th { border:1px solid var(--line-dark); padding:10px 12px; text-align:left; vertical-align:top; }
+  th { font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+       color:var(--ash); font-weight:400; }
+  code { font-family:var(--font-mono); font-size:12px; color:var(--ember-hot);
+         background:var(--steel-900); padding:2px 6px; }
+  pre { background:var(--coal); border:var(--border); padding:16px; overflow-x:auto;
+        font-family:var(--font-mono); font-size:12px; line-height:1.65; color:var(--bone);
+        white-space:pre-wrap; }
+  .ok { color:var(--ember); }
+  .fix { color:var(--spark); }
+  ol.map { counter-reset:m; list-style:none; padding:0; }
+  ol.map li { counter-increment:m; border-top:1px solid var(--line-dark);
+              padding:20px 0 20px 64px; position:relative; }
+  ol.map li::before { content:"0" counter(m); position:absolute; left:0; top:20px;
+              font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; color:var(--ember); }
+  ol.map b { display:block; font-family:var(--font-display); font-weight:800;
+             text-transform:uppercase; font-size:17px; margin-bottom:6px; }
+  ol.map span { color:var(--ash); font-size:13.5px; display:block; max-width:720px; }
+  ol.map code { margin-right:4px; }
+  .vidspec { border:1px solid var(--line-dark); padding:16px 18px; margin:12px 0;
+             background:var(--coal); }
+  .vidspec b { font-family:var(--font-mono); font-size:12px; letter-spacing:.14em;
+               text-transform:uppercase; color:var(--ember-hot); }
+  .vidspec .meta { font-family:var(--font-mono); font-size:11px; color:var(--ash); margin:4px 0 10px; }
+  .vidspec p { margin:0; color:var(--ash); font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section>
+    <h2>Motion &amp; Scroll Handoff · v1</h2>
+    <h1>re.worx — scroll-driven cinematic plan</h1>
+    <p class="lede">Audit of the current build, the scroll choreography map, the motion CSS
+    system, and six video loop specs. Photography is already in place; this document turns
+    the static site into a moving one without breaking what works.</p>
+  </section>
+
+  <section>
+    <h2>01 / Site audit</h2>
+    <table>
+      <tr><th>Area</th><th>Verdict</th><th>Notes</th></tr>
+      <tr><td>Hero</td><td class="ok">Strong</td><td>Type scale, kicker, ember split on "HISTORY", bottom meta bar all on-brand. <span class="fix">Fix:</span> the lower half of the hero still falls to near-black under the CTA — lift shadows ~5% or reduce the scrim so the table reads at a glance.</td></tr>
+      <tr><td>What we make</td><td class="ok">Strong</td><td>Three-card dossier row with in-media mono labels works. <span class="fix">Fix:</span> card 01 reuses the hero still — repetition the visitor will notice. Swap it when the transformation/shelf assets generate.</td></tr>
+      <tr><td>The material</td><td class="ok">Strong</td><td>Macro grain + "NOT NEW. NOT ORDINARY." is the best split on the page. Candidate for a sticky-media scroll treatment (see map).</td></tr>
+      <tr><td>The process</td><td class="fix">Underbuilt</td><td>Four text columns are correct but inert — no imagery, no motion. This is where the sparks loop and the drawing rail go (map §04).</td></tr>
+      <tr><td>Next chapter (light)</td><td class="ok">Strong</td><td>The bright flip is the right release after three dark acts. Keep the cut hard — no crossfade between themes, that contrast is the brand.</td></tr>
+      <tr><td>Footer</td><td class="ok">Fine</td><td>Disclosure line ("independent concept") correctly placed. Add the ember ambient loop behind it at low opacity once generated.</td></tr>
+      <tr><td>Global</td><td class="fix">Static</td><td>Nothing moves yet. The motion system below is designed to be dropped in without restructuring markup: classes only, no required JS.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>02 / Motion principles</h2>
+    <p class="lede">Everything is slow, heavy and one-directional — the brand is mass, not
+    spring. Entrances settle (0.9–1.4s, <code>var(--mot-ease)</code>), never bounce. Ambient
+    loops breathe on 20–40s cycles. One idea moves per viewport: if the media drifts, the
+    type is still. All motion is CSS-first and collapses to fully visible static content
+    under <code>prefers-reduced-motion</code>.</p>
+  </section>
+
+  <section>
+    <h2>03 / Scroll choreography map</h2>
+    <ol class="map">
+      <li><b>Global chrome</b><span><code>.scroll-progress</code> — 2px ember steel rule fills left→right across page scroll (pure CSS, scroll(root) timeline, no JS).</span></li>
+      <li><b>Hero — hold, then release</b><span>Media: <code>.kb-frame</code> + <code>.kenburns</code> on the still today; swap in <code>v-hero-drift</code> later (first frame matches the still — seamless upgrade). Content: <code>.hero-content</code> exits upward and fades across the first 42vh via scroll() while <code>.hero-media</code> sinks at a slower rate — a two-layer parallax split. CTA carries <code>.breathe</code> glow; scroll cue loops <code>.scroll-cue</code>.</span></li>
+      <li><b>What we make — the dossier opens</b><span>Section header <code>.reveal</code>; the three cards use <code>.reveal-stagger</code> so they deal in left→right. Card media gets <code>.parallax-slow</code> drift on continued scroll. Existing hover (ember edge + lift) stays.</span></li>
+      <li><b>The material — sticky study</b><span>Split becomes a study table: the macro grain image (later <code>v-grain-light</code>) pins with <code>position: sticky; top: 15vh</code> while the copy column scrolls past. Spec chips (species / circa / provenance) reveal one by one with <code>.reveal-stagger</code>.</span></li>
+      <li><b>The process — the rail draws</b><span>Add <code>.rail rail--auto</code> to the section's left edge: a 1px ember line draws itself downward as the section scrolls through view (or JS-scrub <code>--rail-fill</code> for exact control). Steps 01–04 reveal in stagger. Behind the section header, mount <code>v-sparks-loop</code> as a full-bleed <code>.video-bg</code> band with <code>.video-scrim</code> at low brightness.</span></li>
+      <li><b>Your next chapter — the bright flip</b><span>Hard cut to light, no transition. The stamp badge ("OLD MATERIALS. NEW POSSIBILITIES.") settles in with a 2° rotation on <code>.reveal</code>. Service rows get <code>.link-draw</code> underlines.</span></li>
+      <li><b>Footer — ember bed</b><span><code>v-ember-ambient</code> behind the footer CTA at ~30% opacity under <code>.video-scrim</code>; back-to-top uses <code>.link-draw</code>. End calm.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>04 / Video loops — specs &amp; ready-to-fire prompts</h2>
+    <p class="lede">All six are blocked right now by the account's daily generation limit
+    (every model returns it today — nothing was billed). Each is spec'd to start from its
+    matching site still as the locked first frame, so each drops in as a seamless upgrade
+    over the current image. Prompts below are final; re-run when the limit resets.</p>
+
+    <div class="vidspec"><b>v-hero-drift</b><div class="meta">Seedance 2.5 · omni_reference · start: hero-table still · 21:9 · 1080p · 8s · silent</div>
+    <p>Ultra-slow uniform push-in toward the tabletop, dust motes drifting through the warm window shaft, light breathing subtly, locked low angle, constant speed end-to-end for a seamless loop.</p></div>
+
+    <div class="vidspec"><b>v-sparks-loop</b><div class="meta">Seedance 2.5 · omni_reference · start: metalwork-sparks still · 16:9 · 720p · 5s · silent</div>
+    <p>Grinding continues in place, spark fan spraying steadily down-right, sparks arcing with weight and dying on the floor, camera locked, sparks as the only light source. Mounts behind "The process" header.</p></div>
+
+    <div class="vidspec"><b>v-grain-light</b><div class="meta">Seedance 2.5 · omni_reference · start: macro-grain still · 16:9 · 720p · 6s · silent</div>
+    <p>Camera locked; the raking amber light slowly sweeps left→right across the macro grain, ridges brightening, long shadows crawling. Meditative, loop-safe. The material section's living texture.</p></div>
+
+    <div class="vidspec"><b>v-mantel-dolly</b><div class="meta">Seedance 2.5 · omni_reference · start: mantel-product still · 3:4 · 720p · 5s · silent</div>
+    <p>Ultra-slow dolly-in of a few centimeters on the mantel face, spotlight breathing, shadow under the beam deepening gently. For the architectural-accents card or a product detail page.</p></div>
+
+    <div class="vidspec"><b>v-salvage-dust</b><div class="meta">Seedance 2.5 · omni_reference · start: salvage-stack still · 16:9 · 720p · 6s · silent</div>
+    <p>Dust motes tumbling slowly through the cool clerestory shaft over the timber stack, camera holding with a barely perceptible lateral drift. Section background for salvage/heritage.</p></div>
+
+    <div class="vidspec"><b>v-ember-ambient</b><div class="meta">Seedance 2.5 · t2v (no reference) · 21:9 · 720p · 6s · silent</div>
+    <p>Abstract near-black charcoal field; a warm ember glow breathes up from the bottom edge like forge heat, haze drifting low, film grain shimmering. No objects, no text. Footer/CTA bed.</p></div>
+
+    <h2 style="margin-top:36px">Wiring pattern (drop-in)</h2>
+    <pre>&lt;div class="video-bg kb-frame"&gt;
+  &lt;video autoplay muted loop playsinline preload="metadata"
+         poster="&lt;matching-still.png&gt;" class="video-bg--dim"&gt;
+    &lt;source src="&lt;clip.mp4&gt;" type="video/mp4"&gt;
+  &lt;/video&gt;
+  &lt;div class="video-scrim"&gt;&lt;/div&gt;
+  &lt;!-- section content --&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// play only in view; honor reduced motion
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.querySelectorAll('.video-bg video').forEach(v =&gt; {
+  if (reduce) { v.removeAttribute('autoplay'); v.pause(); return; }
+  new IntersectionObserver(([e]) =&gt;
+    e.isIntersecting ? v.play() : v.pause(), {threshold: .15}).observe(v);
+});
+&lt;/script&gt;</pre>
+    <p class="lede" style="margin-top:16px">Poster = the matching still, so first paint is
+    instant and the motion fades in from an identical frame. Keep loops under ~3&nbsp;MB via
+    720p for bands; only the hero justifies 1080p.</p>
+  </section>
+
+  <section>
+    <h2>05 / Manifest</h2>
+    <table>
+      <tr><th>File / asset</th><th>Status</th><th>Purpose</th></tr>
+      <tr><td><code>re-worx-industrial.css</code></td><td class="ok">delivered</td><td>Tokens, palette, gradients, glows, components</td></tr>
+      <tr><td><code>re-worx-brand-guide.html</code></td><td class="ok">delivered</td><td>Identity system + site structure</td></tr>
+      <tr><td><code>re-worx-motion.css</code></td><td class="ok">delivered</td><td>Scroll-driven motion system (this plan's engine)</td></tr>
+      <tr><td><code>re-worx-scroll-handoff.html</code></td><td class="ok">delivered</td><td>This document</td></tr>
+      <tr><td>5 photography assets</td><td class="ok">delivered</td><td>hero-table · macro-grain · metalwork-sparks · mantel-product · salvage-stack</td></tr>
+      <tr><td>6 video loops</td><td class="fix">blocked — daily limit</td><td>prompts locked in §04; fire on reset</td></tr>
+      <tr><td>5 image assets (shelf, transformation, identity stamp, 2 gradients)</td><td class="fix">blocked — daily limit</td><td>prompts in brand guide §08</td></tr>
+    </table>
+  </section>
+
+  <hr class="divider-steel">
+  <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)">re.worx — motion handoff v1 · pair with re-worx-industrial.css + re-worx-motion.css</p>
+</div>
+</body>
+</html>

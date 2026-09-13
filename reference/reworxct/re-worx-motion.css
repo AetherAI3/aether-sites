@@ -1,0 +1,224 @@
+/* ============================================================
+   RE.WORX — Scroll-Driven Motion System
+   Companion to re-worx-industrial.css (import it first).
+   Pure CSS where possible: scroll()/view() timelines, Ken Burns
+   drift (stands in for video until the loops are generated),
+   video-background conventions, reduced-motion safe.
+   ============================================================ */
+
+:root {
+  --mot-fast:   0.45s;
+  --mot-med:    0.9s;
+  --mot-slow:   1.4s;
+  --mot-ease:   cubic-bezier(0.16, 1, 0.3, 1);   /* heavy settle, never bounce */
+  --mot-rise:   28px;                             /* reveal travel distance */
+}
+
+/* ============================================================
+   1. KEN BURNS DRIFT — motion from stills, no video required
+   Apply to the EXISTING photography until the video loops ship;
+   the videos' first frames match the stills, so the swap is
+   seamless later.
+   ============================================================ */
+
+@keyframes kb-drift {
+  from { transform: scale(1)    translate(0, 0); }
+  to   { transform: scale(1.07) translate(-1.2%, -1.6%); }
+}
+@keyframes kb-drift-alt {
+  from { transform: scale(1.06) translate(1%, 1.2%); }
+  to   { transform: scale(1)    translate(0, 0); }
+}
+@keyframes kb-sweep {           /* for texture bands (macro grain) */
+  from { object-position: 0% 50%; transform: scale(1.12); }
+  to   { object-position: 100% 50%; transform: scale(1.12); }
+}
+
+.kenburns {
+  animation: kb-drift 26s var(--mot-ease) infinite alternate;
+  will-change: transform;
+}
+.kenburns--alt  { animation-name: kb-drift-alt; animation-duration: 32s; }
+.kenburns--sweep{ animation: kb-sweep 38s linear infinite alternate; }
+
+/* Parent must clip the travel */
+.kb-frame { overflow: hidden; position: relative; }
+.kb-frame > img, .kb-frame > video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ============================================================
+   2. SCROLL REVEALS — entrance system (view() timeline)
+   Heavy, slow, one-way. Nothing pops; everything settles.
+   ============================================================ */
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(var(--mot-rise)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise-in var(--mot-slow) var(--mot-ease) both;
+    animation-timeline: view();
+    animation-range: entry 5% entry 38%;   /* done by the time it's 38% in */
+  }
+  /* stagger siblings without JS */
+  .reveal-stagger > *:nth-child(1) { animation-range: entry 5%  entry 34%; }
+  .reveal-stagger > *:nth-child(2) { animation-range: entry 12% entry 42%; }
+  .reveal-stagger > *:nth-child(3) { animation-range: entry 19% entry 50%; }
+  .reveal-stagger > *:nth-child(4) { animation-range: entry 26% entry 58%; }
+}
+/* No support / no JS: content is simply visible (animation 'both' is
+   inside @supports, so unsupported browsers skip hiding entirely). */
+
+/* ============================================================
+   3. HERO CHOREOGRAPHY — headline lifts & fades as you leave
+   ============================================================ */
+
+@keyframes hero-exit {
+  to { opacity: 0; transform: translateY(-48px); }
+}
+@supports (animation-timeline: scroll()) {
+  .hero-content {                       /* the headline/kicker/CTA block */
+    animation: hero-exit var(--mot-ease) both;
+    animation-timeline: scroll();
+    animation-range: 0 42vh;            /* fades across the first 42vh of scroll */
+  }
+  .hero-media img, .hero-media video {  /* media sinks slower — parallax gap */
+    animation: hero-media-sink linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100vh;
+  }
+}
+@keyframes hero-media-sink {
+  to { transform: translateY(12vh) scale(1.05); }
+}
+
+/* Thin scroll-progress rule — the "steel line" that fills */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--ember-hot));
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  z-index: 60;
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ============================================================
+   4. PARALLAX MEDIA — images drift against scroll
+   ============================================================ */
+
+@supports (animation-timeline: view()) {
+  .parallax-slow img, .parallax-slow video {
+    animation: par-up linear both;
+    animation-timeline: view();
+    animation-range: cover entry 0% cover exit 100%;
+  }
+}
+@keyframes par-up {
+  from { transform: translateY(6%)  scale(1.12); }
+  to   { transform: translateY(-6%) scale(1.12); }
+}
+
+/* ============================================================
+   5. PROCESS RAIL — hairline that draws itself (scrub)
+   ============================================================ */
+
+.rail {
+  position: relative;
+  --rail-fill: 0%;
+}
+.rail::before {                                /* the track */
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0;
+  width: 1px; background: var(--line-dark);
+}
+.rail::after {                                 /* the ember fill */
+  content: ""; position: absolute; top: 0; left: 0;
+  width: 1px; height: var(--rail-fill);
+  background: linear-gradient(180deg, var(--ember), var(--spark));
+  box-shadow: var(--glow-ember);
+}
+/* Without JS: fill animates on view(). With JS: set --rail-fill
+   from scroll progress for a true scrub. */
+@supports (animation-timeline: view()) {
+  .rail--auto::after {
+    animation: rail-grow linear both;
+    animation-timeline: view();
+    animation-range: entry 10% exit 90%;
+  }
+}
+@keyframes rail-grow { from { height: 0%; } to { height: 100%; } }
+
+/* ============================================================
+   6. VIDEO BACKGROUNDS — conventions for the loop clips
+   ============================================================ */
+
+.video-bg { position: relative; overflow: hidden; isolation: isolate; }
+.video-bg > video {
+  position: absolute; inset: 0; z-index: -1;
+  width: 100%; height: 100%; object-fit: cover;
+  filter: contrast(1.05) brightness(0.98) saturate(0.95);
+}
+.video-bg > video.video-bg--dim { filter: brightness(0.72) contrast(1.05); }
+.video-bg .video-scrim {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(12,13,15,0.55) 0%, rgba(12,13,15,0.15) 45%,
+    rgba(12,13,15,0.75) 100%);
+}
+
+/* Seamless-loop helper: soften the cut point by fading the last
+   6% of the clip back to the poster via a tiny JS-free trick —
+   pair of stacked videos, offset by half duration.
+   Only needed if the raw loop cut is visible. */
+.loop-pair { position: absolute; inset: 0; }
+.loop-pair video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* ============================================================
+   7. MICRO-MOTION — hovers, ticks, the breathing glow
+   ============================================================ */
+
+@keyframes ember-breathe {
+  0%, 100% { opacity: 0.85; }
+  50%      { opacity: 1; }
+}
+.breathe { animation: ember-breathe 4.5s ease-in-out infinite; }
+
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50%      { transform: translateY(8px); opacity: 0.4; }
+}
+.scroll-cue { animation: scroll-cue 2.2s var(--mot-ease) infinite; }
+
+/* Link underline draw */
+.link-draw {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px;
+  transition: background-size var(--mot-fast) var(--mot-ease);
+  text-decoration: none;
+}
+.link-draw:hover { background-size: 100% 1px; }
+
+/* ============================================================
+   8. SAFETY — motion off means truly off
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .kenburns, .kenburns--alt, .kenburns--sweep,
+  .breathe, .scroll-cue { animation: none; }
+  @supports (animation-timeline: view()) {
+    .reveal, .reveal-stagger > *, .parallax-slow img,
+    .parallax-slow video, .rail--auto::after {
+      animation: none; opacity: 1; transform: none;
+    }
+  }
+  @supports (animation-timeline: scroll()) {
+    .hero-content, .hero-media img, .hero-media video { animation: none; }
+  }
+  /* JS gate: pause all <video autoplay> and show posters instead */
+}

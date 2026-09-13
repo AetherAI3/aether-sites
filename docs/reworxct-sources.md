@@ -27,3 +27,7 @@ The uploaded brand guide identifies the images as a generated cinematic set. The
 Original dimensions are retained, with WebP encoding for delivery. No new image generation occurred. The public reference guide uses local images and omits the unavailable metalwork image. Its proposed features are historical input, not evidence of delivered features or verified business inventory.
 
 Typography is requested from Google Fonts with local fallbacks. All shipped imagery is local. The contact area links to the official website and official booking pages, and captures no personal information on this concept.
+
+## Motion revision
+
+The supplied `re-worx-motion.css` and `re-worx-scroll-handoff.html` inform the scroll choreography and are retained as design references. `reworxct/motion.css` adapts their charcoal/oxide/walnut/ember treatment, gentle image drift, drawing rail, and staggered entrances to the actual page. Expanding frames and button interactions follow the user's requested revision. Motion is driven by native scrolling with a throttled animation-frame update, with static and reduced-motion fallbacks. No video assets or unverified inventory details were added.

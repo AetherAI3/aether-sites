@@ -1,0 +1,300 @@
+/* Adapted from the supplied industrial gradients and motion handoff.
+   One scroll controller owns the scrubbing; no competing transform timelines.
+   Content is visible by default, including without JavaScript. */
+:root {
+  --ember-hot: #f0b26b;
+  --spark: #e86a2c;
+  --oxide: #54716b;
+  --mot-fast: .45s;
+  --mot-med: .9s;
+  --mot-slow: 1.2s;
+  --mot-ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* The supplied charcoal, oxide, walnut and ember palette. */
+.hero {
+  background: radial-gradient(60% 55% at 78% 12%, #d89a4e28, transparent 68%), #0c0d0f;
+}
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  clip-path: inset(var(--hero-inset, 0px));
+}
+.hero-media .hero-image {
+  z-index: auto;
+  filter: brightness(1.12) contrast(1.02);
+  transform: translateY(var(--hero-shift, 0px)) scale(var(--hero-scale, 1.02));
+}
+.hero-shade {
+  background: linear-gradient(90deg, #050607a6, #05060714 85%),
+    linear-gradient(0deg, #050607b8, transparent 27%, #05060712);
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: var(--hero-inset, 0px);
+  border: 1px solid rgb(240 178 107 / var(--hero-edge, .12));
+  z-index: 2;
+  pointer-events: none;
+}
+.hero-content {
+  transform: translateY(var(--title-shift, 0px));
+  opacity: var(--title-opacity, 1);
+}
+.hero-content:focus-within { opacity: 1; }
+.hero h1 em {
+  background: linear-gradient(115deg, #f4d1a5, #d89a4e 47%, #a77237);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.material-strip {
+  background: linear-gradient(100deg, #101215, #232a2e 40%, #3a4f4b66 75%, #101215);
+}
+.work {
+  background: radial-gradient(65% 50% at 85% 15%, #54716b16, transparent 75%),
+    linear-gradient(180deg, #14161a, #0c0d0f 78%);
+}
+.materials {
+  background: linear-gradient(115deg, #171719, #242a2c 55%, #18201e);
+}
+.materials-copy {
+  background: radial-gradient(80% 90% at 20% 20%, #6b4a2f2e, transparent 75%);
+}
+.process {
+  background: radial-gradient(75% 95% at 92% 15%, #54716b20, transparent 72%),
+    radial-gradient(75% 60% at 8% 100%, #6b4a2f2b, transparent 80%), #0c0d0f;
+}
+.contact {
+  background: linear-gradient(180deg, #faf8f3, #f4f1ea 60%, #e9e4d9);
+}
+.footer {
+  background: radial-gradient(90% 150% at 50% 145%, #e86a2c32, #d89a4e12 42%, transparent 76%), #0c0d0f;
+}
+
+/* Frames change geometry without resizing the content or the scroll height. */
+.scene-frame { position: relative; isolation: isolate; }
+.scene-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0 var(--frame-inset, 0px);
+  border: 1px solid #b7b2a02e;
+  border-image: linear-gradient(135deg, #d89a4e70, #ede8e01c 35%, #54716b40 70%, #d89a4e45) 1;
+  pointer-events: none;
+  z-index: 2;
+}
+.contact.scene-frame::after {
+  border-image: linear-gradient(135deg, #86613675, #17181b12 48%, #86613650) 1;
+}
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--ember), var(--ember-hot));
+  transform-origin: left center;
+  transform: scaleX(0);
+  pointer-events: none;
+  z-index: 60;
+}
+.motion-ready .hero-media .hero-image { will-change: transform; }
+
+/* Once-only entrances; the enhancement class is added after observer setup. */
+.reveal { opacity: 1; transform: none; }
+.reveal-ready .reveal {
+  transition: opacity var(--mot-med) var(--mot-ease),
+    transform var(--mot-slow) var(--mot-ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-ready .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.reveal-ready .process-step:not(.is-visible) {
+  transform: translateY(40px) scale(.94);
+}
+.reveal-ready .reveal:focus-within {
+  opacity: 1;
+  transform: none;
+  transition: none;
+  transition-delay: 0ms;
+}
+.contact-stamp { rotate: -4deg; transform: none; }
+.reveal-ready .contact-stamp:not(.is-visible) {
+  transform: translateY(18px) rotate(5deg);
+}
+
+/* A restrained material study: media holds while the text moves through. */
+.materials-photo::after {
+  content: "";
+  position: absolute;
+  inset: var(--frame-inset, 0px);
+  border: 1px solid #d89a4e66;
+  pointer-events: none;
+}
+.materials-photo img {
+  transform: translateY(var(--grain-shift, 0px)) scale(1.08);
+  filter: brightness(.85);
+}
+.materials-copy .text-link { align-self: flex-start; }
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .motion-ready .materials { align-items: start; min-height: 108svh; }
+  .motion-ready .materials-photo {
+    position: sticky;
+    top: 10svh;
+    height: 78svh;
+    min-height: 440px;
+    max-height: 850px;
+  }
+  .motion-ready .materials-copy {
+    min-height: 108svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* Recover / Refine / Design / Build: a drawing line and individual arrivals. */
+.process-grid {
+  position: relative;
+  border-top: 1px solid #ede8e026;
+}
+.process-grid::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--ember-hot), #d89a4e55);
+  transform: scaleX(var(--rail-progress, 1));
+  transform-origin: left;
+}
+.process-step { position: relative; transform-origin: center top; }
+.process-step::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  top: -4px;
+  left: 0;
+  background: var(--ember);
+  box-shadow: 0 0 18px #d89a4e40;
+}
+.process-grid h3 {
+  font-size: clamp(27px, 2.7vw, 43px);
+  letter-spacing: -.04em;
+  margin: 16px 0;
+}
+.process-grid article { padding-bottom: 14px; }
+.process-grid p { font-size: 16px; }
+
+/* Button pop, expanding card edges, and directional link movement. */
+.button, .header-cta {
+  position: relative;
+  isolation: isolate;
+  transition: transform var(--mot-fast) var(--mot-ease),
+    box-shadow var(--mot-fast) var(--mot-ease), background-color .3s, color .3s;
+}
+.button::before, .header-cta::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid currentColor;
+  opacity: 0;
+  transform: scale(.95);
+  transition: opacity var(--mot-fast), transform var(--mot-fast) var(--mot-ease);
+  pointer-events: none;
+}
+.button-ember { background: linear-gradient(115deg, #efbc7e, #d89a4e 65%, #c48a43); }
+.button span, .header-cta span, .card-arrow, .text-link span, .booking-links b, .back-top span {
+  display: inline-block;
+  transition: transform var(--mot-fast) var(--mot-ease);
+}
+.card-image::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #d89a4e40;
+  pointer-events: none;
+  transition: inset var(--mot-med) var(--mot-ease), border-color .4s;
+}
+.work-card>a { display: block; }
+.card-title { transition: border-color var(--mot-fast); }
+.header nav a, .back-top {
+  background: linear-gradient(var(--ember), var(--ember)) no-repeat left bottom / 0 1px;
+  transition: background-size var(--mot-fast) var(--mot-ease), color .25s;
+}
+.button:focus-visible::before, .header-cta:focus-visible::before { opacity: .55; transform: scale(1); }
+.work-card a:focus-visible .card-image::after { inset: 0; border-color: var(--ember); }
+@media (hover: hover) and (pointer: fine) {
+  .button:hover, .header-cta:hover { transform: translateY(-4px) scale(1.025); }
+  .button:hover::before, .header-cta:hover::before { opacity: .55; transform: scale(1); }
+  .button-ember:hover { box-shadow: 0 10px 36px #d89a4e30; }
+  .button-dark:hover { box-shadow: 0 10px 28px #17181b24; }
+  .button:hover span, .header-cta:hover span, .work-card a:hover .card-arrow,
+  .text-link:hover span, .booking-links a:hover b { transform: translate(3px, -3px); }
+  .work-card a:hover .card-image::after { inset: 0; border-color: var(--ember); }
+  .work-card a:hover .card-title { border-color: #d89a4e90; }
+  .header nav a:hover, .back-top:hover { background-size: 100% 1px; }
+  .back-top:hover span { transform: translateY(-4px); }
+}
+.button:active, .header-cta:active { transform: translateY(1px) scale(.985); }
+
+@media (max-width: 760px) {
+  .hero-content { padding-top: 44px; }
+  .hero-shade {
+    background: linear-gradient(90deg, #05060799, #05060714),
+      linear-gradient(0deg, #050607c9, transparent 28%, #05060724);
+  }
+  .section-heading h2 { margin-top: 0; }
+  .contact-top { justify-content: flex-end; }
+  .process-grid { grid-template-columns: 1fr; gap: 0; border-top: 0; }
+  .process-grid::before {
+    top: 0;
+    width: 2px;
+    height: 100%;
+    transform: scaleY(var(--rail-progress, 1));
+    transform-origin: top;
+    background: linear-gradient(180deg, var(--ember), var(--ember-hot), #d89a4e33);
+  }
+  .process-grid article, .process-grid article+article,
+  .process-grid article:nth-child(even), .process-grid article:nth-child(n+3) {
+    padding: 16px 12px 31px 30px;
+    border: 0;
+    border-left: 1px solid #ede8e022;
+  }
+  .process-step::before { top: 38px; left: -3px; }
+  .process-grid h3 { font-size: 34px; margin: 8px 0 12px; }
+  .process-grid p { max-width: 440px; }
+  .reveal-ready .process-step:not(.is-visible) { transform: translateY(24px); }
+  .materials-photo { height: 390px; min-height: 0; }
+  .button:hover { transform: none; }
+}
+
+/* System preference changes also remove JS-driven effects immediately. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .hero-media { clip-path: none; }
+  .hero::after, .materials-photo::after { inset: 0; }
+  .scene-frame::after { inset: 0; }
+  .hero-content, .hero-media .hero-image, .materials-photo img,
+  .reveal-ready .reveal, .reveal-ready .reveal:not(.is-visible),
+  .button, .header-cta, .button:hover, .header-cta:hover,
+  .button:active, .header-cta:active,
+  .work-card a:hover img, .button span, .header-cta span,
+  .card-arrow, .text-link span, .booking-links b, .back-top span {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .scroll-progress { display: none; }
+  .process-grid::before { transform: none; }
+  .contact-stamp { rotate: 0deg; }
+}
+
+@media print {
+  .reveal-ready .reveal { opacity: 1 !important; transform: none !important; }
+  .scroll-progress { display: none; }
+}
