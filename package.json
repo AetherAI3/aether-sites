@@ -1,0 +1,12 @@
+{
+  "name": "aether-sites",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent website concepts for aethersites.net",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node --check reworxct/script.js && python3 scripts/check.py"
+  },
+  "engines": { "node": ">=20" }
+}

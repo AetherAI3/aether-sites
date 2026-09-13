@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>re.worx — Brand &amp; Site Asset System</title>
+<link rel="stylesheet" href="re-worx-industrial.css">
+<style>
+  body { margin:0; background:var(--ink); color:var(--bone);
+         font-family:var(--font-body); font-size:15px; line-height:1.65; }
+  .wrap { max-width:1040px; margin:0 auto; padding:72px 32px 96px; }
+  section { margin:0 0 88px; }
+  h1 { font-family:var(--font-display); font-weight:900; text-transform:uppercase;
+       letter-spacing:-0.02em; font-size:clamp(34px,5vw,54px); line-height:.96; margin:0 0 8px; }
+  h2 { font-family:var(--font-mono); font-size:12px; letter-spacing:.18em;
+       text-transform:uppercase; color:var(--ember); margin:0 0 20px; }
+  h2::before { content:"— "; color:var(--ash); }
+  p.lede { color:var(--ash); max-width:640px; margin:0 0 32px; }
+  .swatches { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+              gap:1px; background:var(--line-dark); border:var(--border); }
+  .sw { background:var(--coal); padding:0; }
+  .sw .chip { height:88px; }
+  .sw .meta { padding:12px 14px; }
+  .sw .name { font-family:var(--font-mono); font-size:11px; letter-spacing:.12em;
+              text-transform:uppercase; }
+  .sw .hex { font-family:var(--font-mono); font-size:12px; color:var(--ash); margin-top:2px; }
+  .sw .role { font-size:12px; color:var(--ash); margin-top:6px; line-height:1.45; }
+  .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
+  .tile { border:var(--border); height:150px; position:relative; overflow:hidden; }
+  .tile .label { position:absolute; left:14px; bottom:12px; font-family:var(--font-mono);
+                 font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--bone);
+                 background:rgba(12,13,15,.55); padding:4px 8px; }
+  .type-row { border-top:1px solid var(--line-dark); padding:22px 0; }
+  .type-row .use { font-family:var(--font-mono); font-size:11px; letter-spacing:.14em;
+                   text-transform:uppercase; color:var(--ash); margin-bottom:8px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td, th { border:1px solid var(--line-dark); padding:10px 12px; text-align:left; vertical-align:top; }
+  th { font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+       color:var(--ash); font-weight:400; }
+  .assets img { width:100%; display:block; border:var(--border); }
+  .agrid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .agrid figure { margin:0; }
+  figcaption { font-family:var(--font-mono); font-size:11px; letter-spacing:.1em;
+               text-transform:uppercase; color:var(--ash); margin-top:8px; }
+  code { font-family:var(--font-mono); font-size:12px; color:var(--ember-hot);
+         background:var(--steel-900); padding:2px 6px; }
+  pre { background:var(--coal); border:var(--border); padding:16px; overflow-x:auto;
+        font-family:var(--font-mono); font-size:12px; line-height:1.6; color:var(--bone); }
+  ol.structure { counter-reset:s; list-style:none; padding:0; }
+  ol.structure li { counter-increment:s; border-top:1px solid var(--line-dark);
+                    padding:18px 0 18px 64px; position:relative; }
+  ol.structure li::before { content:"0" counter(s); position:absolute; left:0; top:18px;
+                    font-family:var(--font-mono); font-size:12px; letter-spacing:.14em; color:var(--ember); }
+  ol.structure b { display:block; font-family:var(--font-display); font-weight:800;
+                   text-transform:uppercase; letter-spacing:.01em; font-size:17px; margin-bottom:4px; }
+  ol.structure span { color:var(--ash); font-size:13.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section>
+    <h2>Brand &amp; Site Asset System</h2>
+    <h1>re.worx</h1>
+    <p class="lede">Heavy cinematic industrial identity for a reclaimed-materials workshop:
+    custom furniture, architectural salvage, barn-wood mantels, and the SHELF HELP install
+    service. Forged from history — reclaimed heritage, engineered function. Built for
+    Morris, Connecticut.</p>
+  </section>
+
+  <section>
+    <h2>01 / Color System</h2>
+    <p class="lede">Deep charcoal carries the page; oxidized steel and rich walnut carry the
+    material story; ember amber is the single warm accent — the light shaft, the spark, the CTA.
+    Bone white keeps type clean, bright and sharp against the dark.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0C0D0F"></div><div class="meta"><div class="name">Ink</div><div class="hex">#0C0D0F</div><div class="role">Page black, hero base</div></div></div>
+      <div class="sw"><div class="chip" style="background:#14161A"></div><div class="meta"><div class="name">Coal</div><div class="hex">#14161A</div><div class="role">Primary dark surface</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1D2126"></div><div class="meta"><div class="name">Steel 900</div><div class="hex">#1D2126</div><div class="role">Raised surface</div></div></div>
+      <div class="sw"><div class="chip" style="background:#262B32"></div><div class="meta"><div class="name">Steel 800</div><div class="hex">#262B32</div><div class="role">Card surface</div></div></div>
+      <div class="sw"><div class="chip" style="background:#54716B"></div><div class="meta"><div class="name">Oxide</div><div class="hex">#54716B</div><div class="role">Secondary accent — patina, links, tags</div></div></div>
+      <div class="sw"><div class="chip" style="background:#6B4A2F"></div><div class="meta"><div class="name">Walnut</div><div class="hex">#6B4A2F</div><div class="role">Wood tone, heritage washes</div></div></div>
+      <div class="sw"><div class="chip" style="background:#D89A4E"></div><div class="meta"><div class="name">Ember</div><div class="hex">#D89A4E</div><div class="role">PRIMARY accent — CTA, glows, highlights</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E86A2C"></div><div class="meta"><div class="name">Spark</div><div class="hex">#E86A2C</div><div class="role">Tiny signal moments only (grinder spark)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#EDE8E0"></div><div class="meta"><div class="name">Bone</div><div class="hex">#EDE8E0</div><div class="role">Primary text on dark (15.9:1 on Ink — AAA)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#9A958C"></div><div class="meta"><div class="name">Ash</div><div class="hex">#9A958C</div><div class="role">Muted text, captions (7.1:1 on Ink — AA)</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F4F1EA"></div><div class="meta"><div class="name">Paper</div><div class="hex">#F4F1EA</div><div class="role">Light "clean bright" sections via .theme-light</div></div></div>
+    </div>
+    <p class="lede" style="margin-top:20px">Ratio discipline: roughly 70% darks, 20% wood/mid
+    tones, 8% bone text, 2% ember. Ember is precious — if everything glows, nothing does.</p>
+  </section>
+
+  <section>
+    <h2>02 / Typography</h2>
+    <div class="type-row">
+      <div class="use">Display — Archivo 900 · uppercase · tight tracking</div>
+      <div style="font-family:var(--font-display);font-weight:900;font-size:40px;text-transform:uppercase;letter-spacing:-0.02em;line-height:1">Forged from history</div>
+    </div>
+    <div class="type-row">
+      <div class="use">Heritage — Zilla Slab 500 · ember-ruled pull quotes</div>
+      <div class="quote-heritage">Every beam arrives with a century inside it. Our job is to let it show.</div>
+    </div>
+    <div class="type-row">
+      <div class="use">Dossier — IBM Plex Mono · uppercase · wide tracking</div>
+      <div><span class="tag">LOT 014 — WHITE OAK — CIRCA 1880</span>&nbsp; <span class="tag tag--ember">$165 / INSTALL</span></div>
+    </div>
+    <div class="type-row">
+      <div class="use">Body — Inter 400/500</div>
+      <div style="max-width:560px;color:var(--ash)">Collaborate with reclamation experts to bring your vision to life. Raw materials, uncompromising craftsmanship — milled, joined and finished in-house.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>03 / Gradient Library <span style="color:var(--ash)">(pure CSS — classes in re-worx-industrial.css)</span></h2>
+    <div class="tiles">
+      <div class="tile grad-hero"><span class="label">.grad-hero — hero ambient</span></div>
+      <div class="tile grad-oxide"><span class="label">.grad-oxide — oxidized steel</span></div>
+      <div class="tile grad-ember"><span class="label">.grad-ember — CTA / footer heat</span></div>
+      <div class="tile grad-walnut"><span class="label">.grad-walnut — heritage wash</span></div>
+      <div class="tile grad-section"><span class="label">.grad-section — default dark</span></div>
+      <div class="tile grad-light"><span class="label">.grad-light — booking / light</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>04 / Glows, Edges &amp; Texture</h2>
+    <table>
+      <tr><th>Class</th><th>Effect</th><th>Use on</th></tr>
+      <tr><td><code>.glow-ember</code></td><td>Soft ember box-glow (24px/64px bloom)</td><td>Primary buttons, active cards</td></tr>
+      <tr><td><code>.glow-ember-strong</code></td><td>Hotter bloom for hover peaks</td><td>CTA hover, hero CTA</td></tr>
+      <tr><td><code>.text-glow</code></td><td>Emissive amber text</td><td>ONE keyword per headline, max</td></tr>
+      <tr><td><code>.edge-light</code></td><td>1px light-catching steel edge (pseudo-element)</td><td>Card tops, media frames, header</td></tr>
+      <tr><td><code>.divider-steel</code></td><td>Hairline gradient rule, fades at ends</td><td>Section breaks instead of whitespace</td></tr>
+      <tr><td><code>.grain</code></td><td>7% fractal-noise film overlay</td><td>Hero + gradient sections — unifies photo &amp; CSS</td></tr>
+    </table>
+    <p class="lede" style="margin-top:20px">Geometry rule: <code>--radius: 0</code>. Hard corners on
+    everything — cards, images, buttons. The brand is boxy and sharp; rounding is off-brand
+    (the current site's rounded cards are the main thing to kill).</p>
+  </section>
+
+  <section>
+    <h2>05 / Delivered Photography</h2>
+    <p class="lede">Generated cinematic set — consistent charcoal/amber grade, Kodak 500T grain.
+    The supplied images below are referenced from the local assets folder.</p>
+    <div class="assets"><div class="agrid">
+      <figure style="grid-column:1/-1"><img src="../../reworxct/assets/hero-table.webp" alt="Hero — reclaimed oak table"><figcaption>hero-table · 21:9 · homepage hero</figcaption></figure>
+      <figure><img src="../../reworxct/assets/wood-grain.webp" alt="Macro wood grain"><figcaption>macro-grain · 16:9 · materials section / texture band</figcaption></figure>
+      <figure><img src="../../reworxct/assets/mantel.webp" alt="Barn beam mantel product shot"><figcaption>mantel-product · 3:4 · product card / mantels page</figcaption></figure>
+      <figure><img src="../../reworxct/assets/salvage-stack.webp" alt="Salvaged timber stack"><figcaption>salvage-stack · 16:9 · salvage &amp; wood sales / heritage</figcaption></figure>
+    </div></div>
+  </section>
+
+  <section>
+    <h2>06 / Site Structure Recommendation</h2>
+    <ol class="structure">
+      <li><b>Hero — the dossier opens</b><span>Full-bleed hero-table image under .grad-hero. Mono kicker "MORRIS, CT — RECLAMATION WORKSHOP", Archivo headline "Forged from history", one ember CTA. Nothing else.</span></li>
+      <li><b>The Transformation</b><span>Signature moment: before/after drag slider — raw salvage (left, cool grade) vs the finished piece (right, warm glow). Sells "history → heirloom" in one gesture.</span></li>
+      <li><b>Services — three hard cards</b><span>Design Studio / Salvage &amp; Wood Sales / SHELF HELP. Boxy 4:3 images, mono index numbers (01/02/03), price + duration as .tag chips. Replace the current rounded white cards.</span></li>
+      <li><b>Materials Library</b><span>macro-grain leads a filterable index of species/lots — each beam an "architectural dossier" entry with lot number, species, circa date, provenance.</span></li>
+      <li><b>Process — Reclaim → Mill → Forge → Finish</b><span>Four numbered steps over metalwork-sparks. Mono labels, hairline connectors.</span></li>
+      <li><b>Product Gallery</b><span>Mantels and furniture as 3:4 .card-media--tall dossier cards on coal; hover lifts with ember edge.</span></li>
+      <li><b>Heritage / Story</b><span>salvage-stack full-bleed band, Zilla Slab pull quote, .grad-walnut. The "why reclaimed" argument.</span></li>
+      <li><b>Booking — the bright flip</b><span>.theme-light + .grad-light section: clean, sharp, legible forms and the Book Now flow. One bright room at the end of the dark corridor; it converts better and satisfies the "clean bright" brief.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>07 / Voice &amp; SEO</h2>
+    <p class="lede">Heavy, exact, quiet confidence. Short sentences. Weight words: forged, milled,
+    joined, provenance, lot, circa. Never "rustic chic", never exclamation points.<br><br>
+    Approved lines: "Forged from history." · "Reclaimed heritage, engineered function." ·
+    "Raw materials, uncompromising craftsmanship."<br><br>
+    Keyword targets: "Reclaimed wood custom furniture Connecticut" · "architectural salvage
+    Morris CT" · "custom barn wood mantels". Pair with LocalBusiness schema (name, geo, hours,
+    priceRange) and descriptive alt text carrying the keywords naturally.</p>
+  </section>
+
+  <section>
+    <h2>08 / Pending Assets — ready-to-fire prompts</h2>
+    <p class="lede">Five assets were queued when the daily generation limit was reached.
+    Prompts below are production-ready; re-run when the limit resets (or tell me to).</p>
+    <pre>shelf-interior (3:4) — Moody premium interior photograph of floating reclaimed wood
+shelves on hand-forged blackened steel brackets, near-black limewash plaster wall,
+stoneware pitchers, warm grazing sconce light, espresso + charcoal palette, 50mm,
+shallow DOF, Kodak Vision3 500T grain.
+
+transformation (16:9) — Two-plane workshop composition: raw weathered silvered beam
+razor-sharp on a dark steel bench in the foreground; the polished finished bench it
+became glowing under a warm pendant in creamy bokeh behind. Cool vs warm split.
+
+identity-stamp (1:1, GPT Image 2.5) — Macro of a square oak end-grain block with a
+branding-iron burned logo: lowercase serif "re" above "WORX", deep charred burn, on
+blackened hot-rolled steel, ember rim light, charcoal-to-black background.
+
+gradient-ambient + gradient-oxide (21:9) — image versions of CSS gradients
+.grad-hero / .grad-oxide, for hero bands where a baked texture is preferred.</pre>
+  </section>
+
+  <hr class="divider-steel">
+  <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)">re.worx — asset system v1 · pair with re-worx-industrial.css</p>
+</div>
+</body>
+</html>

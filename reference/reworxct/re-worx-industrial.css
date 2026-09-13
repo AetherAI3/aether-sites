@@ -1,0 +1,316 @@
+/* ============================================================
+   RE.WORX — Heavy Cinematic Industrial Design System
+   Palette: deep charcoal / oxidized steel / rich walnut / ember
+   Geometry: brutalist — hard corners, hairline steel dividers
+   ============================================================ */
+
+:root {
+  /* ---- Core palette ---- */
+  --ink:            #0C0D0F;  /* page black, warm-neutral */
+  --coal:           #14161A;  /* primary dark surface */
+  --steel-900:      #1D2126;  /* raised surface */
+  --steel-800:      #262B32;  /* card surface */
+  --steel-700:      #333A43;  /* hover surface */
+  --oxide:          #54716B;  /* oxidized steel teal — secondary accent */
+  --oxide-dim:      #3A4F4B;
+
+  --walnut:         #6B4A2F;  /* rich walnut */
+  --walnut-deep:    #3D2A19;
+  --ember:          #D89A4E;  /* PRIMARY accent — light-shaft amber */
+  --ember-hot:      #F0B26B;  /* hover / glow peak */
+  --spark:          #E86A2C;  /* tiny signal highlights only */
+
+  --bone:           #EDE8E0;  /* primary text on dark */
+  --ash:            #9A958C;  /* muted text on dark */
+  --paper:          #F4F1EA;  /* light "clean bright" section bg */
+  --paper-ink:      #17181B;  /* text on light */
+
+  /* ---- Hairlines ---- */
+  --line-dark:      rgba(237, 232, 224, 0.13);
+  --line-light:     rgba(12, 13, 15, 0.14);
+  --line-ember:     rgba(216, 154, 78, 0.45);
+
+  /* ---- Geometry: boxy, sharp ---- */
+  --radius:         0px;          /* hard corners everywhere */
+  --radius-soft:    2px;          /* max, for tiny chips only */
+  --border:         1px solid var(--line-dark);
+
+  /* ---- Type ---- */
+  --font-display:   "Archivo", "Arial Narrow", sans-serif;      /* 800/900, uppercase, tight */
+  --font-slab:      "Zilla Slab", Georgia, serif;               /* heritage quotes */
+  --font-mono:      "IBM Plex Mono", ui-monospace, monospace;   /* dossier labels, prices */
+  --font-body:      "Inter", system-ui, sans-serif;
+
+  --tracking-display: -0.02em;
+  --tracking-mono:     0.18em;
+
+  /* ---- Elevation / glow ---- */
+  --glow-ember:  0 0 24px rgba(216, 154, 78, 0.22),
+                 0 0 64px rgba(216, 154, 78, 0.10);
+  --glow-ember-strong: 0 0 32px rgba(216, 154, 78, 0.38),
+                       0 0 96px rgba(216, 154, 78, 0.16);
+  --shadow-card:  0 24px 48px -16px rgba(0, 0, 0, 0.65);
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   GRADIENTS — full CSS gradient library
+   (image versions pending: prompts in brand guide, §9)
+   ============================================================ */
+
+/* A. Hero ambient — charcoal room, warm window-light pool top-right.
+   Recreates the planned `gradient-ambient` asset. */
+.grad-hero {
+  background:
+    radial-gradient(60% 55% at 78% 12%,
+      rgba(216, 154, 78, 0.20) 0%,
+      rgba(216, 154, 78, 0.05) 42%,
+      rgba(216, 154, 78, 0)    68%),
+    linear-gradient(180deg, #191408 0%, var(--ink) 34%);
+  background-color: var(--ink);
+}
+
+/* B. Section falloff — plain charcoal depth, default dark section. */
+.grad-section {
+  background:
+    linear-gradient(180deg,
+      var(--coal) 0%,
+      var(--ink) 78%);
+}
+
+/* C. Oxidized steel band — gunmetal into verdigris patina.
+   Recreates the planned `gradient-oxide` asset. */
+.grad-oxide {
+  background:
+    linear-gradient(100deg,
+      #101215 0%,
+      #232a2e 38%,
+      var(--oxide-dim) 62%,
+      var(--oxide) 82%,
+      #101215 100%);
+}
+
+/* D. Ember edge — near-black with heat bleeding from the bottom.
+   Good behind CTAs / booking footer. */
+.grad-ember {
+  background:
+    radial-gradient(90% 70% at 50% 108%,
+      rgba(232, 106, 44, 0.26) 0%,
+      rgba(216, 154, 78, 0.10) 40%,
+      rgba(0, 0, 0, 0)        70%),
+    var(--ink);
+}
+
+/* E. Walnut wash — warm wood tone field for heritage/story blocks. */
+.grad-walnut {
+  background:
+    radial-gradient(70% 90% at 30% 20%,
+      rgba(107, 74, 47, 0.45) 0%,
+      rgba(61, 42, 25, 0.25) 48%,
+      rgba(0, 0, 0, 0)       78%),
+    linear-gradient(180deg, var(--coal), var(--ink));
+}
+
+/* F. Light section — the "clean bright" booking surface. */
+.grad-light {
+  background:
+    linear-gradient(180deg, #FAF8F3 0%, var(--paper) 60%, #E9E4D9 100%);
+}
+
+/* ============================================================
+   GLOWS & LIGHT
+   ============================================================ */
+
+.glow-ember        { box-shadow: var(--glow-ember); }
+.glow-ember-strong { box-shadow: var(--glow-ember-strong); }
+
+/* Emissive text — use on ONE keyword per headline, never whole paragraphs */
+.text-glow {
+  color: var(--ember-hot);
+  text-shadow: 0 0 18px rgba(216, 154, 78, 0.45),
+               0 0 48px rgba(216, 154, 78, 0.18);
+}
+
+/* Top edge-light — the "thin metal line catching light" motif.
+   Put on cards, headers, media frames. */
+.edge-light {
+  position: relative;
+}
+.edge-light::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    rgba(216, 154, 78, 0)    0%,
+    var(--line-ember)        30%,
+    rgba(237, 232, 224, 0.35) 50%,
+    var(--line-ember)        70%,
+    rgba(216, 154, 78, 0)  100%);
+  pointer-events: none;
+}
+
+/* ============================================================
+   BRUTALIST COMPONENTS
+   ============================================================ */
+
+/* Hairline steel divider — replaces <hr> and section borders */
+.divider-steel {
+  height: 1px;
+  border: 0;
+  background: linear-gradient(90deg,
+    rgba(237, 232, 224, 0)    0%,
+    var(--line-dark)          12%,
+    var(--line-dark)          88%,
+    rgba(237, 232, 224, 0)  100%);
+}
+.divider-steel--light {
+  background: linear-gradient(90deg,
+    rgba(12, 13, 15, 0) 0%, var(--line-light) 12%,
+    var(--line-light) 88%, rgba(12, 13, 15, 0) 100%);
+}
+
+/* Dossier card — hard corners, hairline frame, ember edge on hover */
+.card {
+  background: var(--steel-800);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: none;
+  transition: transform 0.45s var(--ease-out),
+              border-color 0.45s var(--ease-out),
+              box-shadow 0.45s var(--ease-out);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--line-ember);
+  box-shadow: var(--shadow-card), var(--glow-ember);
+}
+/* Square, boxy media — crop, never round */
+.card .card-media,
+.media-boxy {
+  border-radius: var(--radius);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  filter: contrast(1.04) saturate(0.96);
+}
+.card-media--tall { aspect-ratio: 3 / 4; }  /* mantel / product cards */
+
+/* Buttons */
+.btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  padding: 14px 26px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-out);
+}
+.btn--primary {
+  background: var(--ember);
+  color: var(--ink);
+}
+.btn--primary:hover {
+  background: var(--ember-hot);
+  box-shadow: var(--glow-ember-strong);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--line-dark);
+}
+.btn--ghost:hover {
+  border-color: var(--ember);
+  color: var(--ember-hot);
+}
+/* Light sections */
+.theme-light .btn--primary { color: #fff; }
+
+/* Mono dossier tag — index numbers, prices, spec labels */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--ash);
+  border: var(--border);
+  border-radius: var(--radius-soft);
+  padding: 5px 10px;
+}
+.tag--ember { color: var(--ember); border-color: var(--line-ember); }
+
+/* Display headline */
+.headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-display);
+  line-height: 0.96;
+  color: var(--bone);
+}
+
+/* Heritage pull-quote */
+.quote-heritage {
+  font-family: var(--font-slab);
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.35;
+  color: var(--bone);
+  border-left: 2px solid var(--ember);
+  padding-left: 24px;
+}
+
+/* ============================================================
+   TEXTURE — film-grain overlay to unify photography and CSS
+   ============================================================ */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* Image treatment — keep photography heavy and consistent */
+.img-industrial {
+  filter: contrast(1.05) brightness(0.98) saturate(0.95);
+}
+
+/* ============================================================
+   SCROLL / STATE POLISH
+   ============================================================ */
+::selection { background: var(--ember); color: var(--ink); }
+
+a { color: var(--ember); text-decoration-color: var(--line-ember); }
+a:hover { color: var(--ember-hot); }
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .btn { transition: none; }
+  .card:hover { transform: none; }
+}
+
+/* ============================================================
+   LIGHT THEME CONTEXT — wrap any "clean bright" section
+   ============================================================ */
+.theme-light {
+  background: var(--paper);
+  color: var(--paper-ink);
+}
+.theme-light .card {
+  background: #FFFFFF;
+  border: 1px solid var(--line-light);
+}
+.theme-light .card:hover {
+  border-color: var(--ember);
+  box-shadow: 0 24px 48px -20px rgba(23, 24, 27, 0.28);
+}
+.theme-light .headline { color: var(--paper-ink); }
+.theme-light .tag { color: #6B675E; border-color: var(--line-light); }
