@@ -1,0 +1,112 @@
+/* ============================================================
+   MACH//DETAIL — TYPE & EDGE OVERHAUL (drop-in patch)
+   Load AFTER tokens.css / main.css (or your existing stylesheet).
+   Direction: bold, sharp, aggressive — machined, not rounded.
+   ============================================================ */
+
+/* 1 · FONT SWAP — add to <head>:
+   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+*/
+
+:root {
+  --md-font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --md-font-body: "Barlow", system-ui, sans-serif;
+  --md-font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+  /* Chamfer — the machined corner cut that replaces border-radius */
+  --md-cut: 14px;
+}
+
+body { font-family: var(--md-font-body); }
+
+/* ----------------------------------------------------------
+   2 · DISPLAY TYPE — condensed, uppercase, tight, heavy.
+   This is where the "detailer" voice comes from.
+   ---------------------------------------------------------- */
+h1, h2, h3, .nav__logo, .tier__name, .stat strong {
+  font-family: var(--md-font-display);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+}
+
+h1 {
+  font-size: clamp(3.2rem, 8.5vw, 7rem);   /* bigger than before — own the wall */
+  letter-spacing: 0.005em;
+}
+
+/* Motion option: italic only on the accent word reads as speed.
+   .hero h1 em { font-style: italic; } */
+
+h1 em, h2 em { font-style: inherit; color: var(--md-cyan); }
+h1 em { text-shadow: 0 0 34px rgba(34, 211, 238, 0.35); }
+
+/* ----------------------------------------------------------
+   3 · BODY — brighter and slightly larger; the current pass
+   is too dim next to that hero image.
+   ---------------------------------------------------------- */
+.hero__sub, .tier__desc, .footer p {
+  color: #aeb6bf;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* ----------------------------------------------------------
+   4 · CHAMFERED EDGES — swap friendly radii for machined cuts.
+   Buttons, image frames, cards, chips.
+   ---------------------------------------------------------- */
+.btn, .g-item, .tier, .book-panel, .terminal, .rating, .chip, .slot, .svc-opt, .status-pill {
+  border-radius: 0 !important;
+  clip-path: polygon(
+    var(--md-cut) 0, 100% 0,
+    100% calc(100% - var(--md-cut)), calc(100% - var(--md-cut)) 100%,
+    0 100%, 0 var(--md-cut)
+  );
+}
+
+/* clip-path kills border rendering — re-draw edges as an inset line */
+.tier, .book-panel, .terminal, .rating {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09);
+}
+.tier--featured { box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.55); }
+.tier:hover     { box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.45), 0 24px 60px rgba(0,0,0,0.5); }
+
+/* Buttons: sharper voice — mono, uppercase, tracked out */
+.btn {
+  font-family: var(--md-font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 1.1em 2.1em;
+}
+
+/* ----------------------------------------------------------
+   5 · LOGO + NAV — heavier mark, tighter slash
+   ---------------------------------------------------------- */
+.nav__logo {
+  font-family: var(--md-font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+.nav__logo b { letter-spacing: -0.08em; }   /* cinches the // up tight */
+.nav__links a { font-weight: 500; letter-spacing: 0.2em; }
+
+/* ----------------------------------------------------------
+   6 · HUD LABELS — mono stays, but smaller + wider tracking
+   reads more "instrument cluster".
+   ---------------------------------------------------------- */
+.mono, .hero__tag, .section__label, .book-label {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------
+   7 · NUMBERS — tabular mono for phone/hours/stats rows
+   ---------------------------------------------------------- */
+.footer li, .book-summary, .slot, .chip {
+  font-variant-numeric: tabular-nums;
+}
