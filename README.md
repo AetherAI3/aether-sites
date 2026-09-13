@@ -34,13 +34,13 @@ npm run build
 python3 -m http.server 8080 --directory dist
 ```
 
-Open `/reworxct/` or `/ember-and-iron/`. The root keeps its existing Reworx redirect. New client concepts should get their own folders; update `scripts/build.mjs`, `scripts/check.py`, and the JavaScript checks when adding one.
+Open `/` for the Aether Sites showcase, then `/reworxct/` or `/ember-and-iron/` for full concepts. New client concepts should get their own folders; update the showcase, `scripts/build.mjs`, and `scripts/check.py` when adding one.
 
 ## Publishing
 
-The build creates `dist/reworxct/`, `dist/ember-and-iron/`, and a root entrypoint. Both sites are portable static HTML/CSS/JavaScript. Their private previews are managed separately; hosting identities are excluded from this public GitHub snapshot. Configure `aethersites.net` separately through its authorized hosting and DNS account when ready.
+The build creates `dist/reworxct/`, `dist/ember-and-iron/`, and a root showcase. Both concepts and the showcase are portable static HTML/CSS/JavaScript. Their private previews are managed separately; hosting identities are excluded from this public GitHub snapshot.
 
-The concept has visible disclosure, `noindex` metadata, and robots exclusion. External contact and booking links point to the real business, and no local form collects leads. Supplied imagery is identified as concept art, not a verified customer portfolio. Do not remove these boundaries when moving hosts without an approved change in project status.
+The concepts retain visible disclosure and `noindex` metadata/headers. The root showcase can be indexed; its sitemap includes only the root. External contact and booking links point to the real business, and no local form collects leads. Supplied imagery is identified as concept art, not a verified customer portfolio. Do not remove these boundaries when moving hosts without an approved change in project status.
 
 ## Motion
 

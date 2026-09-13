@@ -10,7 +10,7 @@ class Page(HTMLParser):
         super().__init__()
         self.ids = set()
         self.refs = []
-        self.robots = False
+        self.robots = None
         self.errors = []
 
     def handle_starttag(self, tag, attrs):
@@ -48,4 +48,15 @@ for file in (file for directory in site_roots for file in directory.rglob('*.htm
     assert not page.errors, page.errors
     checked += 1
 assert checked >= len(site_roots), 'Not all concept entrypoints were checked'
-print(f'Validated {checked} page: local references, fragment links, image labels, unique IDs, noindex.')
+showcase = Page()
+showcase.feed((ROOT / 'index.html').read_text())
+assert showcase.robots is None, 'Showcase root should remain indexable'
+assert not showcase.errors, showcase.errors
+for ref in showcase.refs:
+    url = urlparse(ref)
+    if url.scheme or url.netloc or not url.path:
+        continue
+    target = ROOT / url.path.lstrip('/') if url.path.startswith('/') else ROOT / url.path
+    assert target.exists(), f'Missing showcase local target: {ref}'
+assert '/reworxct/' in showcase.refs and '/ember-and-iron/' in showcase.refs
+print(f'Validated showcase and {checked} concepts: local references, fragment links, image labels, unique IDs, concept noindex.')

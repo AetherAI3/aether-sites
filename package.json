@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check reworxct/script.js && node --check ember-and-iron/script.js && python3 scripts/check.py"
+    "check": "node --check reworxct/script.js && node --check ember-and-iron/script.js && python scripts/check.py"
   },
   "engines": { "node": ">=20" }
 }
