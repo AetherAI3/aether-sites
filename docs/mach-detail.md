@@ -11,7 +11,7 @@ An independent, unofficial Aether Sites concept. It is not commissioned or endor
 - A service menu with quote-based calls to action, two verified five-star Google review excerpts in a manual cinematic carousel, address, directions, hours, verified listing contact, FAQs, and a mobile call/request bar.
 - Local request planner: service, name, vehicle, preferred date, arrival preference, and optional notes. Date validation uses `America/New_York`; tomorrow through 90 days ahead, excluding Sundays. Arrival windows are preferences and do not represent free slots. Same-day inquiries go to the shop by phone.
 - Request text is generated locally. The visitor can copy it or open a text draft to the listed shop number. The visitor must review/send it in their messaging app. Edits invalidate an earlier draft. Clipboard failure falls back to selecting text.
-- The prepared text is encoded in a local SMS link; no request details leave the page until the visitor chooses that handoff. No analytics, cookies, storage, form API, or automatic messaging. No-JS forms are disabled; phone and social links remain available.
+- The prepared text is encoded in a local SMS link; no request details leave the page until the visitor chooses that handoff. No analytics, cookies, form API, or automatic messaging. Only the optional motion-pause preference is kept in session storage; request details are not stored. No-JS forms are disabled; phone and social links remain available.
 
 ## Factual grounding
 
@@ -61,11 +61,11 @@ Keep the concept disclosure, correct contact details, and noindex until the busi
 
 The second supplied kit adds `type-overhaul.css`, retained in `reference/mach-detail/`. Its condensed uppercase type and selective cut corners informed `styles/presentation.css`. The source uses a locally hosted [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed) 900 face; its SIL Open Font License is included beside the WOFF2 file. Body copy and field labels remain sentence case.
 
-`js/motion.js` coordinates a scroll-moving typographic ribbon, hero drift, service/gallery entrances, a shop process trace, subtle photo movement, review-backdrop movement, and a request-route trace. One scheduled animation frame reads only nearby scene geometry before applying style updates. There is no scroll interception, infinite animation loop, pinned scene, or runtime dependency. Compact screens use short entrances and the ribbon; desktop parallax is disabled. Reduced motion disables decorative movement, keyboard focus cancels a target's entrance, and content is visible without observers or JavaScript.
+`js/motion.js` coordinates a scroll-moving typographic ribbon, a gentle hero-frame scale/lift, service/gallery entrances, section gradient intensity, a shop process trace, and a request-route trace. Photo pixels have no independent parallax or hover zoom; photo entrances are opacity-only. One scheduled animation frame reads only nearby scene geometry before applying style updates. There is no scroll interception, infinite animation loop, pinned scene, or runtime dependency. Compact screens use short entrances and the ribbon; desktop parallax is disabled. Reduced motion disables decorative movement, keyboard focus cancels a target's entrance, and content is visible without observers or JavaScript.
 
-Gallery thumbnails now use equal frames with consistent crops; every image opens uncropped in a modal with a fixed header and footer. The image track shrinks to the available viewport height, the background cannot scroll while the dialog is open, and Escape restores focus without moving the page.
+Gallery thumbnails use equal square frames with `object-fit: contain`, preserving the full photographs. Hero and shop images retain their natural aspect ratio with captions below them. Every image opens uncropped in a modal with a fixed header and footer. The image track shrinks to the available viewport height, the background cannot scroll while the dialog is open, and Escape restores focus without moving the page.
 
-### Browser verification — September 13, 2026
+### Earlier browser verification — before the ambience/photo stability update
 
 - Desktop: heavy display font rendered; all nine thumbnail frames measured 399 × 299 CSS pixels at the tested desktop width. The shop filter returns five photos.
 - Responsive frame checks at 360, 390, and 768 pixels found no horizontal overflow. These are browser layout checks, not physical-device certification. The phone menu opens and closes after choosing a section.
@@ -101,3 +101,12 @@ The review section gives one real customer excerpt the full frame, backed by sup
 - The compact menu opened as a two-column grid, its request action spanned both columns, and choosing Gallery closed the menu and reached the section below the sticky header.
 - The narrow gallery opened from keyboard activation, showed the full photo with `object-fit: contain`, fit within the viewport, and closed with Escape. The page retained one H1 and no failed loaded images in the final desktop check.
 - Original Google review links, the business profile link, and the direct write-review form were checked. No review or message was submitted. Reduced-motion and no-JavaScript fallbacks were inspected in source; they are not claimed as physical-device or assistive-technology certification.
+
+
+## Ambience and photo stability update
+
+- Soft cyan/teal and blue radial gradients replace the service/booking grid texture and add light around the hero, gallery, shop, reviews, and footer. Gradient intensity follows stationary section geometry. The hero frame shrinks by at most 3.5% and lifts at most 22px on desktop; compact screens keep photos stationary. No continuous animation loop or scroll capture.
+- Removed image parallax, rotating photo frames, hover image zoom, and 3D review transitions. Review slides crossfade inside the existing stable grid. Photo reveals animate opacity only, so entrance and scroll transforms cannot compete.
+- The lightbox loads and decodes the element before displaying it. Request tokens reject late completions after another selection or closing; loading/error text and a reserved image track prevent mismatched captions, broken-image icons, and moving controls. Modified clicks and no-dialog browsers retain ordinary image links.
+- A footer Pause motion control remembers its state for the tab session. OS reduced motion takes priority. Background tabs cancel entrances, and opening the gallery suspends scene painting. No JavaScript still leaves content/photos visible and gallery links usable.
+- Verification for this update: all five existing booking/date tests, collection reference checks, TypeScript check, and production build passed. Additional DOM simulations exercised late decode races, failed images, closing while decoding, filtered previous/next wraparound, normal-link fallback, menu/review navigation, pause/resume, reduced motion, missing IntersectionObserver/WAAPI, and photo transform isolation. CSS was parsed and local photo dimensions validated. No new browser-layout or physical-device certification is claimed; earlier thumbnail dimension measurements above describe the prior version.
