@@ -6,12 +6,12 @@ An independent, unofficial Aether Sites concept. It is not commissioned or endor
 
 ## What works
 
-- Responsive matte-black/cyan HUD design using the supplied Space Grotesk / JetBrains Mono tokens, restrained glass cards, pointer lighting, and progressive section entrances.
+- Responsive matte-black/cyan HUD design with locally hosted Barlow Condensed Black display type, Space Grotesk body copy, JetBrains Mono labels, selected chamfered frames, pointer lighting, and scroll-driven presentation.
 - Nine optimized local photographs, category filters, full-photo dialog, previous/next buttons, keyboard arrows, Escape, and focus return. With JavaScript off, every gallery image remains an ordinary image link.
 - A service menu with quote-based calls to action, two supplied customer review excerpts, address, directions, hours, verified listing contact, FAQs, and a mobile call/request bar.
 - Local request planner: service, name, vehicle, preferred date, arrival preference, and optional notes. Date validation uses `America/New_York`; tomorrow through 90 days ahead, excluding Sundays. Arrival windows are preferences and do not represent free slots. Same-day inquiries go to the shop by phone.
 - Request text is generated locally. The visitor can copy it or open a text draft to the listed shop number. The visitor must review/send it in their messaging app. Edits invalidate an earlier draft. Clipboard failure falls back to selecting text.
-- No PII enters URLs until the visitor chooses the clearly labeled SMS handoff. No analytics, cookies, storage, form API, or automatic messaging. No-JS forms are disabled; phone and social links remain available.
+- The prepared text is encoded in a local SMS link; no request details leave the page until the visitor chooses that handoff. No analytics, cookies, storage, form API, or automatic messaging. No-JS forms are disabled; phone and social links remain available.
 
 ## Factual grounding
 
@@ -56,3 +56,11 @@ Before activating real bookings, the shop must establish service durations/buffe
 `npm run check` includes request/date regression tests, script parsing, and all collection link/asset checks. `npm run build` includes `dist/mach-detail/` while excluding `reference/`, `docs/`, and `integrations/`. The concept carries `noindex, nofollow`; the build adds matching Cloudflare headers. The collection root remains indexable and its sitemap stays root-only.
 
 Keep the concept disclosure, correct contact details, and noindex until the business approves an official launch. No live test message was sent to the shop during this build. Synthetic tests verify date/validation/request construction, not provider connectivity or delivery.
+
+## Typography and scroll polish
+
+The second supplied kit adds `type-overhaul.css`, retained in `reference/mach-detail/`. Its condensed uppercase type and selective cut corners informed `styles/presentation.css`. The source uses a locally hosted [Barlow Condensed](https://fonts.google.com/specimen/Barlow+Condensed) 900 face; its SIL Open Font License is included beside the WOFF2 file. Body copy and field labels remain sentence case.
+
+`js/motion.js` coordinates a scroll-moving typographic ribbon, hero drift, service/gallery entrances, a shop process trace, subtle photo movement, review-card movement, and a request-route trace. One scheduled animation frame reads only nearby scene geometry before applying style updates. There is no scroll interception, infinite animation loop, pinned scene, or runtime dependency. Compact screens use short entrances and the ribbon; desktop parallax is disabled. Reduced motion disables decorative movement, keyboard focus cancels a target's entrance, and content is visible without observers or JavaScript.
+
+Gallery thumbnails now use equal frames with consistent crops; every image opens uncropped in a modal with a fixed header and footer. The image track shrinks to the available viewport height, the background cannot scroll while the dialog is open, and Escape restores focus without moving the page.
