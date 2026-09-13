@@ -37,6 +37,7 @@
   /* motion */
   --ease-out: cubic-bezier(.22,1,.36,1);
   --ease-snap: cubic-bezier(.7,0,.2,1);
+  --ease-scroll: cubic-bezier(.333333,0,.666667,1);
   --t-fast: .25s;
   --t-med: .6s;
 
@@ -104,15 +105,20 @@
 }
 
 @keyframes ei-squeeze {
-  0%   { transform: scale(.9);  border-radius: calc(var(--radius) * 2); }
-  15%  { transform: scale(1);   border-radius: var(--radius); }
-  85%  { transform: scale(1); }
-  100% { transform: scale(.94); border-radius: calc(var(--radius) * 1.5); }
+  0%   { transform: scale(var(--section-enter, .91)); border-radius: 30px; }
+  22%  { transform: scale(1); border-radius: var(--radius); }
+  74%  { transform: scale(1); border-radius: var(--radius); }
+  100% { transform: scale(var(--section-exit, .94)); border-radius: 32px; }
 }
 
 /* Hero steps back as you scroll past it */
 @keyframes ei-hero-shrink {
-  to { transform: scale(.92); border-radius: 28px; }
+  from { transform: scale(1); border-radius: var(--radius); }
+  to { transform: scale(var(--hero-end, .88)); border-radius: 38px; }
+}
+@keyframes ei-aura-open {
+  from { transform: translateX(-50%) scale(1); opacity: .76; }
+  to { transform: translateX(-50%) scale(1.09); opacity: 1; }
 }
 .hero-shrink {
   transform-origin: 50% 0;
@@ -261,15 +267,23 @@
 /* ---------- 11. SCROLL-DRIVEN WIRING ------------------------------------
    Native CSS scroll timelines. Unsupported browsers get the IO fallback. */
 @supports (animation-timeline: view()) {
+  /* The untransformed wrapper owns the timeline, so scaling cannot feed back
+     into its own progress measurement. */
+  .scene { view-timeline: --section-view block; }
   .motion-on.native-scroll .sqx {
-    animation: ei-squeeze 1s linear both;
-    animation-timeline: view();
-    animation-range: entry 0% exit 100%;
+    animation: ei-squeeze 1s var(--ease-scroll) both;
+    animation-timeline: --section-view;
+    animation-range: cover 0% cover 100%;
   }
   .motion-on.native-scroll .hero-shrink {
-    animation: ei-hero-shrink 1s linear both;
+    animation: ei-hero-shrink 1s var(--ease-scroll) both;
     animation-timeline: scroll(root);
-    animation-range: 0 60vh;
+    animation-range: 0 95svh;
+  }
+  .motion-on.native-scroll .hero-aura {
+    animation: ei-aura-open 1s var(--ease-scroll) both;
+    animation-timeline: scroll(root);
+    animation-range: 0 95svh;
   }
   .motion-on.native-scroll .reveal-up {
     animation: ei-reveal linear both;

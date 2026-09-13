@@ -10,6 +10,7 @@ function setMenu(open) {
   navigation.classList.toggle('open', open);
   menuButton.setAttribute('aria-expanded', String(open));
   menuButton.querySelector('span').textContent = open ? 'Close' : 'Menu';
+  scheduleNavigation();
 }
 menuButton.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
 navigation.addEventListener('click', event => { if (event.target.closest('a') && mobile.matches) setMenu(false); });
@@ -20,6 +21,67 @@ document.addEventListener('keydown', event => {
     menuButton.focus();
   }
 });
+
+// Navigation remains accurate when decorative motion is paused or disabled.
+const navLinks = [...navigation.querySelectorAll('.nav-link')];
+const navSections = navLinks.map(link => document.querySelector(link.getAttribute('href')));
+let currentLink = null;
+let hoveredLink = null;
+let focusedLink = null;
+let navFrame = 0;
+let navX = '';
+let navWidth = '';
+function paintNavigation() {
+  const link = hoveredLink || focusedLink || currentLink;
+  if (!link || !link.offsetWidth) {
+    navigation.classList.remove('nav-measured');
+    return;
+  }
+  const x = `${link.offsetLeft}px`;
+  const width = `${link.offsetWidth}px`;
+  if (x !== navX) { navigation.style.setProperty('--nav-x', x); navX = x; }
+  if (width !== navWidth) { navigation.style.setProperty('--nav-width', width); navWidth = width; }
+  navigation.classList.add('nav-measured');
+}
+function updateNavigation() {
+  navFrame = 0;
+  if (document.hidden) return;
+  const positions = navSections.map(section => section.getBoundingClientRect().top);
+  let nearest = -Infinity;
+  let selected = navLinks[0];
+  positions.forEach((top, index) => {
+    if (top <= window.innerHeight * .35 && top > nearest) {
+      nearest = top;
+      selected = navLinks[index];
+    }
+  });
+  if (selected !== currentLink) {
+    currentLink = selected;
+    navLinks.forEach(link => {
+      if (link === currentLink) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  paintNavigation();
+}
+function scheduleNavigation() {
+  if (!navFrame && !document.hidden) navFrame = window.requestAnimationFrame(updateNavigation);
+}
+navLinks.forEach(link => link.addEventListener('pointerenter', () => {
+  if (finePointer.matches) { hoveredLink = link; paintNavigation(); }
+}));
+navigation.addEventListener('pointerleave', () => { hoveredLink = null; paintNavigation(); });
+navigation.addEventListener('focusin', event => { focusedLink = event.target.closest('.nav-link'); paintNavigation(); });
+navigation.addEventListener('focusout', event => { focusedLink = event.relatedTarget?.closest('.nav-link') || null; paintNavigation(); });
+window.addEventListener('scroll', scheduleNavigation, { passive: true });
+window.addEventListener('resize', scheduleNavigation, { passive: true });
+window.addEventListener('pageshow', scheduleNavigation);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && navFrame) { window.cancelAnimationFrame(navFrame); navFrame = 0; }
+  else scheduleNavigation();
+});
+document.fonts?.ready.then(scheduleNavigation);
+scheduleNavigation();
 
 const pies = [...document.querySelectorAll('.pie-cell')];
 function openPie(pie) {
@@ -51,18 +113,26 @@ if (typeof visitDialog.showModal === 'function') {
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const motionButton = document.querySelector('.motion-toggle');
-const nativeScroll = typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()') && CSS.supports('animation-timeline: scroll(root)');
+const nativeScroll = typeof CSS !== 'undefined'
+  && CSS.supports('animation-timeline: view()')
+  && CSS.supports('animation-timeline: scroll(root)')
+  && CSS.supports('view-timeline-name: --section-view')
+  && CSS.supports('animation-range: cover 0% cover 100%')
+  && CSS.supports('animation-range: 0 95svh');
 root.classList.toggle('native-scroll', nativeScroll);
 let paused = false;
 let stopMotion = () => {};
 
 function startMotion() {
   const hero = document.querySelector('.hero');
+  const aura = document.querySelector('.hero-aura');
   const scenes = [...document.querySelectorAll('.scene')];
   const panels = [...document.querySelectorAll('.stack-panel')];
   const reveals = [...document.querySelectorAll('.reveal-up')];
   const ambient = [hero, document.querySelector('.ticker')];
   const clamp = value => Math.min(1, Math.max(0, value));
+  // Matches the cubic easing used by native scroll timelines.
+  const ease = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
   let observer;
   let ambientObserver;
   let resizeObserver;
@@ -85,6 +155,7 @@ function startMotion() {
       });
       root.classList.add('reveal-ready');
       ambientObserver = new IntersectionObserver(entries => {
+        if (!active) return;
         entries.forEach(entry => entry.target.classList.toggle('ambient-off', !entry.isIntersecting));
       });
       ambient.forEach(element => ambientObserver.observe(element));
@@ -102,28 +173,36 @@ function startMotion() {
     const scrollY = Math.max(0, window.scrollY);
     const panelRects = panels.map(element => element.getBoundingClientRect());
     const sceneRects = nativeScroll ? [] : scenes.map(element => element.getBoundingClientRect());
-    const unpin = height < 690 || panelRects.some(rect => rect.height > height - 140);
+    // offsetHeight is untransformed: shrinking a panel must not change the
+    // decision about whether its content fits in the viewport.
+    const unpin = height < 690 || panels.some(panel => panel.offsetHeight > height - 140);
 
     root.classList.toggle('stack-static', unpin);
     if (!nativeScroll) {
-      const exit = clamp(scrollY / (height * .6));
-      hero.style.setProperty('--hero-scale', (1 - exit * .08).toFixed(4));
-      hero.style.setProperty('--hero-radius', `${(6 + exit * 22).toFixed(2)}px`);
+      const exit = ease(scrollY / (height * .95));
+      const heroDepth = mobile.matches ? .06 : .12;
+      const entryDepth = mobile.matches ? .04 : .09;
+      const leaveDepth = mobile.matches ? .03 : .06;
+      hero.style.setProperty('--hero-scale', (1 - exit * heroDepth).toFixed(4));
+      hero.style.setProperty('--hero-radius', `${(12 + exit * 26).toFixed(2)}px`);
+      aura.style.setProperty('--aura-scale', (1 + exit * .09).toFixed(4));
+      aura.style.setProperty('--aura-opacity', (.76 + exit * .24).toFixed(4));
       scenes.forEach((scene, index) => {
         const rect = sceneRects[index];
         const progress = clamp((height - rect.top) / Math.max(1, height + rect.height));
-        const entry = clamp(progress / .15);
-        const leave = clamp((progress - .85) / .15);
-        const scale = .9 + entry * .1 - leave * .06;
+        const entry = ease(progress / .22);
+        const leave = ease((progress - .74) / .26);
+        const scale = 1 - entryDepth + entry * entryDepth - leave * leaveDepth;
         const box = scene.querySelector('.sqx');
         box.style.setProperty('--section-scale', scale.toFixed(4));
-        box.style.setProperty('--section-radius', `${(6 + (1 - entry) * 6 + leave * 3).toFixed(2)}px`);
+        box.style.setProperty('--section-radius', `${(12 + (1 - entry) * 18 + leave * 20).toFixed(2)}px`);
       });
     }
     panels.forEach((panel, index) => {
       const next = panelRects[index + 1];
-      const covered = next ? clamp((height * .7 - next.top) / Math.max(1, height * .7 - 125)) : 0;
-      panel.style.setProperty('--stack-scale', (unpin ? 1 : 1 - covered * .055).toFixed(4));
+      const covered = next ? ease((height * .7 - next.top) / Math.max(1, height * .7 - 128)) : 0;
+      panel.style.setProperty('--stack-scale', (unpin ? 1 : 1 - covered * .07).toFixed(4));
+      panel.style.setProperty('--stack-radius', `${(12 + (unpin ? 0 : covered * 20)).toFixed(2)}px`);
     });
   }
   function schedule() { if (active && !document.hidden && !frame) frame = window.requestAnimationFrame(render); }
@@ -157,10 +236,10 @@ function startMotion() {
     document.removeEventListener('visibilitychange', visibility);
     root.classList.remove('reveal-ready', 'stack-static', 'page-hidden');
     ambient.forEach(element => element.classList.remove('ambient-off'));
-    const decorated = [hero, ...panels, ...scenes.map(scene => scene.querySelector('.sqx'))];
+    const decorated = [hero, aura, ...panels, ...scenes.map(scene => scene.querySelector('.sqx'))];
     decorated.forEach(element => {
       for (const property of [...element.style]) {
-        if (/^--(hero-|section-|stack-)/.test(property)) element.style.removeProperty(property);
+        if (/^--(hero-|aura-|section-|stack-)/.test(property)) element.style.removeProperty(property);
       }
     });
   };

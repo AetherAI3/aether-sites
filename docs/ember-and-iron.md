@@ -6,7 +6,9 @@ The second Aether Sites concept: an industrial wood-fired pizza brand for Lawren
 
 ## Interaction
 
-- Hero shrinks with scrolling; the major section boxes expand on entry and retreat on exit.
+- A wider ember gradient glows behind the hero and opens up as its frame shrinks. Desktop scaling reaches 88%; mobile stays at 94% for readability.
+- Section boxes ease into full size, hold while reading, and retreat on exit. Native CSS timelines use stable outer wrappers; the JavaScript fallback uses the same easing curve. Process panels also ease back as the next one arrives.
+- The rounded navigation tracks the current section, with an ember highlight that follows hover and keyboard focus. Textured stone-shaped buttons lift and reshape on interaction.
 - Five pizza cells expand to 2.4 times their flex weight. Hover works with a mouse; native details elements support tap and keyboard. Coal Miner is listed as the rotating sixth pie.
 - Dough, Fire, and Char form a sticky stack, with a readable static layout on short screens or when enlarged content cannot fit.
 - The visit panel uses a native dialog. Unconfirmed street address and opening hours are held back; the panel directs visitors to the menu. It does not submit bookings or contact anyone.
