@@ -19,7 +19,7 @@ Route: `/empanadas-togo/`. Independent concept for the West Main Street location
 | Header | Wordmark, menu, location, bag count | Wordmark, menu, compact bag count |
 | Hero | Two columns: large headline/action and food image | Stacked copy and fixed-height image |
 | Menu | Wide expanding frames; copy and add controls share a row | Compact disclosure headings; comfortable tap targets |
-| Bag | Centered native dialog with its own scroll area | Bottom bag action; dialog fits the available viewport |
+| Bag | Centered native dialog; floating review action after adding an item | Bottom bag action; dialog fits the available viewport |
 | Visit | Headline and address card side by side | Stacked address card with a full-width directions action |
 
 This implemented page is the desktop/mobile wireframe and component reference. No separate mockup is required to inspect spacing, open states or form behavior.
@@ -41,3 +41,7 @@ Extend `empanadas-togo/` in place. Preserve the supplied name/tagline and Golden
 ## Image-generation record
 
 Built-in image-generation tool; source asset generated for this task and exported as `empanadas-togo/assets/empanadas-hero.webp` (1536 × 1024) and `empanadas-hero-small.webp` (768 × 512). Prompt recorded in `reference/empanadas-togo/image-prompt.txt`. No official product or storefront photography is implied.
+
+## Verification
+
+The collection source checks and production build passed locally and in GitHub CI. The hosted desktop preview was visually inspected. Browser checks exercised savory and sweet selections, increasing quantity, removing an item, generating and copying the pickup list, invalidating the draft after note edits, Escape dismissal, and persistence across reloads. No application-origin console warnings or errors were observed; the browser extension reported metadata errors. Mobile breakpoints and reduced-motion handling are implemented; the available browser does not expose a supported viewport-emulation control, so a mobile browser run is not claimed.

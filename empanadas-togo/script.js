@@ -41,12 +41,13 @@ function announce(message) {
   statusTimer = setTimeout(() => status.classList.remove('visible'), 2600);
 }
 function save() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({version: 1, items: bag})); }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({version: 1, items: bag})); storageAvailable = true; }
   catch { storageAvailable = false; }
 }
 function invalidateDraft() { $('#draft-result').hidden = true; $('#draft-text').value = ''; $('#copy-status').textContent = ''; }
 function renderBag() {
   const total = count();
+  document.body.classList.toggle('has-items', total > 0);
   $$('[data-bag-count]').forEach(el => { el.textContent = total; });
   $$('[data-open-bag]').forEach(el => el.setAttribute('aria-label', `Review your bag, ${total} ${total === 1 ? 'item' : 'items'}`));
   $('#empty-bag').hidden = total > 0;
@@ -103,6 +104,7 @@ dialog.addEventListener('click', event => {
 });
 dialog.addEventListener('close', () => { lastTrigger?.focus({preventScroll: true}); });
 $('[data-browse-menu]').addEventListener('click', () => {
+  lastTrigger = $('.menu-frame summary');
   dialog.close(); $('#menu').scrollIntoView({behavior: reduced.matches ? 'instant' : 'smooth'});
   $('.menu-frame summary').focus({preventScroll: true});
 });
