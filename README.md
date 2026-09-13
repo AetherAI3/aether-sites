@@ -20,7 +20,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `ember-and-iron/` | EMBER & IRON Wood-Fired Pizza Co.; hot steel gradients, expanding menu cells, and a sticky Dough / Fire / Char sequence. |
 | `harbor-and-hollow/` | A coastal hand wash concept with a scroll-driven film journey, scent story, and product presentation. |
 | `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; mint and cyan gradients, glass service cards, restrained scroll effects, verified reviews, real location photography, and an optional service-note planner. |
-| `mach-detail/` | Mach Detail, Torrington; bold automotive type, cyan HUD styling, scroll-driven scenes, nine real photos, customer reviews, and an appointment-request planner. |
+| `mach-detail/` | Mach Detail, Torrington; bold automotive type, cyan HUD styling, scroll-driven scenes, nine real photos, a cinematic Google review carousel, and an appointment-request planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
 
