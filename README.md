@@ -1,6 +1,16 @@
+<p align="center"><a href="https://aethersites.net/"><img src="assets/aether-sites.svg" alt="Aether Sites — Websites with a point of view" width="900"></a></p>
+
 # Aether Sites
 
-Independent website concepts prepared for **aethersites.net**. Each concept has its own top-level folder. This repository is the source collection; the custom domain is not configured by this scaffold.
+**All my website concepts and creations, in one place.** Built by Brandon at [Aether AI](https://aethersystems.net/).
+
+[**Explore the collection ↗**](https://aethersites.net/) · [**Purchase a site / arrange hosting ↗**](https://blackstarentertainment.org/#contact)
+
+Browse the concepts, open the full sites, and find a direction you love. Contact me to discuss purchasing an available concept, adapting it to your business, or arranging hosting and ongoing support. Include the concept name or link and what you need; we’ll agree availability, scope, pricing, and handoff before work begins.
+
+Custom website builds are welcome too. Concepts are demonstrations, not claims of commissioned client work. Third-party branding and assets are not automatically included in a purchase.
+
+Each concept has its own top-level folder. This repository holds the source collection.
 
 ## The collection
 
