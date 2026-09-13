@@ -1,0 +1,295 @@
+/* ==========================================================================
+   EMBER & IRON — assets.css
+   Bold-industrial asset layer: tokens, CSS gradients, textures, motion.
+   No images. No JS dependency. No framework.
+   ========================================================================== */
+
+/* ---------- 1. TOKENS -------------------------------------------------- */
+:root {
+  /* palette */
+  --ink:    #0D0C0B;  /* page base, warm near-black */
+  --coal:   #161413;  /* box surfaces */
+  --slate:  #1E1B19;  /* raised steel panels */
+  --bone:   #F3EDE3;  /* primary type / light surface */
+  --ash:    #8F8880;  /* secondary type, hairlines */
+  --ember:  #F04E14;  /* THE accent */
+  --flame:  #FF7A29;
+  --amber:  #FFB25E;
+  --deep:   #8F1D04;
+  --steel:  #A7AEB6;
+
+  /* gradients */
+  --grad-fire: linear-gradient(160deg, var(--deep) 0%, var(--ember) 48%, var(--flame) 78%, var(--amber) 100%);
+  --grad-fire-edge: linear-gradient(90deg, transparent, rgba(240,78,20,.55), transparent);
+  --grad-vignette: radial-gradient(120% 90% at 50% 0%, transparent 55%, rgba(0,0,0,.55) 100%);
+  --grad-steel: repeating-linear-gradient(100deg, #1C1917 0 2px, #23201E 2px 4px);
+  --grad-hero:
+    radial-gradient(130% 80% at 50% 115%, rgba(255,178,94,.9) 0%, rgba(240,78,20,.55) 26%, rgba(143,29,4,.28) 46%, transparent 68%),
+    radial-gradient(90% 60% at 50% -20%, rgba(255,255,255,.05) 0%, transparent 60%),
+    linear-gradient(180deg, #100E0D 0%, #0D0C0B 100%);
+  --grad-wash: radial-gradient(140% 120% at 50% 120%, rgba(240,78,20,.22) 0%, transparent 60%);
+
+  /* type */
+  --f-display: "Anton", "Arial Narrow", sans-serif;
+  --f-body: "Archivo", "Helvetica Neue", sans-serif;
+  --f-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+
+  /* motion */
+  --ease-out: cubic-bezier(.22,1,.36,1);
+  --ease-snap: cubic-bezier(.7,0,.2,1);
+  --t-fast: .25s;
+  --t-med: .6s;
+
+  /* structure */
+  --gap: 8px;
+  --radius: 20px;
+  --pad: clamp(20px, 4vw, 56px);
+}
+
+/* ---------- 2. SURFACES & GRADIENT CLASSES ------------------------------ */
+.surface-ink   { background: var(--ink);   color: var(--bone); }
+.surface-coal  { background: var(--coal);  color: var(--bone); }
+.surface-steel { background: var(--grad-steel); color: var(--bone); }
+.surface-fire  { background: var(--grad-fire); color: var(--ink); }
+.surface-bone  { background: var(--bone);  color: var(--ink); }
+
+/* Hero: ember glow rising off the oven floor + top sheen */
+.hero-fire { background: var(--grad-hero); }
+
+/* Firelight wash at the bottom edge of any card — fades in on hover */
+.wash-ember { position: relative; }
+.wash-ember::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: var(--grad-wash); opacity: 0;
+  transition: opacity var(--t-med) var(--ease-out);
+}
+.wash-ember:hover::after { opacity: 1; }
+
+/* Film grain — SVG turbulence data URI, zero asset weight */
+.noise { position: relative; }
+.noise::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: .08; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Thin ember seam between sections */
+.seam { height: 2px; background: var(--grad-fire-edge); border: 0; }
+
+/* ---------- 3. TYPE HELPERS -------------------------------------------- */
+.display {
+  font-family: var(--f-display);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: .92;
+  font-weight: 400;
+}
+.mono-tag {
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+.mono-tag--ember { color: var(--ember); }
+.price { font-family: var(--f-mono); color: var(--ember); letter-spacing: .06em; }
+
+/* ---------- 4. BOXES — the breathing system ------------------------------
+   Every major section is a .box. .sqx makes it breathe on scroll:
+   enters small, snaps to full size, eases out.                           */
+.box {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+@keyframes ei-squeeze {
+  0%   { transform: scale(.9);  border-radius: calc(var(--radius) * 2); }
+  15%  { transform: scale(1);   border-radius: var(--radius); }
+  85%  { transform: scale(1); }
+  100% { transform: scale(.94); border-radius: calc(var(--radius) * 1.5); }
+}
+
+/* Hero steps back as you scroll past it */
+@keyframes ei-hero-shrink {
+  to { transform: scale(.92); border-radius: 28px; }
+}
+.hero-shrink {
+  transform-origin: 50% 0;
+}
+
+/* Sticky stacking panels (process steps): each sticks, next covers it */
+.stack-panel {
+  position: sticky;
+  top: 12vh;
+  min-height: 60vh;
+}
+
+/* ---------- 5. EXPANDING / SHRINKING CELLS ------------------------------
+   Flex row where the hovered cell grows and siblings shrink.            */
+.grow-row {
+  display: flex;
+  gap: var(--gap);
+}
+.grow-cell {
+  flex: 1 1 0;
+  min-width: 0;
+  cursor: pointer;
+  transition: flex-grow var(--t-med) var(--ease-snap);
+}
+.grow-cell:hover,
+.grow-cell:focus-visible { flex-grow: 2.4; }
+@media (hover: none) {
+  .grow-cell:active { flex-grow: 2.4; }
+}
+@media (max-width: 760px) {
+  .grow-row { flex-direction: column; }
+  .grow-cell, .grow-cell:hover { flex: 1 1 auto; }
+}
+
+/* ---------- 6. TICKER --------------------------------------------------- */
+.ticker { overflow: hidden; white-space: nowrap; }
+.ticker__track {
+  display: inline-flex;
+  width: max-content;
+  animation: ei-marquee 22s linear infinite;
+}
+.ticker__track > span { padding: 0 .75em; }
+@keyframes ei-marquee { to { transform: translateX(-50%); } }
+@media (max-width: 760px) { .ticker__track { animation-duration: 30s; } }
+
+/* ---------- 7. EMBER PARTICLES (pure CSS) ------------------------------- */
+.embers { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.embers i {
+  position: absolute; bottom: -12px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: radial-gradient(circle, var(--amber), var(--ember) 70%, transparent);
+  filter: blur(.5px);
+  opacity: 0;
+  animation: ei-ember-rise linear infinite;
+}
+.embers i:nth-child(1) { left: 12%; animation-duration: 7s;  animation-delay: 0s;   }
+.embers i:nth-child(2) { left: 28%; animation-duration: 9s;  animation-delay: 2.1s; width: 4px; height: 4px; }
+.embers i:nth-child(3) { left: 47%; animation-duration: 6.5s; animation-delay: 1s;  }
+.embers i:nth-child(4) { left: 63%; animation-duration: 10s; animation-delay: 3.4s; width: 5px; height: 5px; }
+.embers i:nth-child(5) { left: 78%; animation-duration: 8s;  animation-delay: .6s; width: 4px; height: 4px; }
+.embers i:nth-child(6) { left: 90%; animation-duration: 11s; animation-delay: 4.2s; }
+@keyframes ei-ember-rise {
+  0%   { transform: translateY(0)     translateX(0);    opacity: 0; }
+  8%   { opacity: .9; }
+  60%  { transform: translateY(-46vh) translateX(18px); opacity: .55; }
+  100% { transform: translateY(-88vh) translateX(-14px); opacity: 0; }
+}
+
+/* ---------- 8. GLOW FLICKER (oven light) -------------------------------- */
+.flicker { animation: ei-flicker 3s ease-in-out infinite; }
+@keyframes ei-flicker {
+  0%, 100% { opacity: 1; }
+  42% { opacity: .86; }
+  43% { opacity: .95; }
+  61% { opacity: .8; }
+  62% { opacity: .97; }
+}
+
+/* ---------- 9. REVEAL ----------------------------------------------------
+   Elements slide up + unclip as they enter. Fallback: JS adds .in.       */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(24px);
+  clip-path: inset(0 0 100% 0);
+  transition:
+    opacity var(--t-med) var(--ease-out),
+    transform var(--t-med) var(--ease-out),
+    clip-path var(--t-med) var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+.reveal-up.in {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---------- 10. MICRO-INTERACTIONS -------------------------------------- */
+/* Ember underline sweep */
+.link-sweep {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+.link-sweep::after {
+  content: ""; position: absolute; left: 0; bottom: -3px;
+  width: 100%; height: 2px;
+  background: var(--ember);
+  transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform var(--t-fast) var(--ease-out);
+}
+.link-sweep:hover::after { transform: scaleX(1); }
+
+/* Button: ember fills from the bottom, type goes ink */
+.btn-fill {
+  position: relative;
+  display: inline-block;
+  padding: 1em 2.2em;
+  border: 1px solid var(--bone);
+  border-radius: 999px;
+  overflow: hidden;
+  color: var(--bone);
+  font-family: var(--f-mono);
+  font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--t-fast) var(--ease-out), border-color var(--t-fast);
+  isolation: isolate;
+}
+.btn-fill::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: var(--grad-fire);
+  transform: translateY(101%);
+  transition: transform var(--t-med) var(--ease-snap);
+}
+.btn-fill:hover { color: var(--ink); border-color: transparent; }
+.btn-fill:hover::before { transform: translateY(0); }
+
+/* Logo stamp: heavy snap rotation, once */
+.stamp { display: inline-block; }
+.stamp--enter { animation: ei-stamp .7s var(--ease-snap) both; }
+@keyframes ei-stamp {
+  0%  { transform: rotate(-8deg) scale(1.15); opacity: 0; }
+  60% { transform: rotate(2deg)  scale(.98);  opacity: 1; }
+  100%{ transform: rotate(0)     scale(1); }
+}
+
+/* ---------- 11. SCROLL-DRIVEN WIRING ------------------------------------
+   Native CSS scroll timelines. Unsupported browsers get the IO fallback. */
+@supports (animation-timeline: view()) {
+  .sqx {
+    animation: ei-squeeze linear both;
+    animation-timeline: view();
+    animation-range: entry 0% exit 100%;
+  }
+  .hero-shrink {
+    animation: ei-hero-shrink linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 60vh;
+  }
+  .reveal-up {
+    animation: ei-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+    transition: none; /* timeline owns it */
+  }
+  @keyframes ei-reveal {
+    from { opacity: 0; transform: translateY(24px); clip-path: inset(0 0 100% 0); }
+    to   { opacity: 1; transform: none;            clip-path: inset(0 0 0 0); }
+  }
+}
+
+/* ---------- 12. REDUCED MOTION ------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001s !important;
+  }
+  .reveal-up { opacity: 1; transform: none; clip-path: none; }
+  .embers { display: none; }
+}

@@ -28,7 +28,10 @@ class Page(HTMLParser):
                 self.refs.append(a[attr])
 
 checked = 0
-for file in (ROOT / 'reworxct').rglob('*.html'):
+site_roots = [ROOT / 'reworxct', ROOT / 'ember-and-iron']
+for directory in site_roots:
+    assert (directory / 'index.html').is_file(), f'Missing site entrypoint: {directory}'
+for file in (file for directory in site_roots for file in directory.rglob('*.html')):
     page = Page()
     page.feed(file.read_text())
     assert page.robots, f'{file}: concept must stay noindex'
@@ -44,5 +47,5 @@ for file in (ROOT / 'reworxct').rglob('*.html'):
             assert url.fragment in page.ids, f'Missing anchor: {ref}'
     assert not page.errors, page.errors
     checked += 1
-assert checked, 'No concept entrypoint found'
+assert checked >= len(site_roots), 'Not all concept entrypoints were checked'
 print(f'Validated {checked} page: local references, fragment links, image labels, unique IDs, noindex.')

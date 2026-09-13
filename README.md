@@ -2,7 +2,16 @@
 
 Independent website concepts prepared for **aethersites.net**. Each concept has its own top-level folder. This repository is the source collection; the custom domain is not configured by this scaffold.
 
-## First concept: `reworxct`
+## The collection
+
+| Folder | Website |
+| --- | --- |
+| `reworxct/` | Reclaimed furniture and architectural materials; charcoal, ember, and cinematic timber imagery. |
+| `ember-and-iron/` | EMBER & IRON Wood-Fired Pizza Co.; hot steel gradients, expanding menu cells, and a sticky Dough / Fire / Char sequence. |
+
+Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
+
+## Reworx: `reworxct`
 
 A fresh industrial presentation for Reworx: charcoal surfaces, ember accents, sharp geometry, large Archivo typography, and the supplied cinematic timber imagery. This is an **unofficial design concept**, not Reworx's official website or an endorsed project.
 
@@ -25,11 +34,11 @@ npm run build
 python3 -m http.server 8080 --directory dist
 ```
 
-Open `/reworxct/`. The root currently redirects there. New client concepts should get their own folders; update `scripts/build.mjs` deliberately when adding one.
+Open `/reworxct/` or `/ember-and-iron/`. The root keeps its existing Reworx redirect. New client concepts should get their own folders; update `scripts/build.mjs`, `scripts/check.py`, and the JavaScript checks when adding one.
 
 ## Publishing
 
-The build creates `dist/reworxct/` and a root entrypoint. The site is portable static HTML/CSS/JavaScript. The private design preview is managed separately; its hosting identity is excluded from this portable GitHub snapshot. Configure `aethersites.net` separately through its authorized hosting and DNS account when ready.
+The build creates `dist/reworxct/`, `dist/ember-and-iron/`, and a root entrypoint. Both sites are portable static HTML/CSS/JavaScript. Their private previews are managed separately; hosting identities are excluded from this public GitHub snapshot. Configure `aethersites.net` separately through its authorized hosting and DNS account when ready.
 
 The concept has visible disclosure, `noindex` metadata, and robots exclusion. External contact and booking links point to the real business, and no local form collects leads. Supplied imagery is identified as concept art, not a verified customer portfolio. Do not remove these boundaries when moving hosts without an approved change in project status.
 

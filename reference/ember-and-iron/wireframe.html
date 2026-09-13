@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBER &amp; IRON — Wireframe v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets.css">
+<style>
+  /* wireframe scaffolding only — real spacing/type lives in assets.css tokens */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: var(--f-body);
+    line-height: 1.6;
+    padding: var(--gap);
+  }
+  section { margin-bottom: var(--gap); }
+  .wrap { max-width: 1440px; margin: 0 auto; }
+
+  /* wireframe annotation tag — delete in production */
+  .wf {
+    position: absolute; top: 14px; left: 14px; z-index: 5;
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em;
+    color: var(--ash); border: 1px solid #2b2724; padding: 3px 8px;
+    background: rgba(13,12,11,.7); border-radius: 4px;
+  }
+
+  /* 00 — header */
+  header {
+    position: sticky; top: var(--gap); z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px var(--pad);
+    background: rgba(13,12,11,.82);
+    backdrop-filter: blur(10px);
+    border: 1px solid #242120; border-radius: var(--radius);
+    margin-bottom: var(--gap);
+  }
+  .logo {
+    font-family: var(--f-display); font-size: 20px; letter-spacing: .02em;
+    border: 2px solid var(--bone); padding: 2px 10px; text-transform: uppercase;
+  }
+  nav { display: flex; gap: 28px; align-items: center; }
+  nav a { font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; color: var(--bone); }
+
+  /* 01 — hero */
+  .hero {
+    min-height: 92vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: var(--pad);
+  }
+  .hero h1 { font-size: clamp(48px, 13vw, 220px); margin: 12px 0 20px; position: relative; z-index: 2; }
+  .hero p { max-width: 44ch; color: var(--ash); position: relative; z-index: 2; }
+  .hero .ctas { display: flex; gap: 16px; margin-top: 28px; position: relative; z-index: 2; flex-wrap: wrap; }
+
+  /* 02 — ticker */
+  .ticker {
+    border-block: 1px solid #242120;
+    padding: 14px 0;
+    font-family: var(--f-mono); font-size: 13px; letter-spacing: .14em;
+    color: var(--bone);
+  }
+  .ticker b { color: var(--ember); font-weight: 500; }
+
+  /* 03 — manifesto */
+  .manifesto { padding: clamp(60px, 12vh, 140px) var(--pad); }
+  .manifesto h2 { font-size: clamp(34px, 7.5vw, 120px); margin-bottom: 24px; }
+  .manifesto p { max-width: 60ch; color: var(--ash); font-size: 18px; }
+
+  /* 04 — menu */
+  .menu { padding: var(--pad); }
+  .menu header2, .menu h2 { font-size: clamp(30px, 5vw, 72px); margin-bottom: 8px; }
+  .menu .grow-row { min-height: 380px; margin-top: 28px; }
+  .menu .grow-cell {
+    background: var(--slate);
+    background: var(--grad-steel);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    overflow: hidden;
+  }
+  .menu .grow-cell h3 { font-family: var(--f-display); font-size: clamp(18px, 2vw, 30px); text-transform: uppercase; white-space: nowrap; }
+  .menu .grow-cell .build {
+    font-size: 13px; color: var(--ash); margin-top: 10px;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity var(--t-med) var(--ease-out), transform var(--t-med) var(--ease-out);
+  }
+  .menu .grow-cell:hover .build, .menu .grow-cell:focus-visible .build { opacity: 1; transform: none; }
+  .menu .grow-cell .price { font-size: 20px; }
+
+  .sub-table { width: 100%; margin-top: 40px; border-collapse: collapse; }
+  .sub-table td {
+    font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em;
+    padding: 12px 0; border-bottom: 1px solid #242120; color: var(--bone);
+  }
+  .sub-table td:last-child { text-align: right; color: var(--ember); }
+
+  /* 05 — process stack */
+  .process .stack-panel {
+    display: flex; align-items: center; gap: 6vw;
+    padding: var(--pad);
+    border: 1px solid #242120; border-radius: var(--radius);
+    margin-bottom: var(--gap);
+  }
+  .process .num { font-family: var(--f-mono); color: var(--ember); font-size: 14px; letter-spacing: .2em; }
+  .process h3 { font-size: clamp(40px, 8vw, 130px); }
+  .process .stat { font-family: var(--f-mono); font-size: clamp(18px, 3vw, 34px); color: var(--ash); margin-top: 8px; }
+  .stack-panel:nth-child(1) { background: var(--coal); }
+  .stack-panel:nth-child(2) { background: var(--slate); }
+  .stack-panel:nth-child(3) { background: var(--grad-fire); color: var(--ink); }
+  .stack-panel:nth-child(3) .num, .stack-panel:nth-child(3) .stat { color: var(--ink); }
+
+  /* 06 — reviews */
+  .reviews { padding: var(--pad); }
+  .reviews .grow-row { min-height: 300px; margin-top: 28px; }
+  .reviews .grow-cell {
+    background: var(--coal); border: 1px solid #242120;
+    border-radius: 14px; padding: 26px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .reviews blockquote { font-size: 17px; line-height: 1.5; }
+  .reviews cite { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; color: var(--ash); font-style: normal; text-transform: uppercase; }
+  .agg { font-family: var(--f-mono); font-size: 13px; letter-spacing: .1em; color: var(--bone); margin-top: 24px; }
+  .agg b { color: var(--ember); font-weight: 500; }
+
+  /* 07 — location */
+  .location { display: grid; grid-template-columns: 1fr 1fr; }
+  .location .facts { padding: var(--pad); }
+  .location .map {
+    min-height: 420px;
+    background:
+      radial-gradient(60% 60% at 60% 40%, rgba(240,78,20,.18), transparent),
+      var(--grad-steel);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .fact { display: flex; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid #2b2724; font-family: var(--f-mono); font-size: 13px; letter-spacing: .06em; }
+  .fact span:first-child { color: var(--ash); }
+  @media (max-width: 760px) { .location { grid-template-columns: 1fr; } }
+
+  /* 08 — final CTA */
+  .final {
+    min-height: 70vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: var(--pad);
+  }
+  .final h2 { font-size: clamp(44px, 10vw, 160px); }
+  .final .btn-fill { border-color: var(--ink); color: var(--ink); margin-top: 32px; }
+  .final .btn-fill::before { background: var(--ink); }
+  .final .btn-fill:hover { color: var(--ember); }
+
+  /* 09 — footer */
+  footer {
+    display: flex; justify-content: space-between; align-items: center; gap: 20px;
+    padding: 28px var(--pad); flex-wrap: wrap;
+    border: 1px solid #242120; border-radius: var(--radius);
+  }
+</style>
+</head>
+<body class="surface-ink">
+
+<div class="wrap">
+
+  <!-- 00 — HEADER -->
+  <header>
+    <span class="logo stamp stamp--enter">E&amp;I</span>
+    <nav>
+      <a class="link-sweep" href="#menu">MENU</a>
+      <a class="link-sweep" href="#story">STORY</a>
+      <a class="link-sweep" href="#find">FIND US</a>
+      <a class="btn-fill" href="#book">BOOK A TABLE</a>
+    </nav>
+  </header>
+
+  <!-- 01 — HERO -->
+  <section class="box hero hero-fire hero-shrink noise">
+    <span class="wf">§01 HERO — 92vh · shrinks 1→.92 on first 60vh scroll · ember particles + grain</span>
+    <div class="embers flicker"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <span class="mono-tag mono-tag--ember reveal-up" style="--d:.05s">Lawrenceville · Pittsburgh · Est. 2019</span>
+    <h1 class="display reveal-up" style="--d:.15s">Fire does<br>the talking.</h1>
+    <p class="reveal-up" style="--d:.25s">Wood-fired pizza from a 3-ton oven in an old tool-and-die shop. Dough rests three days. Fire finishes it.</p>
+    <div class="ctas reveal-up" style="--d:.35s">
+      <a class="btn-fill" href="#menu">See the menu</a>
+      <a class="btn-fill" href="#book">Book a table</a>
+    </div>
+  </section>
+
+  <!-- 02 — TICKER -->
+  <section class="ticker">
+    <span class="wf" style="top:-2px">§02 TICKER — 22s marquee</span>
+    <div class="ticker__track">
+      <span><b>900°F</b> ✦ 72-HOUR DOUGH ✦ <b>90 SECONDS</b> ✦ WALK-INS FIRST ✦ WOOD ONLY ✦ TUE–SUN ✦&nbsp;</span>
+      <span><b>900°F</b> ✦ 72-HOUR DOUGH ✦ <b>90 SECONDS</b> ✦ WALK-INS FIRST ✦ WOOD ONLY ✦ TUE–SUN ✦&nbsp;</span>
+    </div>
+  </section>
+
+  <!-- 03 — MANIFESTO -->
+  <section id="story" class="box sqx surface-coal manifesto">
+    <span class="wf">§03 MANIFESTO — .sqx breathing box</span>
+    <h2 class="display reveal-up">Dough rests three days.<br>Fire finishes it.</h2>
+    <p class="reveal-up" style="--d:.1s">We opened in 2019 in the old McKenna tool-and-die works and kept everything heavy: the steel, the brick, the crane rail. Then we put a 900-degree oven in the middle of the room and got out of its way. No freezers. No heat lamps. No shortcuts.</p>
+  </section>
+
+  <!-- 04 — MENU -->
+  <section id="menu" class="box sqx surface-ink menu" style="border:1px solid #242120">
+    <span class="wf">§04 MENU — hover a cell: it grows 1→2.4, siblings shrink · .wash-ember firelight</span>
+    <span class="mono-tag mono-tag--ember">The pies — one size, no substitutions</span>
+    <h2 class="display">The oven decides.</h2>
+    <div class="grow-row">
+      <div class="grow-cell wash-ember"><div><h3>900 Degrees</h3><p class="build">San Marzano, fior di latte, basil, cold-pressed olive oil</p></div><span class="price">16</span></div>
+      <div class="grow-cell wash-ember"><div><h3>The Furnace</h3><p class="build">Tomato, fior di latte, spicy soppressata, hot honey, basil</p></div><span class="price">19</span></div>
+      <div class="grow-cell wash-ember"><div><h3>Pig Iron</h3><p class="build">Fennel sausage, provolone, pickled long hots, oregano</p></div><span class="price">19</span></div>
+      <div class="grow-cell wash-ember"><div><h3>Slag Heap</h3><p class="build">Smoked mozzarella, roasted maitake, thyme, black garlic</p></div><span class="price">18</span></div>
+      <div class="grow-cell wash-ember"><div><h3>Rivet</h3><p class="build">Marinara, garlic confit, oregano, chili crumb — no cheese</p></div><span class="price">15</span></div>
+    </div>
+    <table class="sub-table">
+      <tr><td>CAST-IRON MEATBALLS · SUNDAY SAUCE · PECORINO</td><td>12</td></tr>
+      <tr><td>EMBER BREAD · WHIPPED RICOTTA · CHARRED SCALLION</td><td>9</td></tr>
+      <tr><td>BURRATA · BLISTERED TOMATO · BASIL OIL</td><td>13</td></tr>
+      <tr><td>NATURAL WINE / LOCAL LAGER / AMARO — ASK THE COUNTER</td><td>—</td></tr>
+    </table>
+  </section>
+
+  <!-- 05 — PROCESS -->
+  <section class="process">
+    <span class="wf" style="position:static;display:inline-block;margin-bottom:8px">§05 PROCESS — sticky stack: each panel pins at 12vh, next covers it</span>
+    <div class="stack-panel box">
+      <div><div class="num">01</div><h3 class="display">Dough</h3><div class="stat">72 HOURS — cold ferment</div></div>
+    </div>
+    <div class="stack-panel box">
+      <div><div class="num">02</div><h3 class="display">Fire</h3><div class="stat">900°F — oak and maple only</div></div>
+    </div>
+    <div class="stack-panel box">
+      <div><div class="num">03</div><h3 class="display">Char</h3><div class="stat">90 SECONDS — then to the table</div></div>
+    </div>
+  </section>
+
+  <!-- 06 — REVIEWS -->
+  <section class="box sqx reviews">
+    <span class="wf">§06 REVIEWS — expanding cells · quotes are PLACEHOLDER</span>
+    <span class="mono-tag mono-tag--ember">What the room hears</span>
+    <div class="grow-row">
+      <div class="grow-cell"><blockquote>"The crust blisters like it means it. Best char east of Naples."</blockquote><cite>City Paper — placeholder</cite></div>
+      <div class="grow-cell"><blockquote>"Loud, hot, perfect. The Furnace with hot honey is the order."</blockquote><cite>Google ★★★★★ — placeholder</cite></div>
+      <div class="grow-cell"><blockquote>"You watch a 900-degree oven do in 90 seconds what your oven never could."</blockquote><cite>Yelp ★★★★★ — placeholder</cite></div>
+    </div>
+    <p class="agg"><b>4.9</b> — 1,240+ GOOGLE REVIEWS · BEST PIZZA IN PITTSBURGH, CITY PAPER '24 '25 <em style="color:var(--ash);font-style:normal">(PLACEHOLDER)</em></p>
+  </section>
+
+  <!-- 07 — LOCATION -->
+  <section id="find" class="box sqx surface-coal location">
+    <span class="wf">§07 LOCATION — facts left, map block right (swap Mapbox later)</span>
+    <div class="facts">
+      <h2 class="display" style="font-size:clamp(28px,4vw,56px);margin-bottom:20px">Find the fire.</h2>
+      <div class="fact"><span>ADDRESS</span><span>4411 BUTLER ST, PITTSBURGH, PA</span></div>
+      <div class="fact"><span>ROOM</span><span>FORMER MCKENNA TOOL &amp; DIE, 1927</span></div>
+      <div class="fact"><span>TUE–THU</span><span>5 — 11</span></div>
+      <div class="fact"><span>FRI–SAT</span><span>12 — 12</span></div>
+      <div class="fact"><span>SUN</span><span>12 — 9 · MON — OVEN RESTS</span></div>
+      <div class="fact"><span>PHONE</span><span>(412) 555-0900</span></div>
+    </div>
+    <div class="map"><span class="mono-tag">MAP / 60 SEATS / WALK-INS FIRST</span></div>
+  </section>
+
+  <hr class="seam" style="border-radius:2px">
+
+  <!-- 08 — FINAL CTA -->
+  <section id="book" class="box sqx surface-fire final">
+    <span class="wf" style="color:rgba(13,12,11,.6);border-color:rgba(13,12,11,.3)">§08 CTA — fire gradient, inverted button</span>
+    <span class="mono-tag" style="color:var(--ink)">Parties of 6+ by phone · everyone else, walk in</span>
+    <h2 class="display">Walk in hungry.</h2>
+    <a class="btn-fill" href="tel:+14125550900">Call (412) 555-0900</a>
+  </section>
+
+  <!-- 09 — FOOTER -->
+  <footer>
+    <span class="logo">E&amp;I</span>
+    <span class="mono-tag">4411 BUTLER ST · PITTSBURGH · @EMBERANDIRON</span>
+    <span class="mono-tag mono-tag--ember">© 2026 EMBER &amp; IRON</span>
+  </footer>
+
+</div>
+
+<script>
+  /* Fallback for browsers without CSS scroll-timeline:
+     IntersectionObserver adds .in to .reveal-up, and .sqx/.hero-shrink
+     simply stay at full size. Delete when support is universal. */
+  (function () {
+    var supported = CSS.supports('animation-timeline: view()');
+    var els = document.querySelectorAll('.reveal-up');
+    if (supported) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+</body>
+</html>
