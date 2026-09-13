@@ -28,7 +28,7 @@ class Page(HTMLParser):
                 self.refs.append(a[attr])
 
 checked = 0
-site_roots = [ROOT / 'reworxct', ROOT / 'ember-and-iron', ROOT / 'garys-hilltop', ROOT / 'mach-detail', ROOT / 'waterbury-aquarium']
+site_roots = [ROOT / 'reworxct', ROOT / 'ember-and-iron', ROOT / 'garys-hilltop', ROOT / 'mach-detail', ROOT / 'waterbury-aquarium', ROOT / 'empanadas-togo']
 for directory in site_roots:
     assert (directory / 'index.html').is_file(), f'Missing site entrypoint: {directory}'
 for file in (file for directory in site_roots for file in directory.rglob('*.html')):
