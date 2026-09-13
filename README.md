@@ -18,8 +18,11 @@ Each concept has its own top-level folder. This repository holds the source coll
 | --- | --- |
 | `reworxct/` | Reclaimed furniture and architectural materials; charcoal, ember, and cinematic timber imagery. |
 | `ember-and-iron/` | EMBER & IRON Wood-Fired Pizza Co.; hot steel gradients, expanding menu cells, and a sticky Dough / Fire / Char sequence. |
+| `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; real shop photos, matte steel, restrained cyan, diagnostic scroll sequence, and a local service-note planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
+
+Gary’s handoff, verified business sources, photo provenance, and planner behavior are in [docs/garys-hilltop.md](docs/garys-hilltop.md). Its supplied stylesheets and directive are retained in `reference/garys-hilltop/`.
 
 ## Reworx: `reworxct`
 
@@ -44,13 +47,13 @@ npm run build
 python3 -m http.server 8080 --directory dist
 ```
 
-Open `/` for the Aether Sites showcase, then `/reworxct/` or `/ember-and-iron/` for full concepts. New client concepts should get their own folders; update the showcase, `scripts/build.mjs`, and `scripts/check.py` when adding one.
+Open `/` for the Aether Sites showcase, then `/reworxct/`, `/ember-and-iron/`, or `/garys-hilltop/` for full concepts. New client concepts should get their own folders; update the showcase, `scripts/build.mjs`, `scripts/check.py`, and JavaScript checks when adding one.
 
 ## Publishing
 
-The build creates `dist/reworxct/`, `dist/ember-and-iron/`, and a root showcase. Both concepts and the showcase are portable static HTML/CSS/JavaScript. Their private previews are managed separately; hosting identities are excluded from this public GitHub snapshot.
+The build creates `dist/reworxct/`, `dist/ember-and-iron/`, `dist/garys-hilltop/`, and a root showcase. All three concepts and the showcase are portable static HTML/CSS/JavaScript. Their private previews are managed separately; hosting identities are excluded from this public GitHub snapshot.
 
-The concepts retain visible disclosure and `noindex` metadata/headers. The root showcase can be indexed; its sitemap includes only the root. External contact and booking links point to the real business, and no local form collects leads. Supplied imagery is identified as concept art, not a verified customer portfolio. Do not remove these boundaries when moving hosts without an approved change in project status.
+The concepts retain visible disclosure and `noindex` metadata/headers. The root showcase can be indexed; its sitemap includes only the root. External contact links point to verified business listings. Gary’s planner prepares a note locally; it sends no leads and reserves no appointments. Photo and artwork provenance is documented separately for each site. Do not remove these boundaries when moving hosts without an approved change in project status.
 
 ## Motion
 

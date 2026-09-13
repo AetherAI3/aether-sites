@@ -1,0 +1,299 @@
+/* ============================================================
+   GARY'S HILLTOP AUTO REPAIR — SCROLL-DRIVEN CINEMATIC LAYER
+   Pure CSS Scroll-Driven Animations (animation-timeline).
+   Progressive enhancement: everything is VISIBLE by default.
+   Animations only engage inside @supports. No JS required,
+   except two tiny optional snippets at the bottom (header
+   state + stat count-up).
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   KEYFRAMES
+   ------------------------------------------------------------ */
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* track content duplicated once */
+}
+
+@keyframes hero-line-in {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes line-draw {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes terminal-type {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes ok-pop {
+  0%   { opacity: 0; transform: scale(0.6); }
+  60%  { opacity: 1; transform: scale(1.15); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shop-reveal {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes btn-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(34, 211, 238, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+}
+
+@keyframes scroll-cue {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  45%  { transform: scaleY(1); transform-origin: top; }
+  55%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ------------------------------------------------------------
+   ALWAYS-ON (not scroll-tied): ticker, hero load-in, scroll cue
+   ------------------------------------------------------------ */
+
+/* Hero ticker — duplicate the .ticker-track content once in HTML */
+.ticker-track {
+  animation: ticker-scroll 30s linear infinite;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+/* Hero headline entrance — plays once on page load */
+.hero .h1 .line {
+  display: block;
+  opacity: 0;
+  animation: hero-line-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero .h1 .line:nth-child(1) { animation-delay: 0.10s; }
+.hero .h1 .line:nth-child(2) { animation-delay: 0.22s; }
+.hero .h1 .line:nth-child(3) { animation-delay: 0.34s; }
+.hero .hero-sub,
+.hero .hero-ctas {
+  opacity: 0;
+  animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+}
+.hero .hero-ctas { animation-delay: 0.65s; }
+
+/* Scroll cue — thin cyan line at hero bottom */
+.scroll-cue {
+  width: 1px;
+  height: 48px;
+  background: var(--cyan);
+  animation: scroll-cue 2s ease-in-out infinite;
+}
+
+/* Booking submit pulse */
+.btn-primary.btn-pulse:hover { animation: btn-pulse 1.4s ease-out infinite; }
+
+/* ------------------------------------------------------------
+   SCROLL-DRIVEN — Chromium / Firefox / Safari 26+
+   Everything below ONLY applies where supported; the base
+   styles already leave content fully visible without them.
+   ------------------------------------------------------------ */
+
+@supports (animation-timeline: scroll()) {
+
+  /* ========== S1 HERO — pinned photo scale-down ==========
+     HTML pattern:
+       <section class="hero">
+         <div class="hero-pin">          <!-- sticky child -->
+           <img class="hero-img" ...>
+           <div class="grad-vignette"></div>
+           ... headline ...
+         </div>
+       </section>
+     .hero is 200vh; .hero-pin is sticky 100vh.            */
+
+  .hero {
+    height: 200vh; /* scroll room: first half scrubs, second half holds */
+  }
+  .hero-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: hero-scale linear both;
+    animation-timeline: scroll(nearest);
+    animation-range: 0vh 100vh;
+  }
+  @keyframes hero-scale {
+    from { transform: scale(1.15); }
+    to   { transform: scale(1); }
+  }
+  /* Vignette deepens as you scroll through the hero */
+  .hero .grad-vignette {
+    animation: hero-vignette linear both;
+    animation-timeline: scroll(nearest);
+    animation-range: 0vh 100vh;
+  }
+  @keyframes hero-vignette {
+    from { opacity: 0.6; }
+    to   { opacity: 1; }
+  }
+
+  /* ========== EYEBROW LINE — draws left→right on entry ========== */
+  .eyebrow::before {
+    animation: line-draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 60%;
+  }
+
+  /* ========== S2 TRUST BAR — stats rise on entry ==========
+     (Number count-up needs the tiny JS snippet at bottom.)  */
+  .trust-bar .stat {
+    animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+  }
+  .trust-bar .stat:nth-child(1) { animation-range: entry 5% entry 45%; }
+  .trust-bar .stat:nth-child(2) { animation-range: entry 12% entry 52%; }
+  .trust-bar .stat:nth-child(3) { animation-range: entry 19% entry 59%; }
+  .trust-bar .stat:nth-child(4) { animation-range: entry 26% entry 66%; }
+
+  /* ========== S3 SERVICE CARDS — staggered rise ==========
+     Each card animates on its OWN entry, so the stagger is
+     automatic on wrap. Range offsets add rhythm per column. */
+  .glass-card {
+    animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 55%;
+  }
+  .services-grid .glass-card:nth-child(3n+2) { animation-range: entry 6% entry 61%; }
+  .services-grid .glass-card:nth-child(3n+3) { animation-range: entry 12% entry 67%; }
+
+  /* ========== S4 TERMINAL — lines type out with scroll ==========
+     Each .term-line is revealed character-block style using a
+     stepped clip-path, scrubbed by its own view progress.
+     The trailing .ok pops when the line finishes.            */
+  .terminal .term-line {
+    animation: terminal-type linear both;
+    animation-timeline: view();
+    animation-range: entry 15% entry 85%;
+    animation-timing-function: steps(24, end); /* typewriter chunks */
+  }
+  .terminal .term-line .ok {
+    display: inline-block;
+    opacity: 0;
+    animation: ok-pop 0.4s ease-out both;
+    animation-timeline: view();
+    animation-range: entry 75% entry 90%;
+  }
+  /* Diagnostic photo frame — counter-parallax against scroll */
+  .terminal-figure {
+    animation: term-parallax linear both;
+    animation-timeline: scroll(nearest);
+  }
+  @keyframes term-parallax {
+    from { transform: translateY(8%); }
+    to   { transform: translateY(-8%); }
+  }
+
+  /* ========== S5 SHOP IMAGE — clip-path curtain reveal ========== */
+  .shop-photo {
+    animation: shop-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 90%;
+  }
+
+  /* ========== S6 REVIEWS — soft stagger ========== */
+  .review-card {
+    animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+  }
+  .review-card:nth-child(2) { animation-range: entry 8% entry 58%; }
+  .review-card:nth-child(3) { animation-range: entry 16% entry 66%; }
+
+  /* ========== S7 BOOKING FORM — fields rise in sequence ========== */
+  .booking-form .field {
+    animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+  .booking-form .field:nth-child(2) { animation-range: entry 4% entry 44%; }
+  .booking-form .field:nth-child(3) { animation-range: entry 8% entry 48%; }
+  .booking-form .field:nth-child(4) { animation-range: entry 12% entry 52%; }
+  .booking-form .field:nth-child(5) { animation-range: entry 16% entry 56%; }
+  .booking-form .field:nth-child(6) { animation-range: entry 20% entry 60%; }
+
+  /* ========== GENERIC REVEAL — opt-in for any block ========== */
+  .reveal {
+    animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 50%;
+  }
+  .reveal-fade {
+    animation: fade-in 1.2s ease both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+
+} /* end @supports animation-timeline */
+
+/* ------------------------------------------------------------
+   REDUCED MOTION — kill everything, content stays visible
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hero { height: 100vh; }          /* no pin room */
+  .hero-img { transform: none; }
+  .ticker-track { animation: none; transform: none; }
+  .scroll-cue { display: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ------------------------------------------------------------
+   OPTIONAL JS — two tiny upgrades CSS can't do alone.
+
+   1) Header state (add/remove .is-scrolled):
+
+   addEventListener('scroll', () => {
+     document.querySelector('.site-header')
+       .classList.toggle('is-scrolled', scrollY > 24);
+   }, { passive: true });
+
+   2) Trust-bar count-up (data-count="4.7" data-decimals="1"):
+
+   const io = new IntersectionObserver(es => es.forEach(e => {
+     if (!e.isIntersecting) return;
+     io.unobserve(e.target);
+     const el = e.target, end = parseFloat(el.dataset.count),
+           dec = +(el.dataset.decimals || 0), t0 = performance.now();
+     (function tick(t) {
+       const p = Math.min((t - t0) / 1200, 1);
+       el.textContent = (end * (1 - Math.pow(1 - p, 3))).toFixed(dec);
+       if (p < 1) requestAnimationFrame(tick);
+     })(t0);
+   }), { threshold: 0.6 });
+   document.querySelectorAll('[data-count]').forEach(el => io.observe(el));
+
+   3) If you later want the GSAP-grade version (pinning with
+      momentum, split-text hero, magnetic buttons), swap this
+      whole layer for ScrollTrigger — the class names and
+      ranges above map 1:1 to ScrollTrigger start/end values.
+   ------------------------------------------------------------ */

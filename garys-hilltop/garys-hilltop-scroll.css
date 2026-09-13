@@ -1,0 +1,63 @@
+/* Gary's Hilltop: adaptation of the supplied cinematic layer.
+   Native timelines own the motion where supported. JavaScript supplies a
+   bounded fallback and enables controls; all content is visible by default. */
+@keyframes ticker-scroll { to { transform: translateX(-50%); } }
+@keyframes hero-line-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+@keyframes rise-in { from { opacity: .15; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes hero-scale { from { transform: scale(1.1); } to { transform: scale(1); } }
+@keyframes hero-frame { from { transform: scale(1); border-radius: 0; } to { transform: scale(.96); border-radius: 24px; } }
+@keyframes hero-vignette { from { opacity: .55; } to { opacity: .95; } }
+@keyframes terminal-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes ok-pop { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: scale(1); } }
+@keyframes term-parallax { from { transform: translateY(24px); } to { transform: translateY(-24px); } }
+@keyframes scroll-cue { 0%,100% { transform: scaleY(.25); opacity: .35; } 50% { transform: scaleY(1); opacity: 1; } }
+.hero .h1 .line { display: block; }
+.motion-on .hero .h1 .line { animation: hero-line-in .8s cubic-bezier(.22,1,.36,1) both; }
+.motion-on .hero .h1 .line:nth-child(2) { animation-delay: .12s; }
+.motion-on .ticker-track { animation: ticker-scroll 32s linear infinite; }
+.motion-on .scroll-cue { animation: scroll-cue 2.8s ease-in-out infinite; }
+.ambient-off .ticker-track,.ticker:hover .ticker-track,.ticker:focus-within .ticker-track,.page-hidden .ticker-track,.page-hidden .scroll-cue { animation-play-state: paused; }
+.motion-on.can-pin .hero { height: 200svh; }
+.motion-on.can-pin .hero-pin { position: sticky; top: 0; height: 100svh; min-height: 0; }
+.motion-on:not(.native-scroll).can-pin .hero-pin { transform: scale(var(--frame-scale,1)); border-radius: var(--frame-radius,0px); }
+.motion-on:not(.native-scroll).can-pin .hero-img { transform: scale(var(--photo-scale,1)); }
+.motion-on:not(.native-scroll).can-pin .hero .grad-vignette { opacity: var(--vignette,.55); }
+.motion-on:not(.native-scroll) .term-text { clip-path: inset(0 var(--clip,0%) 0 0); }
+.motion-on:not(.native-scroll) .term-line .ok { opacity: var(--ok-opacity,1); }
+.motion-on:not(.native-scroll) .terminal-figure { transform: translateY(var(--figure-y,0px)); }
+.reveal-ready .reveal-item { transition: opacity .65s ease, transform .7s cubic-bezier(.22,1,.36,1); transition-delay: var(--delay,0ms); }
+.reveal-ready .reveal-item:not(.in) { opacity: 0; transform: translateY(18px); }
+@supports (animation-timeline: view()) {
+  .hero { view-timeline: --hero-view block; }
+  .diagnostic-scene { view-timeline: --diagnostic-view block; }
+  .motion-on.native-scroll.can-pin .hero-img { animation: hero-scale 1s linear both; animation-timeline: --hero-view; animation-range: contain 0% contain 100%; }
+  .motion-on.native-scroll.can-pin .hero-pin { animation: hero-frame 1s cubic-bezier(.333333,0,.666667,1) both; animation-timeline: --hero-view; animation-range: contain 0% contain 100%; }
+  .motion-on.native-scroll.can-pin .hero .grad-vignette { animation: hero-vignette 1s linear both; animation-timeline: --hero-view; animation-range: contain 0% contain 100%; }
+  .motion-on.native-scroll .reveal-item { animation: rise-in 1s cubic-bezier(.22,1,.36,1) both; animation-timeline: view(); animation-range: entry 0% entry 50%; }
+  .motion-on.native-scroll .service-card:nth-child(3n+2) { animation-range: entry 4% entry 54%; }
+  .motion-on.native-scroll .service-card:nth-child(3n+3) { animation-range: entry 8% entry 58%; }
+  .motion-on.native-scroll .term-text { animation: terminal-type 1s steps(22,end) both; animation-timeline: --diagnostic-view; animation-range: cover var(--start) cover var(--end); }
+  .motion-on.native-scroll .term-line .ok { animation: ok-pop 1s ease-out both; animation-timeline: --diagnostic-view; animation-range: cover var(--end) cover var(--done); }
+  .motion-on.native-scroll .terminal-figure { animation: term-parallax 1s linear both; animation-timeline: --diagnostic-view; animation-range: cover 0% cover 100%; }
+}
+.reveal-item:focus-within { animation: none !important; opacity: 1 !important; transform: none !important; }
+.motion-paused { scroll-behavior: auto; }
+.motion-paused *, .motion-paused *::before, .motion-paused *::after { animation: none !important; transition: none !important; }
+.motion-paused .hero .line,.motion-paused .reveal-item { opacity: 1; transform: none; }
+.motion-paused .glass-card { translate: none; }
+@media (max-width: 760px) {
+  .motion-on .term-text { animation: none !important; clip-path: none !important; }
+  .motion-on .term-line .ok { animation: none !important; opacity: 1 !important; }
+  .motion-on .terminal-figure { animation: none !important; transform: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { animation: none !important; transition: none !important; }
+  .hero { height: auto !important; }
+  .hero-pin { position: relative !important; height: auto !important; transform: none !important; }
+  .hero-img,.terminal-figure,.reveal-item,.hero .line { transform: none !important; opacity: 1 !important; }
+  .term-text { clip-path: none !important; }
+  .term-line .ok { opacity: 1 !important; }
+  .scroll-cue { display: none; }
+  .glass-card { translate: none !important; }
+}

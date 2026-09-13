@@ -28,7 +28,7 @@ class Page(HTMLParser):
                 self.refs.append(a[attr])
 
 checked = 0
-site_roots = [ROOT / 'reworxct', ROOT / 'ember-and-iron']
+site_roots = [ROOT / 'reworxct', ROOT / 'ember-and-iron', ROOT / 'garys-hilltop']
 for directory in site_roots:
     assert (directory / 'index.html').is_file(), f'Missing site entrypoint: {directory}'
 for file in (file for directory in site_roots for file in directory.rglob('*.html')):
@@ -58,5 +58,5 @@ for ref in showcase.refs:
         continue
     target = ROOT / url.path.lstrip('/') if url.path.startswith('/') else ROOT / url.path
     assert target.exists(), f'Missing showcase local target: {ref}'
-assert '/reworxct/' in showcase.refs and '/ember-and-iron/' in showcase.refs
-print(f'Validated showcase and {checked} concepts: local references, fragment links, image labels, unique IDs, concept noindex.')
+assert all('/' + site.name + '/' in showcase.refs for site in site_roots), 'Showcase must link to every concept'
+print(f'Validated showcase and {checked} concept pages: local references, fragment links, image labels, unique IDs, concept noindex.')
