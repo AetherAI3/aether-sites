@@ -19,7 +19,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `reworxct/` | Reclaimed furniture and architectural materials; charcoal, ember, and cinematic timber imagery. |
 | `ember-and-iron/` | EMBER & IRON Wood-Fired Pizza Co.; hot steel gradients, expanding menu cells, and a sticky Dough / Fire / Char sequence. |
 | `harbor-and-hollow/` | A coastal hand wash concept with a scroll-driven film journey, scent story, and product presentation. |
-| `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; a clean graphite gradient, clear services, verified reviews, real location photography, and an optional service-note planner. |
+| `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; mint and cyan gradients, glass service cards, restrained scroll effects, verified reviews, real location photography, and an optional service-note planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
 
@@ -68,3 +68,5 @@ The supplied motion CSS and scroll handoff are preserved under `reference/reworx
 Source: [AetherAI3/aether-sites](https://github.com/AetherAI3/aether-sites).
 
 The GitHub Actions workflow checks the source and builds the static output on pushes to `main` and pull requests. Inspect the Actions tab for the current run result; a workflow file alone does not establish passing CI.
+
+Static HTML now loads CSS and JavaScript through content-versioned filenames generated during the collection build. Changed assets receive new URLs, preventing cached styles from mismatching new page markup. The build verifies every rewritten reference and the four showcase card styles.

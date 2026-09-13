@@ -1,0 +1,718 @@
+/* ==========================================================================
+   Gary's Hilltop Auto Repair - visual upgrade layer
+   Drop-in stylesheet. No dependencies, no frameworks.
+   Sections:
+     0  Optional font
+     1  Design tokens
+     2  Base polish
+     3  Page atmosphere (gradient wash + grain)
+     4  Scroll progress hairline (scroll-driven)
+     5  Header (glass, condenses on scroll)
+     6  Type utilities (gradient text, heading rule)
+     7  Buttons (gradient pill, sheen, tactile press)
+     8  Hero (aurora panel, entrance)
+     9  Cards (gradient border + pointer spotlight)
+    10  Feature panel ("Check-engine light")
+    11  Media frame (shop photo)
+    12  CTA band (rotating conic glow)
+    13  Disclosure + inputs ("Prepare a note")
+    14  Footer
+    15  Scroll reveal system
+    16  Reduced motion / reduced transparency
+   ========================================================================== */
+
+/* ---- 0. Optional font ----------------------------------------------------
+   The page renders fine on system fonts. Uncomment for the display grotesque
+   shown in the design (Archivo). Remove if you already load your own font.   */
+/* @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&display=swap'); */
+
+/* ---- 1. Design tokens ---------------------------------------------------- */
+:root {
+  --gh-bg:          #0a0e13;            /* near-black navy, page base        */
+  --gh-bg-raise:    #0f151d;            /* raised surface                    */
+  --gh-bg-glass:    rgb(255 255 255 / .03);
+  --gh-ink:         #e9eff4;            /* primary text                      */
+  --gh-ink-dim:     #9fb0bd;            /* secondary text                    */
+  --gh-ink-faint:   #9aaebb;            /* captions, meta                    */
+  --gh-accent:      #9fe8e0;            /* brand mint (existing button hue)  */
+  --gh-accent-2:    #5eead4;            /* teal                              */
+  --gh-accent-3:    #38bdf8;            /* cyan, gradient terminus           */
+  --gh-accent-ink:  #052e2b;            /* text on accent                    */
+  --gh-line:        rgb(255 255 255 / .08);
+  --gh-line-strong: rgb(159 232 224 / .35);
+
+  --gh-font: var(--font-body);
+  --gh-ease: cubic-bezier(.16, 1, .3, 1);
+  --gh-radius-card: 18px;               /* one radius system: cards 18, buttons 12, band 26 */
+  --gh-radius-btn: 12px;
+
+  /* gradient signatures (reused everywhere for consistency) */
+  --gh-grad-accent: linear-gradient(100deg, #d9fffa, var(--gh-accent) 35%, var(--gh-accent-2) 70%, var(--gh-accent-3));
+  --gh-grad-btn:    linear-gradient(160deg, #c6f6f0, var(--gh-accent) 42%, #6fd9cf);
+  --gh-grad-line:   linear-gradient(90deg, var(--gh-accent), rgb(56 189 248 / .55), transparent);
+  --gh-grad-card-edge: linear-gradient(160deg,
+      rgb(159 232 224 / .38),
+      rgb(255 255 255 / .07) 32%,
+      rgb(255 255 255 / .03) 60%,
+      rgb(56 189 248 / .22));
+}
+
+/* ---- 2. Base polish ------------------------------------------------------ */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  background: var(--gh-bg);
+  color: var(--gh-ink);
+  font-family: var(--gh-font);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--gh-accent-2); color: var(--gh-accent-ink); }
+
+:focus-visible {
+  outline: 2px solid var(--gh-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.gh-container {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ---- 3. Page atmosphere --------------------------------------------------
+   Static gradient wash + vignette, and a fixed grain tile. Both are fixed,
+   pointer-events-none pseudo elements so scrolling never repaints them.      */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 42% at 18% 0%,  rgb(45 212 191 / .10), transparent 62%),
+    radial-gradient(46% 38% at 88% 8%,  rgb(56 189 248 / .07), transparent 60%),
+    radial-gradient(70% 55% at 50% 115%, rgb(15 23 42 / .9), transparent 70%),
+    var(--gh-bg);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: .025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+/* ---- 4. Scroll progress hairline -----------------------------------------
+   Pure CSS scroll-driven animation (Chromium / Safari). Browsers without
+   animation-timeline simply skip the bar; nothing breaks.                    */
+@supports (animation-timeline: scroll()) {
+  .gh-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: 2px;
+    z-index: 90;
+    background: var(--gh-grad-accent);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    animation: gh-progress-fill linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes gh-progress-fill { to { transform: scaleX(1); } }
+}
+
+/* ---- 5. Header ------------------------------------------------------------ */
+.gh-header {
+  position: sticky;
+  top: 0;
+  z-index: 80;
+  background: rgb(10 14 19 / .55);
+  background: color-mix(in srgb, var(--gh-bg) 55%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid transparent;
+  transition: background .45s var(--gh-ease), border-color .45s var(--gh-ease),
+              box-shadow .45s var(--gh-ease);
+}
+.gh-header.is-scrolled {
+  background: rgb(10 14 19 / .8);
+  background: color-mix(in srgb, var(--gh-bg) 80%, transparent);
+  border-bottom-color: var(--gh-line);
+  box-shadow: 0 14px 44px -22px rgb(0 0 0 / .65);
+}
+.gh-header__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 68px;
+}
+.gh-wordmark { text-decoration: none; color: var(--gh-ink); line-height: 1.05; }
+.gh-wordmark strong { display: block; font-weight: 800; letter-spacing: -.02em; }
+.gh-wordmark span {
+  display: block;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  background: var(--gh-grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.gh-nav { display: flex; align-items: center; gap: 1.75rem; }
+.gh-nav a {
+  position: relative;
+  color: var(--gh-ink-dim);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .3s var(--gh-ease);
+}
+.gh-nav a:hover { color: var(--gh-ink); }
+.gh-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -7px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gh-accent), var(--gh-accent-2));
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform .45s var(--gh-ease);
+}
+.gh-nav a:hover::after { transform: scaleX(1); transform-origin: left center; }
+@media (max-width: 720px) { .gh-nav a:not(.gh-btn) { display: none; } }
+
+/* ---- 6. Type utilities ----------------------------------------------------*/
+.gh-h1, .gh-h2 {
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+.gh-h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); }
+.gh-h2 { font-size: clamp(2rem, 4.2vw, 3.1rem); }
+
+.gh-text-grad {
+  background: var(--gh-grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gh-lede { color: var(--gh-ink-dim); line-height: 1.65; max-width: 46ch; }
+.gh-meta { color: var(--gh-ink-faint); font-size: .85rem; line-height: 1.6; }
+
+/* gradient rule that draws itself in on scroll (see section 15) */
+.gh-h-rule {
+  display: block;
+  width: 76px;
+  height: 3px;
+  border-radius: 3px;
+  margin-top: 16px;
+  background: var(--gh-grad-line);
+}
+
+/* ---- 7. Buttons ------------------------------------------------------------*/
+.gh-btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .82rem 1.45rem;
+  border-radius: var(--gh-radius-btn);
+  border: 1px solid transparent;
+  font: inherit;
+  font-weight: 650;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: translate .35s var(--gh-ease), box-shadow .35s var(--gh-ease),
+              background-color .35s var(--gh-ease), border-color .35s var(--gh-ease);
+}
+.gh-btn svg { width: 1.05em; height: 1.05em; flex: none; }
+.gh-btn:active { translate: 0 1px; }
+
+.gh-btn--primary {
+  background: var(--gh-grad-btn);
+  color: var(--gh-accent-ink);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .5),
+    0 12px 32px -14px rgb(94 234 212 / .5);
+}
+.gh-btn--primary:hover {
+  translate: 0 -2px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / .55),
+    0 18px 44px -14px rgb(94 234 212 / .65);
+}
+/* sheen sweep on hover */
+.gh-btn--primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 32%, rgb(255 255 255 / .5) 50%, transparent 68%);
+  translate: -130% 0;
+  transition: translate .85s var(--gh-ease);
+  pointer-events: none;
+}
+.gh-btn--primary:hover::after { translate: 130% 0; }
+
+.gh-btn--ghost {
+  background: rgb(255 255 255 / .025);
+  border-color: var(--gh-line);
+  color: var(--gh-ink);
+}
+.gh-btn--ghost:hover {
+  translate: 0 -2px;
+  border-color: var(--gh-line-strong);
+  background: rgb(159 232 224 / .06);
+}
+
+.gh-btn--sm { padding: .55rem 1.05rem; font-size: .92rem; }
+
+/* inline text link with drifting arrow */
+.gh-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  color: var(--gh-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.gh-link svg { width: 1em; height: 1em; transition: translate .35s var(--gh-ease); }
+.gh-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.gh-link:hover svg { translate: 3px -3px; }
+
+/* ---- 8. Hero ----------------------------------------------------------------*/
+.gh-hero { padding-top: clamp(2rem, 5vh, 4rem); }
+.gh-hero__panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  border: 1px solid var(--gh-line);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / .035), rgb(255 255 255 / .012)),
+    var(--gh-bg-raise);
+}
+/* two slow aurora blobs inside the panel; transform-only animation */
+.gh-hero__panel::before,
+.gh-hero__panel::after {
+  content: "";
+  position: absolute;
+  width: 46rem;
+  height: 46rem;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+.gh-hero__panel::before {
+  top: -55%; right: -12%;
+  background: radial-gradient(circle, rgb(45 212 191 / .16), transparent 65%);
+  animation: gh-drift-a 26s ease-in-out infinite alternate;
+}
+.gh-hero__panel::after {
+  bottom: -65%; left: -10%;
+  background: radial-gradient(circle, rgb(56 189 248 / .12), transparent 65%);
+  animation: gh-drift-b 34s ease-in-out infinite alternate;
+}
+@keyframes gh-drift-a {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); }
+  to   { transform: translate3d(-9%, 12%, 0) rotate(28deg); }
+}
+@keyframes gh-drift-b {
+  from { transform: translate3d(0, 0, 0) rotate(0deg); }
+  to   { transform: translate3d(11%, -9%, 0) rotate(-24deg); }
+}
+.gh-hero__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.35fr .9fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  padding: clamp(2.5rem, 6vw, 5rem);
+}
+@media (max-width: 860px) { .gh-hero__grid { grid-template-columns: 1fr; } }
+.gh-actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2rem; }
+
+/* hero content gently lifts and fades as you scroll past (scroll-driven) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gh-hero__grid {
+      animation: gh-hero-out linear both;
+      animation-timeline: --gh-hero;
+      animation-range: exit 0% exit 100%;
+    }
+    @keyframes gh-hero-out {
+      from { opacity: 1; transform: none; }
+      to   { opacity: .72; transform: translateY(-20px) scale(.99); }
+    }
+  }
+}
+
+/* ---- 9. Cards -----------------------------------------------------------------
+   Glass fill + 1px gradient edge (masked pseudo element) + pointer spotlight.
+   --mx / --my are set from JS; without JS the spotlight just stays hidden.     */
+.gh-card {
+  position: relative;
+  border-radius: var(--gh-radius-card);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / .045), rgb(255 255 255 / .015)),
+    var(--gh-bg-glass);
+  transition:
+    opacity .8s var(--gh-ease) calc(var(--i, 0) * 85ms),
+    transform .8s var(--gh-ease) calc(var(--i, 0) * 85ms),
+    translate .4s var(--gh-ease),
+    box-shadow .4s var(--gh-ease);
+}
+.gh-card::before {                    /* gradient border */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gh-grad-card-edge);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.gh-card::after {                     /* pointer spotlight */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%),
+              rgb(159 232 224 / .09), transparent 65%);
+  opacity: 0;
+  transition: opacity .45s var(--gh-ease);
+  pointer-events: none;
+}
+.gh-card:hover { translate: 0 -4px; box-shadow: 0 24px 50px -28px rgb(0 0 0 / .7); }
+.gh-card:hover::after { opacity: 1; }
+
+.gh-card--pad { padding: 1.6rem 1.7rem; }
+
+/* service card icon chip */
+.gh-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--gh-ink-dim);
+  background: rgb(159 232 224 / .07);
+  border: 1px solid rgb(159 232 224 / .16);
+  transition: color .4s var(--gh-ease), background-color .4s var(--gh-ease),
+              rotate .5s var(--gh-ease);
+}
+.gh-icon svg { width: 21px; height: 21px; }
+.gh-card:hover .gh-icon {
+  color: var(--gh-accent);
+  background: rgb(159 232 224 / .13);
+  rotate: -6deg;
+}
+.gh-card h3 { margin: 1rem 0 .45rem; font-size: 1.12rem; font-weight: 700; letter-spacing: -.01em; }
+.gh-card p  { margin: 0; color: var(--gh-ink-dim); line-height: 1.6; font-size: .95rem; }
+
+/* hero "visit the shop" card */
+.gh-card--visit { padding: 1.9rem 2rem; }
+.gh-card--visit h3 { margin-top: 0; }
+.gh-card--visit dl {
+  display: grid;
+  gap: 1.1rem;
+  margin: 1.4rem 0;
+}
+.gh-card--visit dt {
+  font-size: .78rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gh-ink-faint);
+  margin-bottom: .3rem;
+}
+.gh-card--visit dd { margin: 0; line-height: 1.55; }
+.gh-card--visit dd strong { font-size: 1.05rem; }
+
+/* review cards */
+.gh-card--review { display: flex; flex-direction: column; gap: 1.1rem; }
+.gh-stars {
+  font-size: .95rem;
+  letter-spacing: .18em;
+  background: var(--gh-grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.gh-quote { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.5; letter-spacing: -.01em; }
+.gh-quote::before { content: "\201C"; }
+.gh-quote::after  { content: "\201D"; }
+.gh-review-meta { margin-top: auto; }
+
+/* rating block */
+.gh-rating { display: flex; align-items: baseline; gap: .9rem; }
+.gh-rating b {
+  font-size: clamp(2.6rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  background: var(--gh-grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+
+/* generic grid helpers */
+.gh-grid { display: grid; gap: 1.4rem; }
+.gh-grid--3 { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 960px) { .gh-grid--3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .gh-grid--3 { grid-template-columns: 1fr; } }
+
+/* ---- 10. Feature panel ("Check-engine light") ------------------------------- */
+.gh-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 170% at 0% 0%,   rgb(45 212 191 / .15), transparent 52%),
+    radial-gradient(130% 170% at 100% 100%, rgb(56 189 248 / .10), transparent 55%),
+    linear-gradient(180deg, #101a20, #0c1319);
+}
+.gh-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(150deg, rgb(159 232 224 / .45), rgb(255 255 255 / .05) 40%, rgb(56 189 248 / .28));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.gh-panel__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(2rem, 4.5vw, 3.5rem);
+}
+@media (max-width: 860px) { .gh-panel__grid { grid-template-columns: 1fr; } }
+.gh-panel h3 { margin: 0 0 .5rem; font-weight: 700; letter-spacing: -.01em; }
+.gh-panel .gh-note-q { color: var(--gh-ink); }
+.gh-panel .gh-note-a { margin: .3rem 0 0; color: var(--gh-ink-dim); font-size: .95rem; line-height: 1.6; }
+
+/* ---- 11. Media frame ---------------------------------------------------------- */
+.gh-media {
+  position: relative;
+  border-radius: 20px;
+  padding: 1px;
+  background: linear-gradient(160deg, rgb(159 232 224 / .5), rgb(255 255 255 / .08) 35%, rgb(56 189 248 / .32));
+}
+.gh-media__clip { overflow: hidden; border-radius: 19px; }
+.gh-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 1.2s var(--gh-ease), filter 1.2s var(--gh-ease);
+}
+.gh-media:hover img { transform: scale(1.035); filter: saturate(1.06); }
+
+/* ---- 12. CTA band -------------------------------------------------------------- */
+.gh-cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  background:
+    linear-gradient(140deg, rgb(20 44 48 / .9), rgb(13 20 27 / .95) 55%),
+    var(--gh-bg-raise);
+}
+.gh-cta::before {                  /* rotating conic glow */
+  content: "";
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(from 0deg,
+    transparent 0turn, rgb(94 234 212 / .16) .08turn, transparent .2turn,
+    rgb(56 189 248 / .12) .45turn, transparent .6turn,
+    rgb(94 234 212 / .14) .8turn, transparent 1turn);
+  filter: blur(70px);
+  animation: gh-spin 26s linear infinite;
+  pointer-events: none;
+}
+@keyframes gh-spin { to { transform: rotate(1turn); } }
+.gh-cta::after {                   /* gradient border */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(150deg, rgb(159 232 224 / .5), rgb(255 255 255 / .06) 40%, rgb(56 189 248 / .3));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.gh-cta__row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem;
+  padding: clamp(2.25rem, 5vw, 3.75rem);
+}
+
+/* ---- 13. Disclosure + inputs ----------------------------------------------------- */
+.gh-disclosure {
+  border: 1px solid var(--gh-line);
+  border-radius: 16px;
+  background: rgb(255 255 255 / .02);
+  transition: border-color .4s var(--gh-ease), background-color .4s var(--gh-ease);
+}
+.gh-disclosure[open] { border-color: var(--gh-line-strong); background: rgb(159 232 224 / .03); }
+.gh-disclosure summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: 1.05rem 1.3rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--gh-ink-dim);
+  transition: color .3s var(--gh-ease);
+}
+.gh-disclosure summary:hover { color: var(--gh-ink); }
+.gh-disclosure summary::-webkit-details-marker { display: none; }
+.gh-disclosure .gh-plus { width: 1em; height: 1em; transition: rotate .4s var(--gh-ease); }
+.gh-disclosure[open] .gh-plus { rotate: 45deg; }
+.gh-disclosure__body {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1.3rem 1.3rem;
+}
+.gh-field label {
+  display: block;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--gh-ink-dim);
+  margin-bottom: .4rem;
+}
+.gh-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  color: var(--gh-ink);
+  background: rgb(255 255 255 / .03);
+  border: 1px solid var(--gh-line);
+  border-radius: 10px;
+  padding: .72rem .9rem;
+  transition: border-color .3s var(--gh-ease), box-shadow .3s var(--gh-ease);
+}
+.gh-input::placeholder { color: var(--gh-ink-faint); }
+.gh-input:focus {
+  outline: none;
+  border-color: var(--gh-accent-2);
+  box-shadow: 0 0 0 3px rgb(94 234 212 / .16);
+}
+
+/* ---- 14. Footer ---------------------------------------------------------------------- */
+.gh-footer {
+  border-top: 1px solid var(--gh-line);
+  margin-top: clamp(4rem, 9vw, 7rem);
+  padding: 2.25rem 0 3rem;
+  color: var(--gh-ink-faint);
+  font-size: .88rem;
+}
+.gh-footer__row { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; }
+
+/* ---- 15. Scroll reveal system ----------------------------------------------------------
+   JS adds .gh-js to <html> and .in to elements as they enter the viewport.
+   Without JS, everything renders normally (no hidden content).
+   Stagger: set inline style="--i:2" on siblings.
+   Note: interactive elements that also hover-animate (like .gh-card) declare the
+   reveal transition themselves so hover never waits on the entrance delay.        */
+@media (prefers-reduced-motion: no-preference) {
+  .gh-reveal-ready .gh-reveal {
+    opacity: 0;
+    transform: translateY(26px);
+    transition-property: opacity, transform;
+    transition-duration: .85s;
+    transition-timing-function: var(--gh-ease);
+    transition-delay: calc(var(--i, 0) * 85ms);
+  }
+  .gh-reveal-ready .gh-reveal--soft { transform: translateY(16px) scale(.985); }
+  .gh-reveal-ready .gh-reveal.in { opacity: 1; transform: none; }
+
+  /* heading rule draws in once its parent (or itself) is revealed */
+  .gh-reveal-ready .gh-h-rule { clip-path: inset(0 100% 0 0); transition: clip-path 1s var(--gh-ease) .2s; }
+  .gh-reveal-ready .in .gh-h-rule,
+  .gh-reveal-ready .gh-h-rule.in { clip-path: inset(0 0 0 0); }
+}
+
+/* ---- 16. Reduced motion / reduced transparency ----------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .gh-hero__panel::before,
+  .gh-hero__panel::after,
+  .gh-cta::before { animation: none; }
+  .gh-btn, .gh-card, .gh-icon, .gh-nav a, .gh-link svg { transition-duration: .01ms; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .gh-header { background: var(--gh-bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .gh-card { background: var(--gh-bg-raise); }
+}
+
+/* Integration with the existing, accessible mechanic layout. */
+body{isolation:isolate}
+:root{--gh-font:var(--font-body);--gh-ink-faint:#9aaebb}
+.gh-h1,.gh-h2{font-family:var(--font-display);font-weight:600;letter-spacing:-.015em}
+.hero.gh-hero{padding-top:0;view-timeline:--gh-hero block}
+.hero-surface{transform:none!important;isolation:isolate}
+.hero-surface.gh-hero__panel::before{inset:auto;top:-55%;right:-12%;z-index:0}
+.hero-surface.gh-hero__panel::after{inset:auto;bottom:-65%;left:-10%;z-index:0}
+.hero-content.gh-hero__grid{z-index:1;padding:clamp(3rem,6vw,5rem) 0;min-height:34rem}
+.hero-copy h1 .gh-text-grad{color:transparent}
+.gh-card p{font-size:1rem}
+.hero-info.gh-card>p{font-size:.8125rem;margin-top:.8rem}
+.hero-info .hero-hours dt{font-size:.875rem;text-transform:none;letter-spacing:0;color:var(--muted)}
+.hero-info .hero-hours{display:block;margin:1.5rem 0 0}
+.service-card .gh-icon{margin-bottom:.15rem}
+.service-card .gh-icon svg{float:none;margin:0;stroke-width:1.4}
+.gh-btn{white-space:normal;justify-content:center;font-size:.9375rem;min-height:3.25rem}
+.header-call.gh-btn{white-space:nowrap;min-height:2.9rem;font-size:.875rem;padding:.75rem 1rem}
+.gh-header__row{min-height:6rem;transition:transform .35s var(--gh-ease)}
+.gh-header.is-scrolled .gh-header__row{transform:scale(.985)}
+.site-header nav a:not(.gh-btn){display:inline-flex}
+.gh-nav a::after{bottom:.3rem;height:1px}
+.gh-nav a[aria-current]::after{transform:scaleX(1)}
+.gh-progress{z-index:110}
+.gh-card::before,.gh-panel::before,.gh-cta::after{z-index:1}
+.gh-card:hover::after{opacity:0}
+.gh-spotlights .gh-card:hover::after{opacity:1}
+.rating-link>strong .gh-count{font:inherit;font-variant-numeric:tabular-nums;margin:0;background:var(--gh-grad-accent);background-clip:text;-webkit-background-clip:text;color:transparent}
+.booking-intro.gh-cta{display:block}
+.gh-cta__row{width:100%;z-index:1}
+.booking-intro.gh-cta .gh-cta__row>div{max-width:35rem;min-width:0}
+.service-planner.gh-disclosure>summary{flex-wrap:wrap;min-height:3.5rem}
+.service-planner.gh-disclosure>summary>svg{flex-shrink:0}
+.site-footer.gh-footer{margin-top:0}
+.gh-hero__panel::before,.gh-hero__panel::after,.gh-cta::before{animation-play-state:paused}
+.motion-on .gh-hero__panel:not(.ambient-off)::before,.motion-on .gh-hero__panel:not(.ambient-off)::after,.motion-on .gh-cta:not(.ambient-off)::before{animation-play-state:running}
+.page-hidden .gh-hero__panel::before,.page-hidden .gh-hero__panel::after,.page-hidden .gh-cta::before{animation-play-state:paused!important}
+.gh-reveal:focus-within,.gh-hero__grid:focus-within{opacity:1!important;transform:none!important;animation:none!important}
+.gh-card:focus-within{translate:none!important}
+@supports not (mask-composite:exclude){.gh-card::before,.gh-panel::before,.gh-cta::after{background:none;border:1px solid var(--gh-line-strong)}}
+@media(max-width:900px){.gh-header__row{min-height:5.25rem}.gh-header.is-scrolled .gh-header__row{transform:none}}
+@media(max-width:860px){.hero-content.gh-hero__grid{grid-template-columns:1fr;gap:2.5rem;min-height:0}.hero-info.gh-card--visit{max-width:100%}}
+@media(max-width:700px){.hero-content.gh-hero__grid{padding:2.5rem 0 1.25rem}.gh-card--visit{padding:1.25rem}.hero-info .hero-hours{margin:0}.gh-cta__row{padding:1.75rem}.booking-intro .btn{margin-top:0}}
+@media(max-width:480px){.header-call.gh-btn{padding:.7rem;min-height:2.75rem}.service-card .gh-icon{float:right;margin:0 0 .75rem .75rem}.hero-info .hero-hours{margin-top:.5rem}}
+@media(hover:none),(pointer:coarse){.gh-card:hover{translate:none;box-shadow:none}.gh-card:hover .gh-icon{rotate:none}.gh-media:hover img{transform:none;filter:none}}
+@media(forced-colors:active){body::before,body::after,.gh-card::before,.gh-card::after,.gh-progress,.gh-hero__panel::before,.gh-hero__panel::after,.gh-cta::before,.gh-cta::after{display:none}.gh-text-grad,.hero-copy h1 .gh-text-grad,.rating-link>strong .gh-count{background:none;color:CanvasText}.gh-card,.gh-btn{border:1px solid ButtonText}}

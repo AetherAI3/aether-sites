@@ -3,6 +3,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
+import { versionStaticAssets } from './version-static-assets.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const execFileAsync = promisify(execFile);
@@ -25,4 +26,5 @@ const { stdout, stderr } = await execFileAsync(process.execPath, [
 ], { cwd: root, maxBuffer: 1024 * 1024 });
 process.stdout.write(stdout);
 process.stderr.write(stderr);
+await versionStaticAssets(dist, ['.', ...sites]);
 console.log(`Built ${sites.map(site => `dist/${site}/`).join(', ')}, dist/harbor-and-hollow/, and the collection entrypoint.`);

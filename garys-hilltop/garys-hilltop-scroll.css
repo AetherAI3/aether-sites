@@ -1,20 +1,6 @@
-/* Natural document scrolling: no pinning, simulated telemetry, or looping effects.
-   Content is visible before scripts run and when motion is disabled. */
-@keyframes frame-settle{from{transform:scale(1);border-radius:24px}to{transform:scale(.985);border-radius:32px}}
-@keyframes light-drift{from{transform:translateY(0)}to{transform:translateY(28px)}}
-@keyframes rise-in{from{transform:translateY(16px)}to{transform:translateY(0)}}
-.motion-on:not(.native-scroll) .hero-surface{transform:scale(var(--hero-scale,1));border-radius:var(--hero-radius,24px)}
-.motion-on:not(.native-scroll) .hero-surface::before{transform:translateY(var(--glow-y,0px))}
-.reveal-ready .reveal-item{transition:transform .65s cubic-bezier(.2,.6,.3,1);transition-delay:var(--delay,0ms)}
-.reveal-ready .reveal-item:not(.in){transform:translateY(16px)}
-@supports(animation-timeline:view()){
- .hero{view-timeline:--hero-view block}
- .motion-on.native-scroll .hero-surface{animation:frame-settle 1s linear both;animation-timeline:--hero-view;animation-range:exit 0% exit 100%}
- .motion-on.native-scroll .hero-surface::before{animation:light-drift 1s linear both;animation-timeline:--hero-view;animation-range:exit 0% exit 100%}
- .motion-on.native-scroll .reveal-item{animation:rise-in 1s ease-out both;animation-timeline:view();animation-range:entry 0% entry 70%}
-}
-.reveal-item:focus-within{animation:none!important;transform:none!important;transition:none!important}
+/* Shared controls override every enhancement, including hover and native timelines. */
 .motion-paused{scroll-behavior:auto}
-.motion-paused *,.motion-paused *::before,.motion-paused *::after{animation:none!important;transition:none!important;translate:none!important}
-.motion-paused .hero-surface,.motion-paused .hero-surface::before,.motion-paused .reveal-item{transform:none!important}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important;translate:none!important}.hero-surface,.hero-surface::before,.reveal-item{transform:none!important}}
+.motion-paused *,.motion-paused *::before,.motion-paused *::after{animation:none!important;transition:none!important;translate:none!important;rotate:none!important}
+.motion-paused .gh-reveal,.motion-paused .gh-hero__grid{opacity:1!important;transform:none!important}
+.motion-paused .gh-card::after{opacity:0!important}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important;translate:none!important;rotate:none!important}.gh-reveal,.gh-hero__grid{opacity:1!important;transform:none!important}.gh-card::after{opacity:0!important}.gh-progress{display:none}}

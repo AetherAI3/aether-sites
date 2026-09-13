@@ -6,15 +6,17 @@ The third site in `AetherAI3/aether-sites`, under `garys-hilltop/`. This is an i
 
 - A CSS-only graphite and blue gradient opens the site. Plain service copy, the phone number, address and weekday hours are visible immediately.
 - Services lead into practical diagnostic call preparation, attributed customer reviews, the shop location and phone appointment information.
-- The actual storefront photograph appears only in the location section. The SUV photograph is retained as a supplied asset but is not displayed.
-- Quiet frame movement and short section rises follow natural scrolling. No viewport is pinned, and nothing continuously animates.
-- Native CSS timelines have a coalesced animation-frame fallback. Content is always visible, including without JavaScript or observers. System reduced motion and the footer control disable decorative movement.
+- The actual storefront photograph appears only in the location section. The SUV photograph is retained as a supplied asset but is not displayed. The new reference markup’s generic Facebook/CARFAX URLs and unverified individual review stars were not adopted.
+- The supplied visual upgrade adds mint-to-cyan headline text, glass cards, gradient borders and buttons, aurora light, pointer spotlights and a subdued CTA glow. No viewport is pinned. Ambient animation pauses offscreen and in hidden tabs.
+- Native CSS timelines drive hero movement and reading progress where supported. IntersectionObserver handles reveals, header state, active navigation and the rating animation; no scroll listeners are used. System reduced motion and the footer control disable all decorative movement. Observer failures reveal all content. Keyboard focus reveals content immediately.
 - Readable sentence-case copy and a two-family type system replace the HUD, slogans, numbered/stat blocks, hazard stripes, scanlines and simulated diagnostic output.
 - Navigation, call links and directions remain usable without JavaScript. Header height is measured for anchor offsets when scripts are available.
 
 ## Service planner
 
 Calling the real shop is the primary appointment action. The optional, collapsed planner validates a vehicle and service, creates a local note, and supports copying and editing. It does not send a request, store input, or reserve an appointment. The diagnostic link opens it with Diagnostics selected. A real delivery endpoint and shop approval would be needed to offer online booking.
+
+The untouched four-file upgrade kit is preserved in reference/visual-upgrade/. Runtime adaptations are in dist/enhancements.css and dist/enhancements.js. Existing menu and service-note logic stays in dist/script.js.
 
 ## September 13 design audit
 
