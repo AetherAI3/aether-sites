@@ -6,7 +6,18 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node --check reworxct/script.js && node --check ember-and-iron/script.js && node --check garys-hilltop/script.js && python scripts/check.py"
+    "check": "node --check reworxct/script.js && node --check ember-and-iron/script.js && node --check garys-hilltop/script.js && python scripts/check.py && tsc --noEmit -p harbor-and-hollow/tsconfig.json"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
   },
   "engines": { "node": ">=20" }
 }

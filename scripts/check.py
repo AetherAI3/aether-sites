@@ -33,7 +33,7 @@ for directory in site_roots:
     assert (directory / 'index.html').is_file(), f'Missing site entrypoint: {directory}'
 for file in (file for directory in site_roots for file in directory.rglob('*.html')):
     page = Page()
-    page.feed(file.read_text())
+    page.feed(file.read_text(encoding='utf-8'))
     assert page.robots, f'{file}: concept must stay noindex'
     for ref in page.refs:
         url = urlparse(ref)
@@ -49,14 +49,24 @@ for file in (file for directory in site_roots for file in directory.rglob('*.htm
     checked += 1
 assert checked >= len(site_roots), 'Not all concept entrypoints were checked'
 showcase = Page()
-showcase.feed((ROOT / 'index.html').read_text())
+showcase.feed((ROOT / 'index.html').read_text(encoding='utf-8'))
 assert showcase.robots is None, 'Showcase root should remain indexable'
 assert not showcase.errors, showcase.errors
 for ref in showcase.refs:
     url = urlparse(ref)
     if url.scheme or url.netloc or not url.path:
         continue
-    target = ROOT / url.path.lstrip('/') if url.path.startswith('/') else ROOT / url.path
+    if url.path.startswith('/harbor-and-hollow/assets/'):
+        public_path = url.path.removeprefix('/harbor-and-hollow/')
+        target = ROOT / 'harbor-and-hollow' / 'public' / public_path
+    else:
+        target = ROOT / url.path.lstrip('/') if url.path.startswith('/') else ROOT / url.path
     assert target.exists(), f'Missing showcase local target: {ref}'
 assert all('/' + site.name + '/' in showcase.refs for site in site_roots), 'Showcase must link to every concept'
-print(f'Validated showcase and {checked} concept pages: local references, fragment links, image labels, unique IDs, concept noindex.')
+harbor = Page()
+harbor.feed((ROOT / 'harbor-and-hollow' / 'index.html').read_text(encoding='utf-8'))
+assert harbor.robots, 'Harbor and Hollow concept must stay noindex'
+assert not harbor.errors, harbor.errors
+assert '/harbor-and-hollow/' in showcase.refs
+assert (ROOT / 'harbor-and-hollow' / 'public' / 'assets' / 'world' / 'stone.mp4').is_file()
+print(f'Validated showcase and {checked + 1} concept pages: local references, fragment links, image labels, unique IDs, concept noindex.')
