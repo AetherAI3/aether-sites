@@ -73,3 +73,7 @@ Source: [AetherAI3/aether-sites](https://github.com/AetherAI3/aether-sites).
 The GitHub Actions workflow checks the source and builds the static output on pushes to `main` and pull requests. Inspect the Actions tab for the current run result; a workflow file alone does not establish passing CI.
 
 Static HTML now loads CSS and JavaScript through content-versioned filenames generated during the collection build. Changed assets receive new URLs, preventing cached styles from mismatching new page markup. The build verifies every rewritten reference and all showcase card styles.
+
+### Waterbury Aquarium
+
+`/waterbury-aquarium/` adds an independent aquatic retail concept with a CSS/SVG glass-tank hero, filterable category guide, planted-tank scroll moment and local aquascape checklist. Store details and directory-listed hours are sourced; changing inventory is checked by phone. See [the implementation notes](docs/waterbury-aquarium.md). Supplied handoff files are preserved under `reference/waterbury-aquarium/`.

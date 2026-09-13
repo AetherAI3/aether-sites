@@ -13,3 +13,6 @@
 
 /* Mach Detail concept card */
 .project-mach .project-visual{background:#08151b}.project-mach .project-visual img{object-position:center 58%;filter:brightness(.78)}.project-mach .preview-wordmark{font-family:Arial,sans-serif;font-weight:800;font-size:clamp(24px,4vw,54px);letter-spacing:-2px;color:#eafaff}.project-mach .preview-wordmark span{color:#67e8f9}
+
+/* Waterbury Aquarium — underwater editorial preview */
+.project-waterbury .project-visual{background:#124953}.project-waterbury .project-visual img{object-position:60% center;filter:brightness(.65) saturate(.88)}.project-waterbury .project-visual::after{background:linear-gradient(90deg,#052e4470,transparent 90%)}.waterbury-kicker{position:absolute;z-index:1;top:11%;left:8%;color:#d6ecdf;font-family:'DM Mono',monospace;font-size:clamp(8px,.8vw,11px);letter-spacing:.1em}.waterbury-title{position:absolute;z-index:1;top:34%;left:8%;font-family:Georgia,serif;font-weight:400;font-size:clamp(44px,5.3vw,83px);letter-spacing:-.06em;line-height:.95;color:#ecf6e8}.waterbury-title i{color:#c9e9d9}@media(max-width:900px){.waterbury-title{font-size:clamp(44px,8vw,80px)}}

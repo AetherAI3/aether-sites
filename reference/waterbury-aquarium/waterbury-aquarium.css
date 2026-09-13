@@ -1,0 +1,420 @@
+/* ============================================================
+   WATERBURY AQUARIUM — design tokens, gradients, glass, motion
+   Companion to wireframe.md ("The Descent" concept)
+   Drop-in CSS. No dependencies.
+   ============================================================ */
+
+/* ---------- 1. TOKENS ---------- */
+:root {
+  /* Depth palette (surface -> abyss) */
+  --sky-050:   #EFF9FC;
+  --sky-100:   #DDF2F8;
+  --aqua-200:  #B4E6EE;
+  --aqua-300:  #8AD8E4;
+  --teal-400:  #47B7C8;
+  --teal-500:  #2BA0B4;
+  --ocean-600: #137E96;
+  --ocean-700: #0D5F78;
+  --deep-800:  #08435E;
+  --deep-900:  #052E44;
+  --abyss-950: #031E30;
+
+  /* Warm accents — the mom-and-pop warmth */
+  --coral-300: #FFB49C;
+  --coral-400: #FF8F70;
+  --coral-500: #F66B4C;
+  --coral-600: #E0502F;
+  --sand-200:  #FBEBC8;
+  --sand-300:  #F5D9A0;
+  --kelp-400:  #57B87E;
+  --kelp-600:  #2F8A58;
+
+  /* Ink + paper */
+  --ink-900: #0B2231;
+  --ink-700: #24445A;
+  --paper:   #F7FCFD;
+
+  /* Glass */
+  --glass-hi:   rgba(255, 255, 255, .42);
+  --glass-lo:   rgba(255, 255, 255, .10);
+  --glass-edge: rgba(255, 255, 255, .55);
+
+  /* Radius */
+  --r-card: 28px;
+  --r-pill: 999px;
+
+  /* Motion personality: buoyant, never snappy */
+  --ease-buoy:  cubic-bezier(.34, 1.56, .64, 1);
+  --ease-drift: cubic-bezier(.45, .05, .35, 1);
+
+  /* ---- THE page gradient: one continuous dive ---- */
+  --depth-gradient: linear-gradient(180deg,
+    var(--sky-050)   0%,
+    var(--sky-100)   6%,
+    var(--aqua-200)  14%,
+    var(--aqua-300)  22%,
+    var(--teal-400)  34%,
+    var(--teal-500)  44%,
+    var(--ocean-600) 56%,
+    var(--ocean-700) 66%,
+    var(--deep-800)  78%,
+    var(--deep-900)  89%,
+    var(--abyss-950) 100%);
+
+  /* Glass column surface */
+  --glass-gradient: linear-gradient(165deg,
+    var(--glass-hi) 0%,
+    rgba(255, 255, 255, .16) 38%,
+    var(--glass-lo) 100%);
+
+  /* Primary CTA */
+  --coral-gradient: linear-gradient(135deg,
+    var(--coral-400) 0%,
+    var(--coral-500) 55%,
+    var(--coral-600) 100%);
+
+  /* Sun rays from the surface (soft-light blend) */
+  --ray-gradient: conic-gradient(from 195deg at 22% -12%,
+    transparent 0deg 8deg,
+    rgba(255, 255, 255, .35) 8deg 11deg,
+    transparent 11deg 24deg,
+    rgba(255, 255, 255, .18) 24deg 26deg,
+    transparent 26deg 44deg,
+    rgba(255, 255, 255, .22) 44deg 47deg,
+    transparent 47deg 360deg);
+
+  /* Caustic light shimmer (two offset blob fields, overlay blend) */
+  --caustic-a: radial-gradient(closest-side, rgba(255,255,255,.14), transparent 70%);
+  --caustic-b: radial-gradient(closest-side, rgba(255,255,255,.10), transparent 70%);
+}
+
+/* ---------- 2. PAGE + DEPTH TEXT ---------- */
+.page-descent {
+  background: var(--depth-gradient);
+  background-attachment: fixed; /* the dive stays put while sections scroll over it */
+}
+
+.depth--surface { --fg: var(--ink-900); --fg-dim: var(--ink-700); color: var(--fg); }
+.depth--mid,
+.depth--floor   { --fg: #EAF7FA;        --fg-dim: #A8CDD9;        color: var(--fg); }
+
+::selection { background: var(--coral-400); color: #fff; }
+
+/* ---------- 3. GLASS COLUMN (hero tank) ---------- */
+.glass-column {
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  background:
+    var(--glass-gradient),
+    linear-gradient(180deg, rgba(140, 220, 235, .18), rgba(6, 42, 64, .34));
+  border: 1px solid rgba(255, 255, 255, .45);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .6),
+    inset 0 -18px 40px rgba(4, 32, 48, .25),
+    0 30px 80px -20px rgba(3, 24, 38, .45);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+}
+.glass-column::before { /* edge glare streak */
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg,
+    rgba(255,255,255,.50) 0%, transparent 12%,
+    transparent 82%, rgba(255,255,255,.18) 96%, rgba(255,255,255,.40) 100%);
+  pointer-events: none;
+}
+.glass-column::after { /* substrate shade at the bottom */
+  content: "";
+  position: absolute; inset: auto 0 0 0; height: 12%;
+  background: linear-gradient(180deg, transparent, rgba(3, 25, 38, .55));
+  pointer-events: none;
+}
+
+/* ---------- 4. BUBBLES ---------- */
+/* Spawned by motion.js into any .bubble-field, or hand-place:
+   <i class="bubble" style="--x:22%; --s:12px; --d:9s; --delay:-3s"></i> */
+.bubble-field { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.bubble {
+  position: absolute;
+  bottom: -8vh;                 /* starts just below the field */
+  left: var(--x, 50%);
+  width: var(--s, 14px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%,
+    rgba(255,255,255,.90) 0 18%,
+    rgba(255,255,255,.25) 40%,
+    rgba(255,255,255,.06) 70%);
+  box-shadow: inset 0 0 6px rgba(255,255,255,.35);
+  opacity: 0;
+  animation: bubble-rise var(--d, 9s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+@keyframes bubble-rise {
+  0%   { transform: translate3d(0,     10vh,  0) scale(.55); opacity: 0; }
+  8%   { opacity: .9; }
+  25%  { transform: translate3d(.6em, -20vh, 0) scale(.72); }
+  50%  { transform: translate3d(-.5em,-50vh, 0) scale(.86); }
+  75%  { transform: translate3d(.5em, -80vh, 0) scale(.97); }
+  96%  { opacity: .85; }
+  100% { transform: translate3d(-.3em,-112vh,0) scale(1.06); opacity: 0; }
+}
+
+/* Depth gauge (fixed left rail) + carousel pagination bubbles */
+.pager-bubble {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: .45;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity .3s, background .3s, transform .3s var(--ease-buoy);
+}
+.pager-bubble[aria-current="true"] {
+  background: currentColor;
+  opacity: 1;
+  animation: bob 2.4s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* ---------- 5. SHARK + FISH SILHOUETTES ---------- */
+/* Use an inline SVG inside .shark. Starter side-profile shark path:
+   <svg viewBox="0 0 200 60"><path d="M8 32 C40 10 90 4 128 14 L158 4 L150 22
+   C172 26 188 34 196 40 C170 44 150 48 128 52 L136 40 C90 54 40 50 8 32 Z"/></svg> */
+.shark {
+  position: absolute;
+  top: 38%;
+  left: 0;
+  width: min(34vw, 420px);
+  opacity: .14;
+  color: var(--deep-900);
+  animation: shark-drift 45s linear infinite;
+  will-change: transform;
+  pointer-events: none;
+}
+@keyframes shark-drift {
+  0%   { transform: translateX(-40vw) translateY(0); }
+  50%  { transform: translateX(50vw)  translateY(-3vh); }
+  100% { transform: translateX(140vw) translateY(1vh); }
+}
+
+.fish-silhouette {
+  position: absolute;
+  color: rgba(5, 46, 68, .35);
+  animation: fish-drift var(--d, 26s) ease-in-out infinite alternate;
+}
+@keyframes fish-drift {
+  from { transform: translateX(0)      translateY(0); }
+  to   { transform: translateX(3.5em)  translateY(-1.2em); }
+}
+
+/* ---------- 6. LIGHT RAYS + CAUSTICS ---------- */
+.light-rays {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 120%;
+  background: var(--ray-gradient);
+  mix-blend-mode: soft-light;
+  filter: blur(6px);
+  transform-origin: 22% 0%;
+  animation: ray-sway 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes ray-sway {
+  from { transform: rotate(-2.5deg); }
+  to   { transform: rotate(2.5deg); }
+}
+
+.caustics {
+  position: absolute; inset: 0;
+  background-image: var(--caustic-a), var(--caustic-b);
+  background-size: 340px 220px, 260px 180px;
+  mix-blend-mode: overlay;
+  opacity: .5;
+  animation: caustic-drift 18s linear infinite alternate;
+  pointer-events: none;
+}
+@keyframes caustic-drift {
+  from { background-position: 0 0, 40px 60px; }
+  to   { background-position: 120px 60px, -60px -20px; }
+}
+
+/* ---------- 7. PORTHOLE (expand / shrink scroll scrub) ---------- */
+.porthole-stage {
+  height: 220vh;
+  view-timeline-name: --porthole;
+  view-timeline-axis: block;
+}
+.porthole-sticky {
+  position: sticky; top: 0;
+  height: 100dvh;
+  display: grid; place-items: center;
+  overflow: hidden;
+}
+.porthole {
+  position: relative;
+  overflow: hidden;
+  width: 40vw;
+  height: 56vh;
+  border-radius: 32px;
+  box-shadow: 0 40px 120px -30px rgba(3, 24, 38, .6);
+}
+.porthole > img,
+.porthole > video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.porthole-caption {
+  position: absolute; inset: auto 0 8% 0;
+  text-align: center;
+  color: var(--paper);
+  opacity: 0;
+}
+
+@supports (animation-timeline: view()) {
+  .porthole {
+    animation: porthole-in-out linear both;
+    animation-timeline: --porthole;
+  }
+  .porthole-caption {
+    animation: porthole-caption linear both;
+    animation-timeline: --porthole;
+  }
+}
+@keyframes porthole-in-out {
+  0%   { width: 40vw;  height: 56vh;  border-radius: 32px; }
+  45%  { width: 100vw; height: 100dvh; border-radius: 0; }
+  60%  { width: 100vw; height: 100dvh; border-radius: 0; }   /* hold full-bleed */
+  100% { width: min(52vw, 560px); height: 34vh; border-radius: var(--r-card); }
+}
+@keyframes porthole-caption {
+  0%, 38% { opacity: 0; transform: translateY(12px); }
+  48%, 60% { opacity: 1; transform: none; }
+  70%, 100% { opacity: 0; transform: translateY(-12px); }
+}
+
+/* ---------- 8. SLIDE CARDS (family activities) ---------- */
+.slide-track {
+  display: flex;
+  gap: clamp(16px, 2.5vw, 32px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 8px max(20px, 6vw) 24px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.slide-track::-webkit-scrollbar { display: none; }
+
+.slide-card {
+  scroll-snap-align: center;
+  flex: 0 0 min(78vw, 340px);
+  border-radius: var(--r-card);
+  background: var(--paper);
+  color: var(--ink-900);
+  overflow: hidden;
+  box-shadow: 0 18px 50px -18px rgba(3, 24, 38, .35);
+  transition: transform .35s var(--ease-buoy), box-shadow .35s var(--ease-buoy);
+}
+.slide-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 70px -20px rgba(3, 24, 38, .5);
+}
+.slide-card img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+.slide-card .card-body { padding: 18px 20px 22px; }
+
+/* ---------- 9. TICKER (live arrivals) ---------- */
+.ticker {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 6% 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6% 94%, transparent);
+}
+.ticker-track {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@keyframes marquee {
+  to { transform: translateX(-50%); } /* duplicate the content once in markup */
+}
+
+/* ---------- 10. BUTTONS / CHIPS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  padding: .9em 1.6em;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  transition: transform .3s var(--ease-buoy), box-shadow .3s var(--ease-buoy), filter .3s;
+}
+.btn-primary {
+  background: var(--coral-gradient);
+  color: #fff;
+  box-shadow: 0 10px 30px -8px rgba(224, 80, 47, .55), inset 0 1px 0 rgba(255,255,255,.35);
+}
+.btn-primary:hover { transform: translateY(-2px); filter: saturate(1.05); }
+.btn-primary:active { transform: scale(.98); }
+.btn-ghost {
+  background: rgba(255, 255, 255, .10);
+  border: 1px solid rgba(255, 255, 255, .40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: inherit;
+}
+.btn-ghost:hover { background: rgba(255, 255, 255, .18); transform: translateY(-2px); }
+
+.chip {
+  display: inline-block;
+  padding: .3em .9em;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.chip--kelp  { background: color-mix(in srgb, var(--kelp-400) 22%, transparent);  color: var(--kelp-600); }
+.chip--sand  { background: var(--sand-200); color: #8a6420; }
+.chip--coral { background: color-mix(in srgb, var(--coral-400) 22%, transparent); color: var(--coral-600); }
+
+/* ---------- 11. REVEALS ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .8s var(--ease-drift), transform .8s var(--ease-drift);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* ---------- 12. FOCUS + REDUCED MOTION ---------- */
+:focus-visible {
+  outline: 3px solid var(--coral-400);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bubble, .shark, .fish-silhouette, .light-rays, .caustics,
+  .ticker-track, .pager-bubble[aria-current="true"] { animation: none !important; }
+  .bubble { display: none; }
+  .shark { display: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .porthole { animation: none !important; width: 100vw; height: 60vh; border-radius: var(--r-card); }
+  .porthole-caption { opacity: 1; }
+  .page-descent { background-attachment: scroll; }
+  .slide-card:hover, .btn-primary:hover, .btn-ghost:hover { transform: none; }
+}
