@@ -3,20 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0a0b0d">
+  <meta name="theme-color" content="#101417">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="Aether Sites' independent design concept for Gary's Hilltop Auto Repair, Torrington. Diagnostics, brakes, oil changes and everyday maintenance.">
+  <meta name="description" content="Independent website concept for Gary's Hilltop Auto Repair in Torrington, CT. Find services, weekday hours, directions and the shop's phone number.">
   <title>Gary's Hilltop Auto Repair — Torrington, CT</title>
   <link rel="icon" type="image/svg+xml" href="assets/mark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="image" href="assets/shop-exterior.webp">
   <link rel="stylesheet" href="garys-hilltop.css">
   <link rel="stylesheet" href="garys-hilltop-scroll.css">
   <link rel="stylesheet" href="styles.css">
   <script src="script.js" defer></script>
 </head>
-<body class="grad-page">
+<body>
   <a class="skip-link" href="#main">Skip to content</a>
   <svg class="icon-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
@@ -29,83 +28,108 @@
     <symbol id="i-wrench" viewBox="0 0 32 32"><path d="M21 4a8 8 0 0 0-9 10L4 23a3.5 3.5 0 0 0 5 5l9-8a8 8 0 0 0 10-9l-6 5-5-5 4-7Z"/></symbol>
   </defs></svg>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="Gary's Hilltop home"><span class="brand-mark" aria-hidden="true">GH<span></span></span><span>GARY'S HILLTOP<small>AUTO REPAIR · TORRINGTON, CT</small></span></a>
-    <nav id="navigation" aria-label="Main navigation"><a href="#services">SERVICES</a><a href="#diagnostics">DIAGNOSTICS</a><a href="#reviews">REVIEWS</a><a href="#visit">VISIT</a></nav>
-    <a class="header-call btn btn-primary" href="tel:+18604824030" aria-label="Call Gary’s Hilltop at (860) 482-4030"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>CALL THE SHOP</span></a>
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-controls="navigation" aria-expanded="false" type="button"><span></span><span></span></button>
+    <div class="section-inner header-inner">
+      <a class="brand" href="#top" aria-label="Gary's Hilltop Auto Repair home">GARY'S HILLTOP<small>AUTO REPAIR</small></a>
+      <nav id="navigation" aria-label="Main navigation"><a href="#services">Services</a><a href="#reviews">Reviews</a><a href="#visit">Find us</a></nav>
+      <a class="header-call btn btn-primary" href="tel:+18604824030" aria-label="Call Gary's Hilltop at (860) 482-4030"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>(860) 482-4030</span></a>
+      <button class="nav-toggle" aria-controls="navigation" aria-expanded="false" type="button">Menu <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
   </header>
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-pin">
-        <img class="hero-img" src="assets/shop-exterior.webp" alt="Gary's Hilltop Auto Repair storefront on East Main Street, with exhaust, brakes and tires signs above the service bays" width="984" height="700" fetchpriority="high">
-        <div class="hero-shade" aria-hidden="true"></div><div class="grad-vignette" aria-hidden="true"></div><div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-surface">
         <div class="hero-content section-inner">
-          <p class="eyebrow">THE SHOP ON EAST MAIN</p>
-          <h1 class="display h1" id="hero-title"><span class="line">STRAIGHT WORK.</span><span class="line">SOLID <em>CARS.</em></span></h1>
-          <p class="hero-sub">Diagnostics, brakes and everyday maintenance.<br>Straightforward auto repair, right here in Torrington.</p>
-          <div class="hero-ctas"><a class="btn btn-primary" href="tel:+18604824030">CALL THE SHOP <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="hero-secondary" href="#services">EXPLORE SERVICES <span aria-hidden="true">↓</span></a></div>
+          <div class="hero-copy">
+            <h1 id="hero-title">Auto repair<span>in Torrington.</span></h1>
+            <p>Diagnostics, brakes, oil changes and routine maintenance. Call Gary’s Hilltop to discuss your vehicle and arrange a time to bring it in.</p>
+            <div class="actions"><a class="btn btn-primary" href="tel:+18604824030"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call (860) 482-4030</a><a class="text-link" href="#services">View services <span aria-hidden="true">↓</span></a></div>
+          </div>
+          <aside class="hero-info" aria-label="Shop address and weekday hours">
+            <h2>Visit the shop</h2>
+            <address>1294 East Main Street<span>Torrington, CT 06790</span></address>
+            <dl class="hero-hours"><dt>Monday–Friday</dt><dd>8:00 AM–5:00 PM</dd></dl>
+            <p>Call ahead for weekend hours and appointment availability.</p>
+            <a class="text-link" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gary%27s+Hilltop+Auto+Repair+1294+East+Main+Street+Torrington+CT" target="_blank" rel="noopener noreferrer">Get directions <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </aside>
         </div>
-        <div class="hero-foot section-inner"><a href="#visit"><span class="mono muted">FIND US ON THE HILL</span><strong>1294 East Main Street<span>Torrington, CT 06790</span></strong></a><div class="hero-scroll"><span class="mono">SCROLL TO EXPLORE</span><span class="scroll-cue" aria-hidden="true"></span></div><button class="motion-toggle" type="button" hidden>Pause motion <span aria-hidden="true">Ⅱ</span></button></div>
-        <span class="hero-corner mono" aria-hidden="true">LOCAL WORK. LASTING TRUST.</span>
       </div>
     </section>
-    <div class="ticker" aria-label="Diagnostics, oil and fluids, brakes, tires and suspension, exhaust, maintenance"><div class="ticker-track" aria-hidden="true"><span>DIAGNOSTICS <b>+</b> OIL &amp; FLUIDS <b>+</b> BRAKES <b>+</b> TIRES &amp; SUSPENSION <b>+</b> EXHAUST <b>+</b> MAINTENANCE <b>+</b> </span><span>DIAGNOSTICS <b>+</b> OIL &amp; FLUIDS <b>+</b> BRAKES <b>+</b> TIRES &amp; SUSPENSION <b>+</b> EXHAUST <b>+</b> MAINTENANCE <b>+</b> </span></div></div>
-    <div class="trust-bar section-inner" aria-label="Shop at a glance">
-      <a class="stat reveal-item" href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer"><div class="stat-value">5.0<span class="stars" aria-hidden="true">★</span><span class="sr-only"> out of 5</span></div><div class="stat-label">CARFAX · 69 VERIFIED REVIEWS ↗</div></a>
-      <div class="stat reveal-item"><div class="stat-value">1294</div><div class="stat-label">EAST MAIN STREET</div></div>
-      <div class="stat reveal-item"><div class="stat-value">8 AM–5 PM</div><div class="stat-label">MONDAY THROUGH FRIDAY</div></div>
-      <div class="stat reveal-item"><div class="stat-value">LOCAL.</div><div class="stat-label">TORRINGTON, CONNECTICUT</div></div>
-    </div>
-    <section class="section services" id="services" aria-labelledby="services-title"><div class="section-inner">
-      <div class="section-heading"><div><p class="eyebrow">THE WORK THAT KEEPS YOU MOVING</p><h2 class="display h2" id="services-title">WHAT WE FIX<span class="cyan">.</span></h2></div><p>From a routine oil change to a warning light that needs an answer. Start with what your car needs.</p></div>
-      <div class="services-grid">
-        <article class="glass-card service-card reveal-item"><svg class="card-icon" aria-hidden="true"><use href="#i-scan"/></svg><h3 class="subhead">Diagnostics</h3><p>Check-engine lights, electrical concerns and computer diagnostic testing.</p><div class="card-spec">FIND THE CAUSE</div><a href="#book" data-service="Diagnostics" aria-label="Plan a diagnostic visit">PLAN A VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></article>
-        <article class="glass-card service-card reveal-item"><svg class="card-icon" aria-hidden="true"><use href="#i-brake"/></svg><h3 class="subhead">Brakes</h3><p>Brake service and repairs, from pads and rotors to the parts behind the pedal.</p><div class="card-spec">CONFIDENCE WHEN YOU STOP</div><a href="#book" data-service="Brakes" aria-label="Plan a brake service visit">PLAN A VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></article>
-        <article class="glass-card service-card reveal-item"><svg class="card-icon" aria-hidden="true"><use href="#i-oil"/></svg><h3 class="subhead">Oil &amp; fluids</h3><p>Oil changes, coolant service and the fluids your vehicle depends on.</p><div class="card-spec">THE EVERYDAY ESSENTIALS</div><a href="#book" data-service="Oil and fluids" aria-label="Plan an oil or fluid service visit">PLAN A VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></article>
-        <article class="glass-card service-card reveal-item"><svg class="card-icon" aria-hidden="true"><use href="#i-wheel"/></svg><h3 class="subhead">Tires &amp; suspension</h3><p>Tire sales and service, suspension work and shock repairs.</p><div class="card-spec">STAY CONNECTED TO THE ROAD</div><a href="#book" data-service="Tires and suspension" aria-label="Plan a tire or suspension service visit">PLAN A VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></article>
-        <article class="glass-card service-card reveal-item"><svg class="card-icon" aria-hidden="true"><use href="#i-exhaust"/></svg><h3 class="subhead">Exhaust</h3><p>Exhaust system repairs for leaks, wear and unwanted noise.</p><div class="card-spec">GET THINGS RUNNING QUIETER</div><a href="#book" data-service="Exhaust" aria-label="Plan an exhaust repair visit">PLAN A VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></article>
-        <article class="glass-card service-card reveal-item"><svg class="card-icon" aria-hidden="true"><use href="#i-wrench"/></svg><h3 class="subhead">Maintenance</h3><p>Batteries, belts, hoses, tune-ups and preventative maintenance.</p><div class="card-spec">KEEP UP WITH YOUR CAR</div><a href="#book" data-service="Maintenance" aria-label="Plan a maintenance visit">PLAN A VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a></article>
+    <section class="section services" id="services" aria-labelledby="services-title">
+      <div class="section-inner">
+        <div class="section-heading"><h2 id="services-title">Repair &amp; maintenance</h2><p>Routine service or a problem that needs attention. Call to discuss the work your vehicle needs.</p></div>
+        <div class="services-grid">
+          <article class="service-card reveal-item"><svg aria-hidden="true"><use href="#i-scan"/></svg><h3>Diagnostics</h3><p>Check-engine lights, electrical concerns and computer diagnostic testing.</p></article>
+          <article class="service-card reveal-item"><svg aria-hidden="true"><use href="#i-brake"/></svg><h3>Brakes</h3><p>Brake service and repairs, including pads and rotors.</p></article>
+          <article class="service-card reveal-item"><svg aria-hidden="true"><use href="#i-oil"/></svg><h3>Oil &amp; fluids</h3><p>Oil changes, coolant service and routine fluid maintenance.</p></article>
+          <article class="service-card reveal-item"><svg aria-hidden="true"><use href="#i-wheel"/></svg><h3>Tires &amp; suspension</h3><p>Tire sales and service, suspension work and shock repairs.</p></article>
+          <article class="service-card reveal-item"><svg aria-hidden="true"><use href="#i-exhaust"/></svg><h3>Exhaust</h3><p>Exhaust system repairs for leaks, wear and unwanted noise.</p></article>
+          <article class="service-card reveal-item"><svg aria-hidden="true"><use href="#i-wrench"/></svg><h3>Maintenance</h3><p>Batteries, belts, hoses, tune-ups and preventative maintenance.</p></article>
+        </div>
       </div>
-      <div class="service-question"><p>Not sure what it needs? Tell the shop what you’re noticing.</p><a href="tel:+18604824030">(860) 482-4030 <span aria-hidden="true">↗</span></a></div>
-    </div></section>
-    <section class="section diagnostic-scene" id="diagnostics" aria-labelledby="diagnostics-title"><div class="section-inner diagnostic-grid">
-      <div class="diagnostic-copy"><p class="eyebrow">A CLEARER PICTURE</p><h2 class="display h2" id="diagnostics-title">LESS GUESSWORK.<br><span class="muted">MORE ANSWERS.</span></h2><p class="section-description">A warning light starts the conversation. The next step is understanding what your car is telling you.</p>
-        <div class="terminal scanlines" aria-label="An illustrated diagnostic process"><div class="term-header"><span>THE DIAGNOSTIC PROCESS</span><span aria-hidden="true">GH / SERVICE</span></div>
-          <div class="term-line" style="--start:18%;--end:26%;--done:29%"><div><span class="prompt" aria-hidden="true">&gt;</span><h3 class="term-text">LISTEN TO THE SYMPTOMS</h3><span class="ok" aria-hidden="true">OK</span></div><p>What changed? When does it happen?</p></div>
-          <div class="term-line" style="--start:26%;--end:34%;--done:37%"><div><span class="prompt" aria-hidden="true">&gt;</span><h3 class="term-text">CHECK THE SYSTEMS</h3><span class="ok" aria-hidden="true">OK</span></div><p>Diagnostic testing helps narrow it down.</p></div>
-          <div class="term-line" style="--start:34%;--end:42%;--done:45%"><div><span class="prompt" aria-hidden="true">&gt;</span><h3 class="term-text">DISCUSS THE FINDINGS</h3><span class="ok" aria-hidden="true">OK</span></div><p>Ask what needs attention and why.</p></div>
-          <div class="term-line" style="--start:42%;--end:50%;--done:53%"><div><span class="prompt" aria-hidden="true">&gt;</span><h3 class="term-text">PLAN THE NEXT STEP</h3><span class="ok" aria-hidden="true">OK</span></div><p>Talk through the repair and timing.</p></div>
-          <div class="terminal-foot"><span aria-hidden="true"></span> A CLEAR PLAN STARTS WITH A CONVERSATION.</div>
-        </div><a class="btn btn-ghost" href="#book" data-service="Diagnostics">PLAN A DIAGNOSTIC VISIT <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </section>
+    <section class="diagnostic-section" id="diagnostics" aria-labelledby="diagnostics-title">
+      <div class="section-inner diagnostic-panel reveal-item">
+        <div><h2 id="diagnostics-title">Check-engine light on?</h2><p>Start with what you’ve noticed. Have a few details ready when you call to discuss diagnostic testing.</p><div class="actions"><a class="btn btn-secondary" href="tel:+18604824030">Call about diagnostics</a><a class="text-link" href="#book" data-service="Diagnostics">Prepare a service note</a></div></div>
+        <div class="call-prep">
+          <div><h3>When did it start?</h3><p>Note when the warning or problem first appeared.</p></div>
+          <div><h3>What has changed?</h3><p>Mention unusual sounds, smells or changes in how the car drives.</p></div>
+          <div><h3>When does it happen?</h3><p>Starting, braking, turning or driving at a particular speed.</p></div>
+        </div>
       </div>
-      <figure class="terminal-figure"><div class="photo-frame"><img src="assets/vehicle.webp" alt="A black Porsche SUV photographed outdoors" width="536" height="664" loading="lazy" decoding="async"><div class="photo-crosshair" aria-hidden="true"></div></div><figcaption><span class="mono">FOR THE CAR YOU COUNT ON.</span><span class="mono cyan" aria-hidden="true">GH ↗</span></figcaption></figure>
-    </div></section>
-    <section class="section reviews-section" id="reviews" aria-labelledby="reviews-title"><div class="section-inner">
-      <div class="section-heading"><div><p class="eyebrow">FROM VERIFIED SERVICE VISITS</p><h2 class="display h2" id="reviews-title">WORD FROM<br>THE ROAD<span class="cyan">.</span></h2></div><a class="rating-link" href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer"><strong>5.0<span aria-hidden="true">★</span></strong><span>69 verified reviews on CARFAX <b aria-hidden="true">↗</b></span></a></div>
-      <div class="review-grid" aria-label="Selected CARFAX review excerpts">
-        <figure class="glass-card review-card reveal-item"><span class="review-quote-mark" aria-hidden="true">“</span><blockquote>“No nonsense straightforward and affordable.”</blockquote><figcaption><strong>2017 Honda CR-V owner</strong><span>September 4, 2026 · Verified service</span><a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">READ ON CARFAX ↗</a></figcaption></figure>
-        <figure class="glass-card review-card reveal-item"><span class="review-quote-mark" aria-hidden="true">“</span><blockquote>“repair was done well and on time.”</blockquote><figcaption><strong>2017 Nissan Frontier owner</strong><span>August 2, 2026 · Verified service</span><a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">READ ON CARFAX ↗</a></figcaption></figure>
-        <figure class="glass-card review-card reveal-item"><span class="review-quote-mark" aria-hidden="true">“</span><blockquote>“Excellent repair shop. Quality work and fair pricing.”</blockquote><figcaption><strong>John G.</strong><span>June 4, 2026 · Verified service</span><a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">READ ON CARFAX ↗</a></figcaption></figure>
-      </div><p class="review-note mono muted">Selected excerpts · Rating checked September 13, 2026 · <a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">Read all reviews ↗</a></p>
-    </div></section>
-    <section class="section shop-section" id="visit" aria-labelledby="shop-title"><div class="hazard-stripe" aria-hidden="true"></div><div class="section-inner shop-grid">
-      <figure class="shop-photo reveal-item"><img src="assets/shop-exterior.webp" alt="The real Gary's Hilltop storefront and service bays in Torrington" width="984" height="700" loading="lazy" decoding="async"><figcaption><strong class="display">1294</strong><span class="mono">EAST MAIN STREET<br>TORRINGTON, CT</span></figcaption></figure>
-      <div class="shop-copy"><p class="eyebrow">RIGHT HERE IN TORRINGTON</p><h2 class="display h2" id="shop-title">THE SHOP<br>ON THE HILL<span class="cyan">.</span></h2><p>Keep your regular service close to home. Find Gary’s Hilltop on East Main Street, with Harwinton just down the road.</p><p>Call to talk through your vehicle, the work it needs and a time to bring it in.</p><dl class="shop-facts"><div><dt>ADDRESS</dt><dd><address>1294 E Main St<br>Torrington, CT 06790</address></dd></div><div><dt>WEEKDAYS</dt><dd>Monday–Friday<br>8:00 AM–5:00 PM</dd></div><div><dt>PHONE</dt><dd><a href="tel:+18604824030">(860) 482-4030 ↗</a></dd></div></dl><p class="hours-note">Call ahead for weekend hours and appointment availability.</p><div class="shop-links"><a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gary%27s+Hilltop+Auto+Repair+1294+East+Main+Street+Torrington+CT" target="_blank" rel="noopener noreferrer">GET DIRECTIONS <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="simple-link" href="https://www.facebook.com/garyshilltop/" target="_blank" rel="noopener noreferrer">FACEBOOK ↗</a></div></div>
-    </div></section>
-    <section class="section booking-section" id="book" aria-labelledby="book-title"><div class="section-inner booking-grid">
-      <div class="booking-copy"><p class="eyebrow">YOUR NEXT STEP</p><h2 class="display h2" id="book-title">LET’S GET<br>IT SORTED<span class="cyan">.</span></h2><p>Call the shop for an appointment. Have your vehicle details and a quick description of the problem ready.</p><a class="booking-phone" href="tel:+18604824030">(860) 482-4030 <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><div class="booking-tip"><span class="mono cyan">A LITTLE PREPARATION HELPS.</span><p>Use the form to put your service note together, then call to confirm a time with the shop.</p></div><noscript><p>Call (860) 482-4030 to discuss your vehicle and arrange an appointment.</p></noscript></div>
-      <div class="service-planner glass-panel"><div class="planner-head"><span class="mono">PLAN YOUR VISIT</span><span class="mono muted">GARY’S HILLTOP</span></div>
-        <form class="booking-form" id="service-form" hidden>
-          <div class="field reveal-item"><label for="vehicle">YOUR VEHICLE <span>required</span></label><input id="vehicle" name="vehicle" required maxlength="100" placeholder="Year, make and model" autocomplete="off"></div>
-          <div class="field reveal-item"><label for="service">SERVICE NEEDED <span>required</span></label><select id="service" name="service" required><option value="">Choose a service</option><option>Diagnostics</option><option>Brakes</option><option>Oil and fluids</option><option>Tires and suspension</option><option>Exhaust</option><option>Maintenance</option><option>Not sure — let’s talk</option></select></div>
-          <div class="field reveal-item"><label for="preferred-date">PREFERRED DAY <span>optional</span></label><input id="preferred-date" name="preferred-date" type="date" aria-describedby="date-help"><p class="field-help" id="date-help">The shop will confirm availability by phone.</p></div>
-          <div class="field reveal-item"><label for="notes">WHAT ARE YOU NOTICING? <span>optional</span></label><textarea id="notes" name="notes" rows="3" maxlength="1200" placeholder="A warning light, a noise, or simply time for service…"></textarea></div>
-          <button class="btn btn-primary" type="submit">PREPARE MY SERVICE NOTE <svg aria-hidden="true"><use href="#i-arrow"/></svg></button><p class="planner-note">This prepares a note for your call. It does not book or send an appointment request.</p>
-        </form>
-        <section class="request-result" id="request-result" aria-labelledby="result-title" hidden><p class="eyebrow">READY FOR YOUR CALL</p><h3 class="subhead" id="result-title" tabindex="-1">YOUR SERVICE NOTE.</h3><p>Use this when you call. The shop will confirm your appointment.</p><label class="sr-only" for="request-summary">Prepared service note</label><textarea id="request-summary" readonly rows="7"></textarea><div class="result-actions"><button class="btn btn-ghost" type="button" id="copy-note">COPY NOTE</button><a class="btn btn-primary" href="tel:+18604824030">CALL THE SHOP <svg aria-hidden="true"><use href="#i-phone"/></svg></a></div><p id="copy-status" role="status"></p><button type="button" id="edit-note" class="simple-link">EDIT MY NOTE</button></section>
+    </section>
+    <section class="section reviews-section" id="reviews" aria-labelledby="reviews-title">
+      <div class="section-inner">
+        <div class="section-heading"><h2 id="reviews-title">Customer reviews</h2><a class="rating-link" href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer" aria-label="Rated 5.0 out of 5 from 69 verified service reviews on CARFAX"><strong>5.0<span aria-hidden="true">★</span></strong><span>69 verified service reviews on CARFAX</span></a></div>
+        <div class="review-grid" aria-label="Selected CARFAX review excerpts">
+          <figure class="review-card reveal-item"><blockquote>“No nonsense straightforward and affordable.”</blockquote><figcaption><strong>2017 Honda CR-V owner</strong><span>September 4, 2026 · Verified service</span><a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">Read on CARFAX</a></figcaption></figure>
+          <figure class="review-card reveal-item"><blockquote>“repair was done well and on time.”</blockquote><figcaption><strong>2017 Nissan Frontier owner</strong><span>August 2, 2026 · Verified service</span><a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">Read on CARFAX</a></figcaption></figure>
+          <figure class="review-card reveal-item"><blockquote>“Excellent repair shop. Quality work and fair pricing.”</blockquote><figcaption><strong>John G.</strong><span>June 4, 2026 · Verified service</span><a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">Read on CARFAX</a></figcaption></figure>
+        </div>
+        <p class="review-note">Selected excerpts. Rating checked September 13, 2026. <a href="https://www.carfax.com/Reviews-Garys-Hilltop-Auto-Repair-Torrington-CT_QETDMGJ001" target="_blank" rel="noopener noreferrer">Read all reviews</a>.</p>
       </div>
-    </div></section>
+    </section>
+    <section class="section shop-section" id="visit" aria-labelledby="shop-title">
+      <div class="section-inner shop-grid">
+        <figure class="shop-photo reveal-item"><img src="assets/shop-exterior.webp" alt="Gary's Hilltop Auto Repair on East Main Street, with exhaust, brakes and tires signs above its service bays" width="984" height="700" loading="lazy" decoding="async"><figcaption>Gary’s Hilltop Auto Repair · 1294 East Main Street</figcaption></figure>
+        <div class="shop-copy">
+          <h2 id="shop-title">Find Gary’s Hilltop</h2>
+          <p>The shop is on East Main Street in Torrington, near Harwinton.</p>
+          <dl class="shop-facts"><div><dt>Address</dt><dd><address>1294 E Main St<br>Torrington, CT 06790</address></dd></div><div><dt>Monday–Friday</dt><dd>8:00 AM–5:00 PM</dd></div><div><dt>Phone</dt><dd><a href="tel:+18604824030">(860) 482-4030</a></dd></div></dl>
+          <p class="hours-note">Call ahead for weekend hours and appointment availability.</p>
+          <div class="actions"><a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&amp;destination=Gary%27s+Hilltop+Auto+Repair+1294+East+Main+Street+Torrington+CT" target="_blank" rel="noopener noreferrer">Get directions <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="text-link" href="https://www.facebook.com/garyshilltop/" target="_blank" rel="noopener noreferrer">Facebook</a></div>
+        </div>
+      </div>
+    </section>
+    <section class="section booking-section" id="book" aria-labelledby="book-title">
+      <div class="section-inner">
+        <div class="booking-intro"><div><h2 id="book-title">Call to arrange service</h2><p>Have your year, make and model handy. The shop will confirm the work, timing and appointment availability by phone.</p></div><a class="btn btn-primary" href="tel:+18604824030"><svg aria-hidden="true"><use href="#i-phone"/></svg>(860) 482-4030</a></div>
+        <details class="service-planner" id="service-note" hidden>
+          <summary>Prepare a note for your call <span class="muted">— optional</span></summary>
+          <div class="planner-body">
+            <p class="planner-note">Use this to organize your vehicle details before calling. Nothing is sent to the shop, and no appointment is booked.</p>
+            <form class="booking-form" id="service-form">
+              <div class="field"><label for="vehicle">Year, make &amp; model <span>required</span></label><input id="vehicle" name="vehicle" required maxlength="100" placeholder="e.g. 2018 Honda Civic" autocomplete="off"></div>
+              <div class="field"><label for="service">Service needed <span>required</span></label><select id="service" name="service" required><option value="">Choose a service</option><option>Diagnostics</option><option>Brakes</option><option>Oil and fluids</option><option>Tires and suspension</option><option>Exhaust</option><option>Maintenance</option><option>Not sure — let’s talk</option></select></div>
+              <div class="field"><label for="preferred-date">Preferred day <span>optional</span></label><input id="preferred-date" name="preferred-date" type="date" aria-describedby="date-help"><p class="field-help" id="date-help">Availability is confirmed by phone.</p></div>
+              <div class="field field-wide"><label for="notes">What have you noticed? <span>optional</span></label><textarea id="notes" name="notes" rows="3" maxlength="1200" placeholder="Warning lights, sounds, or the service you need"></textarea></div>
+              <div class="form-actions"><button class="btn btn-primary" type="submit">Prepare service note</button></div>
+            </form>
+            <section class="request-result" id="request-result" aria-labelledby="result-title" hidden>
+              <h3 id="result-title" tabindex="-1">Your service note</h3><p>Use this when you call to arrange an appointment.</p>
+              <label class="sr-only" for="request-summary">Prepared service note</label><textarea id="request-summary" readonly rows="7"></textarea>
+              <div class="actions"><button class="btn btn-secondary" type="button" id="copy-note">Copy note</button><a class="btn btn-primary" href="tel:+18604824030">Call the shop</a></div>
+              <p id="copy-status" role="status"></p><button type="button" id="edit-note" class="plain-button">Edit note</button>
+            </section>
+          </div>
+        </details>
+      </div>
+    </section>
   </main>
-  <footer class="site-footer"><div class="foot-grid"><a class="brand" href="#top">GARY'S HILLTOP<small>AUTO REPAIR — TORRINGTON, CT</small></a><div>1294 E Main St, Torrington, CT 06790<br><a href="tel:+18604824030">(860) 482-4030</a></div><a class="back-top" href="#top">BACK TO THE TOP ↑</a></div><div class="footer-bottom"><p>Independent website concept by <strong>Aether Sites</strong>. Not the shop’s official website.</p><a href="sources.html">Sources &amp; photo credits ↗</a></div></footer>
+  <footer class="site-footer">
+    <div class="section-inner">
+      <div class="foot-grid"><a class="brand" href="#top">GARY'S HILLTOP<small>AUTO REPAIR · TORRINGTON, CT</small></a><div class="footer-contact">1294 E Main St, Torrington, CT 06790<br><a href="tel:+18604824030">(860) 482-4030</a></div></div>
+      <div class="footer-bottom"><p>Independent concept by Aether Sites. Not the shop’s official website.</p><div class="footer-tools"><a href="sources.html">Sources &amp; photo credits</a><button class="motion-toggle" type="button" aria-pressed="false" hidden>Reduce motion</button></div></div>
+    </div>
+  </footer>
 </body>
 </html>

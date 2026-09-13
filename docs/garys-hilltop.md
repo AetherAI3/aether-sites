@@ -4,17 +4,28 @@ The third site in `AetherAI3/aether-sites`, under `garys-hilltop/`. This is an i
 
 ## Design and interaction
 
-- The supplied base and scroll stylesheets are loaded in the requested order, followed by the responsive page layer. Originals remain in `reference/`.
-- The actual supplied storefront photograph anchors the hero. The SUV photo appears alongside the diagnostic explanation; no repair history or platform specialization is implied.
-- Matte black and steel surfaces, restrained cyan lighting, clear typography, six service cards, genuine attributed reviews, shop information and a service planner.
-- On sufficiently tall desktop screens the hero pins across 200svh, with a subtle frame contraction, image scale and vignette. Short screens and enlarged content use normal flow.
-- Native CSS timelines drive photo motion and the diagnostic sequence; a coalesced animation-frame fallback handles unsupported browsers. All content remains visible without JavaScript or observers. Pause and system reduced-motion controls disable decorative motion.
-- The terminal illustrates a diagnostic process. It does not show live vehicle telemetry, measured test results, or an actual customer diagnosis.
-- Mobile review cards use manual horizontal scrolling. There is no auto-advancing carousel.
+- A CSS-only graphite and blue gradient opens the site. Plain service copy, the phone number, address and weekday hours are visible immediately.
+- Services lead into practical diagnostic call preparation, attributed customer reviews, the shop location and phone appointment information.
+- The actual storefront photograph appears only in the location section. The SUV photograph is retained as a supplied asset but is not displayed.
+- Quiet frame movement and short section rises follow natural scrolling. No viewport is pinned, and nothing continuously animates.
+- Native CSS timelines have a coalesced animation-frame fallback. Content is always visible, including without JavaScript or observers. System reduced motion and the footer control disable decorative movement.
+- Readable sentence-case copy and a two-family type system replace the HUD, slogans, numbered/stat blocks, hazard stripes, scanlines and simulated diagnostic output.
+- Navigation, call links and directions remain usable without JavaScript. Header height is measured for anchor offsets when scripts are available.
 
 ## Service planner
 
-The planner validates the vehicle and selected service, creates a local note, supports copying and editing, and links to the real shop’s telephone number. It does not send a request or reserve an appointment. No browser storage or backend holds planner input. A real appointment-delivery endpoint and shop approval would be needed to replace this with online booking.
+Calling the real shop is the primary appointment action. The optional, collapsed planner validates a vehicle and service, creates a local note, and supports copying and editing. It does not send a request, store input, or reserve an appointment. The diagnostic link opens it with Diagnostics selected. A real delivery endpoint and shop approval would be needed to offer online booking.
+
+## September 13 design audit
+
+| Finding | Revision |
+| --- | --- |
+| The busy roadside photo competed with the opening message. | Replaced the opener with a clean CSS gradient; moved the photo to location information. |
+| A two-viewport pin delayed access to useful content. | Returned the entire page to natural scrolling with subtle movement. |
+| Slogans, ticker text, decorative lines and a mock terminal overshadowed the shop. | Replaced them with direct service headings and practical call preparation. |
+| Address-as-stat blocks and repeated decorative labels added length. | Consolidated details into readable address, hours and contact groups. |
+| Every service pushed visitors toward a form that cannot book. | Prioritized the phone number and made note preparation explicitly optional. |
+| Small uppercase and monospaced labels made the page feel like a dashboard. | Used regular text, larger labels and simpler buttons. |
 
 ## Business facts and sources
 
@@ -32,7 +43,7 @@ Checked September 13, 2026:
 
 - `dist/assets/shop-exterior.webp`: supplied `c570fea7-0a36-4eeb-a701-a2c687a3389b.png`, 984×700.
 - `dist/assets/vehicle.webp`: supplied `dbe94c3a-a79f-4f58-b51e-132699b6b629.png`, 536×664.
-- WebP encoding preserves the complete frames. Framing and subdued color treatment are applied through CSS.
+- WebP encoding preserves the complete frames. The location section displays the storefront’s complete frame.
 - A generic garage illustration was generated early in the session, then superseded by the user’s real photos. It is not included in the deployed site or repository.
 
 ## Portable source

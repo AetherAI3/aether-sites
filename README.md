@@ -19,7 +19,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `reworxct/` | Reclaimed furniture and architectural materials; charcoal, ember, and cinematic timber imagery. |
 | `ember-and-iron/` | EMBER & IRON Wood-Fired Pizza Co.; hot steel gradients, expanding menu cells, and a sticky Dough / Fire / Char sequence. |
 | `harbor-and-hollow/` | A coastal hand wash concept with a scroll-driven film journey, scent story, and product presentation. |
-| `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; real shop photos, matte steel, restrained cyan, diagnostic scroll sequence, and a local service-note planner. |
+| `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; a clean graphite gradient, clear services, verified reviews, real location photography, and an optional service-note planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
 
