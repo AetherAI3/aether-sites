@@ -62,6 +62,27 @@
     } catch { /* Optional API: ordinary controls remain available. */ }
   }
 
+  // Image topics and their visible buttons share one state and one description.
+  const sceneFigure = document.querySelector('.scape-window');
+  const sceneButtons = [...document.querySelectorAll('button[data-scene]')];
+  const scenes = {
+    plants: ['Start with the green.', 'Bring your light model and tank dimensions. Ask which available plants suit your setup and the maintenance you have in mind.'],
+    hardscape: ['Give the layout structure.', 'Bring inside dimensions or a sketch. Ask about available rocks and driftwood, how to prepare them and whether they suit your water conditions.'],
+    livestock: ['Plan for the animals.', 'Share your current residents and recent water-test results. Ask about adult size, feeding and compatibility before choosing new livestock.']
+  };
+  if (sceneFigure && sceneButtons.length) {
+    const chooseScene = key => {
+      if (!Object.hasOwn(scenes, key)) return;
+      sceneFigure.dataset.scene = key;
+      sceneButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.scene === key)));
+      document.querySelector('#scene-title').textContent = scenes[key][0];
+      document.querySelector('#scene-description').textContent = scenes[key][1];
+    };
+    sceneButtons.forEach(button => button.addEventListener('click', () => chooseScene(button.dataset.scene)));
+    document.querySelector('.scene-points').hidden = false;
+    document.querySelector('.scene-explorer').hidden = false;
+  }
+
   // A local checklist, not a reservation or message to the shop.
   const planner = document.querySelector('#planner-form');
   let currentList = '';
@@ -123,6 +144,7 @@
   const motionButton = document.querySelector('#motion-toggle');
   let manuallyPaused = false;
   let revealObserver;
+  let syncScrollFallback = () => {};
   const revealTargets = [...document.querySelectorAll('.reveal')];
   const exposeAll = () => {
     revealObserver?.disconnect();
@@ -133,6 +155,7 @@
     const off = reduce.matches || manuallyPaused;
     root.classList.toggle('motion-off', off);
     if (off) exposeAll();
+    syncScrollFallback();
     if (motionButton) {
       motionButton.setAttribute('aria-pressed', String(off));
       motionButton.textContent = reduce.matches ? 'Reduced motion enabled' : off ? 'Resume motion' : 'Pause motion';
@@ -153,9 +176,8 @@
       });
       const sentinel = document.querySelector('#top-sentinel');
       if (sentinel) headerObserver.observe(sentinel);
-      const art = document.querySelector('.hero-art');
       const ambientObserver = new IntersectionObserver(entries => entries.forEach(entry => entry.target.classList.toggle('ambient-paused', !entry.isIntersecting)));
-      if (art) ambientObserver.observe(art);
+      document.querySelectorAll('[data-ambient]').forEach(target => ambientObserver.observe(target));
       if (!reduce.matches) {
         revealObserver = new IntersectionObserver(entries => entries.forEach(entry => {
           if (entry.isIntersecting) { entry.target.classList.add('is-in'); revealObserver.unobserve(entry.target); }
@@ -170,8 +192,45 @@
       }
     } catch { exposeAll(); header?.classList.add('is-scrolled'); }
   } else header?.classList.add('is-scrolled');
+  // Browsers without native view timelines get a bounded, event-driven scrub.
+  // No permanent render loop; no work when paused, offscreen or in a hidden tab.
+  const supportsTimeline = typeof CSS !== 'undefined' && CSS.supports?.('animation-timeline: view()');
+  if (!supportsTimeline && 'IntersectionObserver' in window) {
+    let frame = 0;
+    const active = new Set();
+    const targets = [...document.querySelectorAll('[data-scroll]')];
+    const clamp = (value, low = 0, high = 1) => Math.max(low, Math.min(high, value));
+    const enabled = () => !root.classList.contains('motion-off') && !document.hidden;
+    const render = () => {
+      frame = 0;
+      if (!enabled()) return;
+      const height = window.innerHeight;
+      if (!height) return;
+      active.forEach(target => {
+        const rect = target.getBoundingClientRect();
+        const progress = clamp((height - rect.top) / Math.max(1, height + rect.height));
+        const enter = 1 - clamp((height - rect.top) / Math.max(1, Math.min(height, rect.height)));
+        const inset = progress < .38 ? 9 * (1 - progress / .38) : progress > .62 ? 5 * ((progress - .62) / .38) : 0;
+        target.style.setProperty('--wa-progress', progress.toFixed(4));
+        target.style.setProperty('--wa-enter', enter.toFixed(4));
+        target.style.setProperty('--wa-inset', inset.toFixed(4));
+      });
+    };
+    const queue = () => { if (!frame && active.size && enabled()) frame = requestAnimationFrame(render); };
+    try {
+      const visibility = new IntersectionObserver(entries => {
+        entries.forEach(entry => entry.isIntersecting ? active.add(entry.target) : active.delete(entry.target));
+        queue();
+      }, { rootMargin: '100px 0px' });
+      targets.forEach(target => visibility.observe(target));
+      root.classList.add('scroll-fallback');
+      window.addEventListener('scroll', queue, { passive: true });
+      window.addEventListener('resize', queue, { passive: true });
+      syncScrollFallback = () => { if (frame) cancelAnimationFrame(frame); frame = 0; queue(); };
+    } catch { root.classList.remove('scroll-fallback'); }
+  }
   document.addEventListener('focusin', event => event.target.closest('.reveal')?.classList.add('is-in'));
-  const syncVisibility = () => root.classList.toggle('tab-hidden', document.hidden);
+  const syncVisibility = () => { root.classList.toggle('tab-hidden', document.hidden); syncScrollFallback(); };
   document.addEventListener('visibilitychange', syncVisibility);
   syncVisibility();
   if (header && 'ResizeObserver' in window) {

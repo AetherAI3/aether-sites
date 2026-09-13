@@ -21,6 +21,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `harbor-and-hollow/` | A coastal hand wash concept with a scroll-driven film journey, scent story, and product presentation. |
 | `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; mint and cyan gradients, glass service cards, restrained scroll effects, verified reviews, real location photography, and an optional service-note planner. |
 | `mach-detail/` | Mach Detail, Torrington; bold automotive type, cyan HUD styling, scroll-driven scenes, nine real photos, a cinematic Google review carousel, and an appointment-request planner. |
+| `waterbury-aquarium/` | Waterbury Aquarium; detailed illustrative aquatic imagery, water gradients, scroll-driven frames, category filters and a local aquascape visit planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
 
@@ -76,4 +77,4 @@ Static HTML now loads CSS and JavaScript through content-versioned filenames gen
 
 ### Waterbury Aquarium
 
-`/waterbury-aquarium/` adds an independent aquatic retail concept with a CSS/SVG glass-tank hero, filterable category guide, planted-tank scroll moment and local aquascape checklist. Store details and directory-listed hours are sourced; changing inventory is checked by phone. See [the implementation notes](docs/waterbury-aquarium.md). Supplied handoff files are preserved under `reference/waterbury-aquarium/`.
+`/waterbury-aquarium/` adds an independent aquatic retail concept with detailed illustrative aquatic imagery, a filterable category guide, interactive aquascape topics and a local visit checklist. The water-kit overhaul adds layered gradients and bounded scroll motion. Store details and directory-listed hours are sourced; changing inventory is checked by phone. See [the implementation notes](docs/waterbury-aquarium.md). Supplied handoff files are preserved under `reference/waterbury-aquarium/`.

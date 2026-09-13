@@ -1,0 +1,456 @@
+/* ============================================================
+   WATERBURY AQUARIUM — WATER KIT
+   Pure CSS/SVG frontend assets. No image files required.
+   Palette-matched to the live build: pale aqua mist, deep teal,
+   salmon coral, Fraunces-style serif editorial.
+   Load AFTER the site stylesheet. All classes are wa- prefixed.
+   ============================================================ */
+
+/* ---------- 0. TOKENS ---------- */
+:root {
+  --wa-mist:      #E9F4F2;   /* pale aqua page background */
+  --wa-mist-2:    #DCEBE8;   /* deeper mist for gradient ends */
+  --wa-paper:     #FBFDFC;   /* card paper */
+  --wa-teal-900:  #08303C;   /* deepest section */
+  --wa-teal-800:  #0C4553;   /* deep section */
+  --wa-teal-700:  #115566;
+  --wa-ink:       #14343E;   /* headline ink */
+  --wa-ink-soft:  #4E6B74;   /* body ink on light */
+  --wa-aqua:      #8CCFC8;   /* italic accent / glows */
+  --wa-aqua-soft: #C4E6E1;
+  --wa-coral:     #F2A58C;   /* salmon pill */
+  --wa-coral-deep:#E58A6C;
+  --wa-sand:      #F3E3C8;
+
+  --wa-radius:    22px;
+  --wa-ease-out:  cubic-bezier(.22, 1, .36, 1);
+  --wa-ease-buoy: cubic-bezier(.34, 1.4, .64, 1);
+}
+
+::selection { background: var(--wa-coral); color: var(--wa-teal-900); }
+
+/* ---------- 1. HERO WATER GLOW (pale "first page") ----------
+   Absolutely-positioned layer behind the hero content.
+   markup: <div class="wa-hero-glow" aria-hidden="true"></div>   */
+.wa-hero-glow {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.wa-hero-glow::before {
+  /* three drifting light pools: surface white, aqua, warm sand */
+  content: "";
+  position: absolute; inset: -15%;
+  background:
+    radial-gradient(55% 45% at 50% -8%, rgba(255,255,255,.95), transparent 60%),
+    radial-gradient(42% 38% at 80% 16%, rgba(140,207,200,.38), transparent 70%),
+    radial-gradient(34% 30% at 14% 82%, rgba(243,227,200,.55), transparent 70%);
+  animation: wa-glow-drift 22s ease-in-out infinite alternate;
+}
+.wa-hero-glow::after {
+  /* soft god-rays fanning from the top edge */
+  content: "";
+  position: absolute; inset: -20% -10% auto -10%; height: 130%;
+  background: conic-gradient(from 190deg at 30% -15%,
+    transparent 0deg 10deg,  rgba(255,255,255,.55) 10deg 13deg,
+    transparent 13deg 26deg, rgba(255,255,255,.30) 26deg 29deg,
+    transparent 29deg 47deg, rgba(255,255,255,.38) 47deg 50deg,
+    transparent 50deg 360deg);
+  mix-blend-mode: soft-light;
+  filter: blur(7px);
+  transform-origin: 30% 0;
+  animation: wa-rays 17s ease-in-out infinite alternate;
+}
+@keyframes wa-glow-drift {
+  from { transform: translate3d(-2.5%, -1.5%, 0) scale(1); }
+  to   { transform: translate3d(2.5%, 2%, 0)    scale(1.06); }
+}
+@keyframes wa-rays {
+  from { transform: rotate(-2.2deg); }
+  to   { transform: rotate(2.2deg); }
+}
+
+/* Page background gradient for the pale sections (apply to body or wrapper) */
+.wa-surface-gradient {
+  background: linear-gradient(180deg,
+    #F2F9F7 0%, var(--wa-mist) 34%, var(--wa-mist-2) 78%, #D3E5E1 100%);
+}
+
+/* ---------- 2. DEEP-SECTION GLOW (teal pages) ----------
+   <div class="wa-deep-glow" aria-hidden="true"></div>
+   add .wa-deep-glow--rays for visible god-rays from the surface  */
+.wa-deep-glow {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(64% 42% at 50% 0%,   rgba(140,207,200,.16), transparent 70%),
+    radial-gradient(38% 32% at 88% 96%,  rgba(242,165,140,.07), transparent 70%),
+    radial-gradient(50% 40% at 8%  90%,  rgba(17,85,102,.55),  transparent 70%);
+}
+.wa-deep-glow--rays::before {
+  content: "";
+  position: absolute; inset: -25% -10% auto -10%; height: 140%;
+  background: conic-gradient(from 182deg at 50% -20%,
+    transparent 0deg 8deg,  rgba(196,230,225,.14) 8deg 11deg,
+    transparent 11deg 22deg, rgba(196,230,225,.08) 22deg 24deg,
+    transparent 24deg 40deg, rgba(196,230,225,.11) 40deg 43deg,
+    transparent 43deg 360deg);
+  mix-blend-mode: screen;
+  filter: blur(9px);
+  transform-origin: 50% 0;
+  animation: wa-rays 21s ease-in-out infinite alternate;
+}
+
+/* ---------- 3. CAUSTICS (subtle light shimmer overlay) ----------
+   Works on both palettes. <div class="wa-caustics"></div>         */
+.wa-caustics {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: .65;
+  background-image:
+    radial-gradient(closest-side, rgba(255,255,255,.16), transparent 72%),
+    radial-gradient(closest-side, rgba(255,255,255,.10), transparent 70%);
+  background-size: 360px 240px, 280px 190px;
+  animation: wa-caustics 20s linear infinite alternate;
+}
+.wa-caustics--deep { mix-blend-mode: screen; opacity: .12; }
+@keyframes wa-caustics {
+  from { background-position: 0 0, 40px 60px; }
+  to   { background-position: 130px 70px, -70px -30px; }
+}
+
+/* ---------- 4. BUBBLES ----------
+   <div class="wa-bubbles" aria-hidden="true">
+     <i style="--x:12%; --s:10px; --d:11s; --delay:-2s"></i> …
+   On deep sections add .wa-bubbles--deep (brighter bubbles).      */
+.wa-bubbles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.wa-bubbles i {
+  position: absolute;
+  bottom: -6vh;
+  left: var(--x, 50%);
+  width: var(--s, 12px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 30%,
+    rgba(255,255,255,.95) 0 16%,
+    rgba(140,207,200,.45) 42%,
+    rgba(140,207,200,.08) 72%);
+  box-shadow: inset 0 0 5px rgba(255,255,255,.5);
+  opacity: 0;
+  animation: wa-rise var(--d, 10s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+.wa-bubbles--deep i {
+  background: radial-gradient(circle at 32% 30%,
+    rgba(255,255,255,.9) 0 16%,
+    rgba(255,255,255,.22) 42%,
+    rgba(255,255,255,.05) 72%);
+}
+@keyframes wa-rise {
+  0%   { transform: translate3d(0, 8vh, 0) scale(.6); opacity: 0; }
+  10%  { opacity: .8; }
+  28%  { transform: translate3d(.6em, -18vh, 0) scale(.74); }
+  52%  { transform: translate3d(-.5em, -46vh, 0) scale(.88); }
+  76%  { transform: translate3d(.5em, -74vh, 0) scale(.97); }
+  94%  { opacity: .7; }
+  100% { transform: translate3d(-.3em, -104vh, 0) scale(1.05); opacity: 0; }
+}
+
+/* ---------- 5. WAVE DIVIDER (section seam) ----------
+   SVG markup lives in snippets.html. Style it with color:
+   the wave takes the color of the section BELOW it.               */
+.wa-wave {
+  display: block;
+  width: 100%;
+  height: clamp(44px, 6vw, 92px);
+  margin-bottom: -1px; /* kills hairline seams */
+}
+
+/* Shimmering hairline for deep sections */
+.wa-hairline {
+  height: 1px; border: 0;
+  background: linear-gradient(90deg,
+    transparent, rgba(196,230,225,.35) 30% 70%, transparent);
+  background-size: 200% 100%;
+  animation: wa-shimmer 7s linear infinite;
+}
+@keyframes wa-shimmer {
+  from { background-position: 120% 0; }
+  to   { background-position: -120% 0; }
+}
+
+/* ---------- 6. DRIFTING FISH SHADOW (deep sections) ----------
+   Pure CSS silhouette. <span class="wa-fish-shadow"></span>       */
+.wa-fish-shadow {
+  position: absolute;
+  top: var(--top, 30%);
+  left: 0;
+  width: var(--w, 170px);
+  aspect-ratio: 2 / 1;
+  opacity: .09;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2032'%3E%3Cpath%20fill='%23EAF6F4'%20d='M4%2016C16%206%2030%204%2042%2010L54%203%2050%2013c6%202%2010%204%2012%205-6%202-10%203-14%204l4%207-12-5c-12%205-26%202-36-8z'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: wa-drift-x var(--d, 64s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform;
+}
+@keyframes wa-drift-x {
+  from { transform: translateX(-15vw) translateY(0); }
+  50%  { transform: translateX(50vw)  translateY(-2.5vh); }
+  to   { transform: translateX(115vw) translateY(1vh); }
+}
+
+/* ---------- 7. BUTTONS ---------- */
+.wa-btn {
+  display: inline-flex; align-items: center; gap: .55em;
+  padding: .95em 1.7em;
+  border-radius: 999px;
+  border: 0;
+  font: 600 15px/1 inherit;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .35s var(--wa-ease-buoy), box-shadow .35s var(--wa-ease-buoy),
+              background-color .25s, filter .25s;
+}
+.wa-btn:active { transform: scale(.97); }
+
+.wa-btn--coral {
+  background: linear-gradient(150deg, #F7B9A2, var(--wa-coral) 55%, var(--wa-coral-deep));
+  color: var(--wa-teal-900);
+  box-shadow: 0 12px 28px -10px rgba(229,138,108,.6), inset 0 1px 0 rgba(255,255,255,.5);
+}
+.wa-btn--coral:hover { transform: translateY(-2px); filter: saturate(1.06); }
+
+.wa-btn--ghost {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.28);
+  color: #EAF6F4;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.wa-btn--ghost:hover { background: rgba(255,255,255,.13); transform: translateY(-2px); }
+
+/* Pulsing ring for the "Call the shop" action */
+.wa-btn--call { position: relative; }
+.wa-btn--call::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  animation: wa-ripple 2.6s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes wa-ripple {
+  from { box-shadow: 0 0 0 0 rgba(242,165,140,.45); }
+  to   { box-shadow: 0 0 0 20px rgba(242,165,140,0); }
+}
+
+/* ---------- 8. CATEGORY CARDS ---------- */
+.wa-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  border-radius: var(--wa-radius);
+  background: var(--wa-paper);
+  border: 1px solid rgba(12,69,83,.08);
+  box-shadow: 0 14px 34px -18px rgba(8,48,60,.22);
+  overflow: hidden;
+  transition: transform .45s var(--wa-ease-buoy), box-shadow .45s var(--wa-ease-buoy);
+}
+.wa-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 56px -22px rgba(8,48,60,.35);
+}
+
+/* Illustration window: soft tinted ground + arch glow behind the art */
+.wa-card__media {
+  position: relative;
+  display: grid; place-items: center;
+  aspect-ratio: 16 / 10;
+  background:
+    radial-gradient(58% 74% at 50% 62%, rgba(255,255,255,.9), transparent 72%),
+    var(--tint, #E4F2EF);
+  overflow: hidden;
+}
+.wa-card__media::before {
+  /* faint arch outline, echoing the site's circle motif */
+  content: "";
+  position: absolute;
+  left: 50%; bottom: -38%;
+  width: 72%; aspect-ratio: 1;
+  transform: translateX(-50%);
+  border: 1px solid rgba(12,69,83,.12);
+  border-radius: 50%;
+}
+.wa-card__media img {
+  position: relative;
+  width: 58%;
+  transition: transform .6s var(--wa-ease-buoy);
+}
+.wa-card:hover .wa-card__media img { transform: translateY(-5px) scale(1.04); }
+
+/* per-category tints */
+.wa-card--freshwater { --tint: #E4F2EF; }
+.wa-card--cichlid    { --tint: #F6EEDD; }
+.wa-card--plants     { --tint: #E9F2E4; }
+.wa-card--hardscape  { --tint: #EDEFEA; }
+.wa-card--saltwater  { --tint: #E2EFF6; }
+.wa-card--tanks      { --tint: #E8F1F2; }
+
+.wa-card__body { padding: 22px 24px 8px; }
+.wa-card__label {
+  margin: 0 0 10px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--wa-ink-soft);
+}
+.wa-card__title { margin: 0 0 10px; font-size: 26px; line-height: 1.15; color: var(--wa-ink); }
+.wa-card__text  { margin: 0 0 18px; font-size: 14.5px; line-height: 1.55; color: var(--wa-ink-soft); }
+
+/* footer row with expanding "what to ask" */
+.wa-card__row {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%;
+  margin-top: auto;
+  padding: 16px 24px 20px;
+  border: 0; border-top: 1px solid rgba(12,69,83,.10);
+  background: none;
+  font: 600 13.5px/1 inherit; font-family: inherit;
+  color: var(--wa-ink);
+  cursor: pointer;
+  transition: background-color .25s;
+}
+.wa-card__row:hover { background: rgba(12,69,83,.035); }
+.wa-card__plus { position: relative; width: 14px; height: 14px; transition: transform .35s var(--wa-ease-buoy); }
+.wa-card__plus::before,
+.wa-card__plus::after {
+  content: ""; position: absolute; inset: 0; margin: auto;
+  background: currentColor; border-radius: 2px;
+}
+.wa-card__plus::before { width: 100%; height: 1.5px; }
+.wa-card__plus::after  { width: 1.5px; height: 100%; }
+.wa-card:hover .wa-card__plus { transform: rotate(90deg); }
+
+/* ---------- 9. CONTACT CARD (deep-section glass panel) ---------- */
+.wa-contact {
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  padding: clamp(30px, 4vw, 46px);
+  color: #EAF6F4;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,.075), rgba(255,255,255,.015) 46%),
+    linear-gradient(180deg, #0F4D5D, var(--wa-teal-900));
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow:
+    0 34px 70px -28px rgba(3,20,28,.75),
+    inset 0 1px 0 rgba(255,255,255,.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color .35s, transform .45s var(--wa-ease-buoy),
+              box-shadow .45s var(--wa-ease-buoy);
+}
+.wa-contact:hover {
+  border-color: rgba(255,255,255,.26);
+  transform: translateY(-4px);
+  box-shadow:
+    0 44px 84px -28px rgba(3,20,28,.85),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+/* warm coral glow bleeding in from the top-right corner */
+.wa-contact::before {
+  content: "";
+  position: absolute;
+  top: -22%; right: -14%;
+  width: 55%; aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(242,165,140,.30), transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+  animation: wa-glow-drift 18s ease-in-out infinite alternate;
+}
+/* caustic light along the top edge */
+.wa-contact::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(closest-side, rgba(255,255,255,.12), transparent 70%),
+    radial-gradient(closest-side, rgba(255,255,255,.07), transparent 70%);
+  background-size: 300px 200px, 240px 170px;
+  mix-blend-mode: screen;
+  opacity: .5;
+  animation: wa-caustics 22s linear infinite alternate;
+  pointer-events: none;
+}
+.wa-contact > * { position: relative; }
+
+.wa-contact__eyebrow {
+  margin: 0 0 14px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--wa-aqua);
+}
+.wa-contact__name {
+  margin: 0 0 12px;
+  font-size: clamp(26px, 2.6vw, 34px);
+  line-height: 1.1;
+  color: #fff;
+}
+.wa-contact__addr { margin: 0 0 22px; font-size: 15px; line-height: 1.5; color: rgba(234,246,244,.82); }
+
+/* big phone link with sweeping underline */
+.wa-contact__phone {
+  display: inline-block;
+  margin: 0 0 26px;
+  font-size: clamp(22px, 2.2vw, 28px);
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0% 2px no-repeat;
+  transition: background-size .45s var(--wa-ease-out), color .25s;
+  padding-bottom: 4px;
+}
+.wa-contact__phone:hover { color: var(--wa-coral); background-size: 100% 2px; }
+
+.wa-contact__hours {
+  border-top: 1px solid rgba(255,255,255,.14);
+  padding-top: 18px;
+  margin-bottom: 26px;
+}
+.wa-contact__hours-label {
+  margin: 0 0 10px;
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: rgba(234,246,244,.55);
+}
+.wa-contact__row {
+  display: flex; justify-content: space-between; gap: 16px;
+  padding: 9px 0;
+  font-size: 14.5px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.wa-contact__row:last-of-type { border-bottom: 0; }
+.wa-contact__row span:last-child { color: rgba(234,246,244,.72); }
+.wa-contact__note {
+  margin: 14px 0 0;
+  font-size: 12.5px; line-height: 1.55;
+  color: rgba(234,246,244,.55);
+}
+
+.wa-contact__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* ---------- 10. FOCUS + REDUCED MOTION ---------- */
+:focus-visible {
+  outline: 3px solid var(--wa-coral);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wa-hero-glow::before, .wa-hero-glow::after,
+  .wa-deep-glow--rays::before, .wa-caustics, .wa-contact::before,
+  .wa-contact::after, .wa-hairline { animation: none !important; }
+  .wa-bubbles i, .wa-fish-shadow { display: none; }
+  .wa-btn--call::after { animation: none; }
+  .wa-card:hover, .wa-contact:hover,
+  .wa-btn--coral:hover, .wa-btn--ghost:hover { transform: none; }
+}
