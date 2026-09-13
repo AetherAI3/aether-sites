@@ -1,0 +1,128 @@
+/* ============================================================
+   MACH//DETAIL — DESIGN TOKENS & GRADIENT LIBRARY
+   Deep matte black · glassmorphism · cyan signal accents
+   Import this FIRST, before main.css
+   ============================================================ */
+
+:root {
+  /* ---- Surfaces (matte black stack) ---- */
+  --md-bg-0: #050607;          /* page base — matte black */
+  --md-bg-1: #0a0c0e;          /* raised surface */
+  --md-bg-2: #10141a;          /* card base */
+  --md-bg-3: #161b22;          /* hover/elevated */
+
+  /* ---- Signal accents ---- */
+  --md-cyan: #22d3ee;          /* primary CTA / HUD lines */
+  --md-cyan-hot: #67e8f9;      /* hover state */
+  --md-cyan-deep: #0e7490;     /* gradient anchor */
+  --md-cyan-dim: rgba(34, 211, 238, 0.14);
+  --md-amber: #fbbf24;         /* warnings / closed-state only */
+
+  /* ---- Glass ---- */
+  --md-glass-bg: linear-gradient(160deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015));
+  --md-glass-border: rgba(255, 255, 255, 0.09);
+  --md-glass-blur: 14px;
+
+  /* ---- Text ---- */
+  --md-text: #e8edf1;
+  --md-text-dim: #8a949e;
+  --md-text-faint: #4b545e;
+
+  /* ---- Type ---- */
+  --md-font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --md-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---- Rhythm ---- */
+  --md-space: clamp(1rem, 2vw, 1.5rem);
+  --md-radius: 14px;
+  --md-maxw: 1240px;
+
+  /* ---- Motion ---- */
+  --md-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --md-fast: 0.25s;
+  --md-med: 0.6s;
+}
+
+/* ============================================================
+   GRADIENT LIBRARY — drop-in utility classes
+   ============================================================ */
+
+/* 1 · HERO HORIZON — cyan glow rising from the floor of the hero,
+     makes dark paint jobs look lit from below. */
+.g-horizon {
+  background:
+    radial-gradient(120% 90% at 50% 110%, rgba(34, 211, 238, 0.22) 0%, rgba(14, 116, 144, 0.10) 38%, transparent 70%),
+    var(--md-bg-0);
+}
+
+/* 2 · GLASS SHEEN — diagonal light sweep for cards & pricing tiers. */
+.g-sheen {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.015) 34%, transparent 60%),
+    var(--md-glass-bg);
+}
+
+/* 3 · CYAN CTA — booking / contact buttons. Pair with .g-cta-hover. */
+.g-cta {
+  background: linear-gradient(90deg, var(--md-cyan-deep) 0%, var(--md-cyan) 100%);
+}
+.g-cta-hover:hover {
+  background: linear-gradient(90deg, var(--md-cyan) 0%, var(--md-cyan-hot) 100%);
+}
+
+/* 4 · IMAGE EDGE FADE — overlay on photos so HUD text stays legible.
+     Dark at the bottom + left, transparent over the subject. */
+.g-edge-fade {
+  background:
+    linear-gradient(to top, rgba(5, 6, 7, 0.92) 0%, rgba(5, 6, 7, 0.35) 34%, transparent 62%),
+    linear-gradient(100deg, rgba(5, 6, 7, 0.72) 0%, transparent 46%);
+}
+
+/* 5 · HUD RING — conic dial for the 5.0 rating. Use with mask to render as a ring. */
+.g-ring {
+  background: conic-gradient(from -90deg,
+      var(--md-cyan) 0deg,
+      var(--md-cyan) calc(var(--val, 100) * 3.6deg),
+      rgba(255, 255, 255, 0.07) calc(var(--val, 100) * 3.6deg),
+      rgba(255, 255, 255, 0.07) 360deg);
+  -webkit-mask: radial-gradient(closest-side, transparent 76%, #000 78%);
+          mask: radial-gradient(closest-side, transparent 76%, #000 78%);
+}
+
+/* 6 · SCANLINES — terminal texture. Fixed overlay at ~4% opacity. */
+.g-scanlines {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+/* 7 · GRID FLOOR — faint blueprint grid for section backgrounds. */
+.g-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* 8 · FEATURED TIER GLOW — halo behind the Ceramic Coating card. */
+.g-tier-glow {
+  background: radial-gradient(60% 55% at 50% 0%, rgba(34, 211, 238, 0.16) 0%, transparent 75%);
+}
+
+/* 9 · TICKER DIVIDER — soft vertical fade for marquee edges. */
+.g-fade-x {
+  -webkit-mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* 10 · TERMINAL PHOSPHOR — subtle green-free, cyan-tinted CRT wash
+      inside the booking terminal window. */
+.g-terminal {
+  background:
+    radial-gradient(140% 100% at 50% 0%, rgba(34, 211, 238, 0.06) 0%, transparent 55%),
+    linear-gradient(180deg, #07090b 0%, #050607 100%);
+}

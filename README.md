@@ -20,10 +20,13 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `ember-and-iron/` | EMBER & IRON Wood-Fired Pizza Co.; hot steel gradients, expanding menu cells, and a sticky Dough / Fire / Char sequence. |
 | `harbor-and-hollow/` | A coastal hand wash concept with a scroll-driven film journey, scent story, and product presentation. |
 | `garys-hilltop/` | Gary’s Hilltop Auto Repair, Torrington; mint and cyan gradients, glass service cards, restrained scroll effects, verified reviews, real location photography, and an optional service-note planner. |
+| `mach-detail/` | Mach Detail, Torrington; cyan HUD styling, nine supplied vehicle photos, customer review excerpts, and an appointment-request planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
 
 Gary’s handoff, verified business sources, photo provenance, and planner behavior are in [docs/garys-hilltop.md](docs/garys-hilltop.md). Its supplied stylesheets and directive are retained in `reference/garys-hilltop/`.
+
+Mach Detail’s source notes, request behavior, and activation checklist are in [docs/mach-detail.md](docs/mach-detail.md). The proposed booking API, calendar ledger, and messaging architecture are in [integrations/mach-detail/README.md](integrations/mach-detail/README.md).
 
 ## Reworx: `reworxct`
 
@@ -49,13 +52,13 @@ npm run build
 python3 -m http.server 8080 --directory dist
 ```
 
-Open `/` for the Aether Sites showcase, then `/reworxct/`, `/ember-and-iron/`, `/harbor-and-hollow/`, or `/garys-hilltop/` for full concepts. New client concepts should get their own folders; update the showcase, `scripts/build.mjs`, `scripts/check.py`, and JavaScript checks when adding one.
+Open `/` for the Aether Sites showcase, then `/reworxct/`, `/ember-and-iron/`, `/harbor-and-hollow/`, `/garys-hilltop/`, or `/mach-detail/` for full concepts. New client concepts should get their own folders; update the showcase, `scripts/build.mjs`, `scripts/check.py`, and JavaScript checks when adding one.
 
 ## Publishing
 
-The build creates `dist/reworxct/`, `dist/ember-and-iron/`, `dist/harbor-and-hollow/`, `dist/garys-hilltop/`, and a root showcase. Cloudflare Pages deploys `dist/` from `main` to aethersites.net. Harbor & Hollow compiles to static HTML, CSS, JavaScript, images, and video.
+The build creates `dist/reworxct/`, `dist/ember-and-iron/`, `dist/harbor-and-hollow/`, `dist/garys-hilltop/`, `dist/mach-detail/`, and a root showcase. Cloudflare Pages deploys `dist/` from `main` to aethersites.net. Harbor & Hollow compiles to static HTML, CSS, JavaScript, images, and video.
 
-The concepts retain visible disclosure and `noindex` metadata/headers. The root showcase can be indexed; its sitemap includes only the root. External contact links point to verified business listings. Gary’s planner prepares a note locally; it sends no leads and reserves no appointments. Photo and artwork provenance is documented separately for each site. Do not remove these boundaries when moving hosts without an approved change in project status.
+The concepts retain visible disclosure and `noindex` metadata/headers. The root showcase can be indexed; its sitemap includes only the root. External contact links point to verified business listings. Gary’s planner prepares a note locally. Mach Detail prepares a text draft that visitors can review and send from their messaging app; no live calendar, automated messages, or appointment reservations are enabled. Photo and artwork provenance is documented separately for each site. Do not remove these boundaries when moving hosts without an approved change in project status.
 
 ## Motion
 
@@ -69,4 +72,4 @@ Source: [AetherAI3/aether-sites](https://github.com/AetherAI3/aether-sites).
 
 The GitHub Actions workflow checks the source and builds the static output on pushes to `main` and pull requests. Inspect the Actions tab for the current run result; a workflow file alone does not establish passing CI.
 
-Static HTML now loads CSS and JavaScript through content-versioned filenames generated during the collection build. Changed assets receive new URLs, preventing cached styles from mismatching new page markup. The build verifies every rewritten reference and the four showcase card styles.
+Static HTML now loads CSS and JavaScript through content-versioned filenames generated during the collection build. Changed assets receive new URLs, preventing cached styles from mismatching new page markup. The build verifies every rewritten reference and all showcase card styles.

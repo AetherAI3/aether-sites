@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MACH//DETAIL — Precision Auto Detailing · 644 Main St</title>
+<meta name="description" content="Mach Detail — 5.0★ precision auto detailing. Paint correction, ceramic coatings, interior & exterior deep cleans. 644 Main St. Book online 24/7." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles/tokens.css" />
+<link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+<!-- global HUD layers -->
+<div class="progress-rail"><div class="progress-bar"></div></div>
+<div class="scanline-overlay g-scanlines"></div>
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <a class="nav__logo" href="#top">MACH<b>//</b>DETAIL</a>
+  <nav class="nav__links">
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#shop">Shop</a>
+    <a href="#booking">Booking</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="status-pill"><span class="dot"></span><span class="label">SHOP STATUS</span></div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="hero__media">
+    <!-- SLOT: hero shot — replace with ceramic-coated McLaren 720s when shot -->
+    <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3COqzc0fn5g46rNjj22ad0OQrYv/9aa0633f-48b5-41e6-bc40-bfeeec50afc5.png" alt="Freshly detailed red hot hatch with underglow outside Mach Detail" />
+  </div>
+  <div class="hero__fade g-edge-fade"></div>
+
+  <div class="hero__inner wrap">
+    <p class="hero__tag mono reveal">644 MAIN ST · RATED 5.0 · BY APPOINTMENT</p>
+    <h1 class="reveal" style="--i:1">Precision you can <em>see your reflection</em> in.</h1>
+    <p class="hero__sub reveal" style="--i:2">
+      Paint correction, ceramic coatings, and meticulous interior work —
+      the shop your neighbors keep recommending. Now booking online, 24/7.
+    </p>
+    <div class="hero__row reveal" style="--i:3">
+      <a href="#booking" class="btn btn--cyan g-cta g-cta-hover">Book a slot →</a>
+      <div class="rating hud">
+        <div class="rating__dial"><div class="g-ring" style="--val:100"></div><span data-count="5.0">0.0</span></div>
+        <div class="rating__meta"><strong>5.0 ★ perfect record</strong><span>every review, every car</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero__cue mono">scroll</div>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker g-fade-x" aria-hidden="true">
+  <div class="ticker__track">
+    <span>PAINT CORRECTION <b>▸</b></span><span>CERAMIC COATING <b>▸</b></span><span>INTERIOR DEEP CLEAN <b>▸</b></span><span>SWIRL REMOVAL <b>▸</b></span><span>MULTI-STAGE POLISH <b>▸</b></span><span>644 MAIN ST <b>▸</b></span>
+    <span>PAINT CORRECTION <b>▸</b></span><span>CERAMIC COATING <b>▸</b></span><span>INTERIOR DEEP CLEAN <b>▸</b></span><span>SWIRL REMOVAL <b>▸</b></span><span>MULTI-STAGE POLISH <b>▸</b></span><span>644 MAIN ST <b>▸</b></span>
+  </div>
+</div>
+
+<!-- ================= SERVICES ================= -->
+<section class="section g-grid" id="services">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="section__label mono reveal">MODULE 01 — SERVICE MENU</p>
+      <h2 class="reveal" style="--i:1">From maintenance<br />to <em>armor.</em></h2>
+    </div>
+
+    <div class="tiers">
+      <article class="tier g-sheen reveal" style="--i:0">
+        <span class="tier__idx mono">TIER_01</span>
+        <h3 class="tier__name">Standard Package</h3>
+        <p class="tier__desc">The maintenance detail done right — inside and out, no shortcuts.</p>
+        <ul class="tier__list">
+          <li>Hand wash + foam cannon pre-soak</li>
+          <li>Interior vacuum, wipe-down, glass</li>
+          <li>Wheels, tires & wheel wells</li>
+          <li>Door jambs & trim dressing</li>
+        </ul>
+        <a href="#booking" class="btn btn--ghost tier__cta">Select Standard</a>
+      </article>
+
+      <article class="tier g-sheen reveal" style="--i:1">
+        <span class="tier__idx mono">TIER_02</span>
+        <h3 class="tier__name">Paint Correction</h3>
+        <p class="tier__desc">Multi-stage machine work that erases years of wash marring.</p>
+        <ul class="tier__list">
+          <li>Multi-stage compounding & polish</li>
+          <li>Swirl, haze & scratch removal</li>
+          <li>Paint-depth measured panel by panel</li>
+          <li>Panel wipe + inspection lighting</li>
+        </ul>
+        <a href="#booking" class="btn btn--ghost tier__cta">Select Correction</a>
+      </article>
+
+      <article class="tier tier--featured g-sheen g-tier-glow reveal" style="--i:2">
+        <span class="tier__flag">Premium</span>
+        <span class="tier__idx mono">TIER_03</span>
+        <h3 class="tier__name">Ceramic Coating</h3>
+        <p class="tier__desc">Years of hydrophobic, chemical-resistant protection locked in.</p>
+        <ul class="tier__list">
+          <li>Full correction prep included</li>
+          <li>Multi-year ceramic coating</li>
+          <li>Glass, wheels & trim coated</li>
+          <li>Cure report + aftercare guide</li>
+        </ul>
+        <a href="#booking" class="btn btn--cyan g-cta g-cta-hover tier__cta">Select Ceramic</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GALLERY ================= -->
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="section__label mono reveal">MODULE 02 — RECENT WORK</p>
+      <h2 class="reveal" style="--i:1">Trusted with <em>serious metal.</em></h2>
+    </div>
+
+    <div class="gallery">
+      <figure class="g-item g-item--wide hud reveal" style="--i:0">
+        <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3COqzc0fn5g46rNjj22ad0OQrYv/9aa0633f-48b5-41e6-bc40-bfeeec50afc5.png" alt="Red performance hatch, full exterior detail with underglow" />
+        <figcaption class="g-item__cap"><strong>Full exterior detail + underglow fitment</strong><span>EXT_01</span></figcaption>
+      </figure>
+
+      <figure class="g-item g-item--tall g-item--empty reveal" style="--i:1">
+        <div>DROP ZONE — SLOT 02<br />ceramic-coated McLaren 720s<br />1600 × 1200 min</div>
+      </figure>
+
+      <figure class="g-item g-item--tall g-item--empty reveal" style="--i:0">
+        <div>DROP ZONE — SLOT 03<br />polished Porsche, swirl-free hood<br />1600 × 1200 min</div>
+      </figure>
+
+      <figure class="g-item g-item--wide g-item--empty reveal" style="--i:1">
+        <div>DROP ZONE — SLOT 04<br />modified Mustang, correction stages<br />2000 × 1200 min</div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHOP / PROCESS ================= -->
+<section class="section" id="shop">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="section__label mono reveal">MODULE 03 — THE SHOP</p>
+      <h2 class="reveal" style="--i:1">Meticulous is the <em>baseline.</em></h2>
+    </div>
+
+    <div class="shop hud reveal">
+      <img src="https://d2ol7oe51mr4n9.cloudfront.net/user_3COqzc0fn5g46rNjj22ad0OQrYv/5ce115db-39c2-42a8-b59b-25ea6befaa08.png" alt="Inside the Mach Detail bay — full strip-down capability" />
+      <div class="shop__panel g-sheen">
+        <div class="stat"><strong data-count="5.0">0.0</strong><span>Avg rating</span></div>
+        <div class="stat"><strong data-count="100">0</strong><span>% hand finished</span></div>
+        <div class="stat"><strong data-count="3">0</strong><span>Service tiers</span></div>
+        <div class="stat"><strong data-count="6">0</strong><span>Days / week</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BOOKING ================= -->
+<section class="section g-grid" id="booking">
+  <div class="wrap">
+    <div class="section__head">
+      <p class="section__label mono reveal">MODULE 04 — BOOKING ENGINE</p>
+      <h2 class="reveal" style="--i:1">Reserve a bay. <em>Any hour.</em></h2>
+    </div>
+
+    <div class="booking">
+      <!-- terminal feed -->
+      <div class="terminal g-terminal hud reveal">
+        <div class="terminal__bar"><i></i><i></i><i></i><span class="mono">mach://booking-ledger</span></div>
+        <div class="terminal__body">
+          <span class="ln dim">&gt; mach-detail booking daemon v1.0</span>
+          <span class="ln dim">&gt; ledger: aether-cloud // synced</span>
+          <span class="ln">&gt; hours — MON–FRI 08:00→17:00 · SAT 09:00→14:00 · SUN <span class="dim">CLOSED</span></span>
+          <span class="ln ok">&gt; accepting reservations 24/7 — pick a slot →</span>
+          <span class="ln"><span class="cursor"></span></span>
+        </div>
+      </div>
+
+      <!-- picker panel -->
+      <div class="book-panel g-sheen hud reveal" style="--i:1">
+        <h3>New appointment</h3>
+
+        <span class="book-label mono">01 / Service</span>
+        <div class="svc-select" id="svcSelect"></div>
+
+        <span class="book-label mono">02 / Day</span>
+        <div class="day-chips" id="dayChips"></div>
+
+        <span class="book-label mono">03 / Arrival time</span>
+        <div class="slots" id="slotGrid">
+          <p class="mono" style="color:var(--md-text-faint)">select a day first</p>
+        </div>
+
+        <div class="book-summary" id="bookSummary"></div>
+        <button class="btn btn--cyan g-cta g-cta-hover" id="confirmBtn" style="width:100%;justify-content:center;margin-top:1.2rem">Confirm booking</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER / CONTACT ================= -->
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="nav__logo" href="#top">MACH<b>//</b>DETAIL</a>
+        <p style="margin-top:1rem;max-width:34ch">Precision auto detailing at 644 Main St. Word of mouth built it — the booking engine scales it.</p>
+      </div>
+      <div>
+        <h4>Hours</h4>
+        <ul>
+          <li><b>Mon–Fri</b> 8:00 AM – 5:00 PM</li>
+          <li><b>Saturday</b> 9:00 AM – 2:00 PM</li>
+          <li><b>Sunday</b> Closed</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul>
+          <li><b>Address</b> 644 Main St</li>
+          <li><b>Phone</b> (555) 010-0644</li>
+          <li><b>Text</b> booking line, 24/7</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__base">
+      <span>© 2026 Mach Detail</span>
+      <span>SYS.STATUS — OPERATIONAL</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/scroll.js"></script>
+<script src="js/booking.js"></script>
+</body>
+</html>

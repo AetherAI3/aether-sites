@@ -1,0 +1,94 @@
+openapi: 3.1.0
+info:
+  title: Mach Detail appointment request API — proposed
+  version: 0.1.0
+  description: Reference contract only. No server is deployed. Request acceptance is not appointment confirmation.
+paths:
+  /v1/appointment-requests:
+    post:
+      summary: Accept a request for shop review
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: {type: string, format: uuid}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [name, vehicle, service, preferredDate, arrivalPreference, contact, challengeToken]
+              properties:
+                name: {type: string, minLength: 1, maxLength: 80}
+                vehicle: {type: string, minLength: 1, maxLength: 100}
+                service: {type: string, enum: [standard, correction, ceramic, advice]}
+                preferredDate: {type: string, format: date}
+                arrivalPreference: {type: string, enum: [flexible, morning, afternoon]}
+                notes: {type: string, maxLength: 600}
+                contact:
+                  type: object
+                  additionalProperties: false
+                  required: [email]
+                  properties:
+                    email: {type: string, format: email, maxLength: 254}
+                    phone: {type: string, pattern: '^\+[1-9][0-9]{7,14}$'}
+                    transactionalSmsConsent: {type: boolean, default: false}
+                challengeToken: {type: string, maxLength: 4096}
+      responses:
+        '202':
+          description: Persisted request and notification intent; not a reserved appointment
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [requestId, status]
+                properties:
+                  requestId: {type: string, format: uuid}
+                  status: {type: string, const: requested}
+        '400': {description: Invalid input or unsupported date; typed field errors only}
+        '403': {description: Verification failed}
+        '409': {description: Idempotency key already used with a different payload}
+        '413': {description: Body exceeds request size limit}
+        '429': {description: Rate limited; include Retry-After}
+        '503': {description: No durable acceptance; retry with the same idempotency key}
+  /v1/staff/appointment-requests/{requestId}/confirm:
+    post:
+      summary: Staff confirms a real bay interval and queues confirmation
+      description: Requires shop-scoped authentication, version check, service rules, and atomic overlap protection.
+      security: [{staffSession: []}]
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          schema: {type: string, format: uuid}
+        - in: header
+          name: If-Match
+          required: true
+          schema: {type: string}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [bayId, startsAt, endsAt]
+              properties:
+                bayId: {type: string, format: uuid}
+                startsAt: {type: string, format: date-time}
+                endsAt: {type: string, format: date-time}
+      responses:
+        '200': {description: Appointment confirmed in a committed transaction; notification is queued}
+        '401': {description: Staff authentication required}
+        '403': {description: Wrong shop or insufficient role}
+        '404': {description: Request unavailable in this staff scope}
+        '409': {description: Interval overlaps or service rules prevent confirmation}
+        '412': {description: Request changed; refresh before confirming}
+components:
+  securitySchemes:
+    staffSession:
+      type: http
+      scheme: bearer
+      description: Placeholder for the existing authenticated Aether service contract; do not invent a token issuer.
