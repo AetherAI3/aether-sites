@@ -38,7 +38,15 @@ try {
     assert.equal(await page.locator('.project').count(), 8);
     assert.equal(await page.locator('.project:not([aria-hidden])').count(), 1);
     assert.equal(await page.locator('.brand-name').first().textContent(), 'AETHER SITES');
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, 'page overflow at ' + width);
+    await page.screenshot({ path: 'artifacts/showcase/initial-' + width + '.png', fullPage: true });
+    const overflow = await page.evaluate(() => ({
+      width: innerWidth, scroll: document.documentElement.scrollWidth,
+      elements: [...document.querySelectorAll('body *')].filter(el => {
+        const r = el.getBoundingClientRect();
+        return r.right > innerWidth + 1 && getComputedStyle(el).visibility !== 'hidden';
+      }).slice(0, 12).map(el => ({ tag: el.tagName, class: el.getAttribute('class'), right: el.getBoundingClientRect().right })),
+    }));
+    assert.ok(overflow.scroll <= width + 1, 'page overflow: ' + JSON.stringify(overflow));
     await page.locator('#work').scrollIntoViewIfNeeded();
     await page.locator('[data-carousel-step="1"]').click();
     assert.match(await page.locator('#style-count').textContent(), /2 \/ 8/);
@@ -57,7 +65,12 @@ try {
           actionsFit: actions.right <= box.right && actions.left >= box.left,
           links: [...card.querySelectorAll('a')].every(link => link.tabIndex >= 0) };
       });
-      assert.ok(geometry.fits && geometry.actionsFit && geometry.links, 'card geometry at ' + width + ', slide ' + i);
+      assert.ok(geometry.fits && geometry.actionsFit && geometry.links, 'card geometry at ' + width + ', slide ' + i + ': ' + JSON.stringify(geometry));
+      const imagesReady = await page.locator('.project[data-position=current] img').evaluateAll(images => images.every(img => img.complete && img.naturalWidth > 0));
+      assert.ok(imagesReady, 'preview image failed at ' + width + ', slide ' + i);
+      if (i === 5) {
+        assert.ok(await page.locator('.project-barbers').evaluate(card => card.querySelector('.barbers-title').getBoundingClientRect().bottom < card.querySelector('.barbers-caption').getBoundingClientRect().top), 'barber preview type overlaps');
+      }
     }
     assert.equal(await page.locator('.project[aria-hidden=true] a').evaluateAll(links => links.every(link => link.tabIndex === -1)), true);
     await page.locator('[data-carousel-index="4"]').click();
