@@ -44,7 +44,11 @@ A future direct enquiry form requires the business's verified recipient, an appr
 
 `npm ci`, `npm run check`, and `npm run build` pass with the original photographs present. This covers JavaScript syntax, existing contact and planner tests, TypeScript, local references, fragment links, unique IDs, image labels, concept noindex, and versioned production assets.
 
-Browser verification is performed on the Cloudflare preview because the managed browser cannot reach the local development server. GitHub CI additionally verifies all nine collection cards at desktop and mobile widths, reduced motion, no-JavaScript fallback, and the deployed contact route without sending an inquiry. Inspect PR #4 and its workflow runs for results tied to the final commit; publication is confirmed separately after deployment.
+Browser review on the Cloudflare preview confirmed the original images load, the desktop composition, 390px phone and 768px tablet layouts, and no horizontal overflow at those review widths. The mobile menu opens and closes on navigation. Gallery filters show the expected 5/4/2 photographs; the filtered lightbox navigates its visible subset, closes with Escape, and restores focus. Project notes validate required fields, prepare the visitor’s text, copy successfully, and preserve text when edited. The download control issued its request, but the managed browser did not expose a download event; receipt of the downloaded file was not independently verified.
+
+The browser review found and fixed the desktop menu-toggle visibility. The temporary responsive review page is removed from the final source. Reduced-motion and no-JavaScript behavior of this standalone site were reviewed in source; the collection’s existing CI separately exercises those modes for the homepage.
+
+GitHub validation run 34851587349 passed source checks, the production build, all nine collection cards at 1440/768/390/320px, reduced motion, no-JavaScript fallback, and the deployed contact route without sending an inquiry. Cloudflare successfully deployed the original-photo commit. Inspect PR #4 for the final-commit checks and merge status.
 
 ## Collection integration update
 
