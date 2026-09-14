@@ -35,7 +35,7 @@ try {
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.waitForSelector('.carousel-ready');
     await page.evaluate(() => document.fonts.ready);
-    const brandImages = page.locator('img[src="/assets/ae-mark.svg"]');
+    const brandImages = page.locator('img[src="/assets/ae-mark.svg?v=2"]');
     assert.equal(await brandImages.count(), 3);
     assert.ok(await brandImages.evaluateAll(images => images.every(image => image.complete && image.naturalWidth > 0)), 'Aether logo SVG must decode in the navbar, contact section, and footer');
     assert.equal(await page.locator('.project').count(), 9);
