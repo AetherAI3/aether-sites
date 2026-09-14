@@ -53,7 +53,7 @@ button,a,input,select,textarea,summary { -webkit-tap-highlight-color:transparent
 .text-link:hover { border-color:var(--copper-light); color:var(--copper-light); }
 .text-link.dark { border-color:#9ba9b0; }
 .text-link.dark:hover { color:#825333; }
-.menu-toggle { border:1px solid var(--line); border-radius:4px; color:var(--paper); background:none; min-height:44px; padding:10px 12px; gap:12px; align-items:center; font-size:14px; }
+.menu-toggle { display:none; border:1px solid var(--line); border-radius:4px; color:var(--paper); background:none; min-height:44px; padding:10px 12px; gap:12px; align-items:center; font-size:14px; }
 .menu-lines { width:17px; height:9px; border-block:1px solid currentColor; display:block; }
 .eyebrow { font-size:12px; line-height:1.5; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#855431; margin-bottom:24px; display:flex; align-items:center; gap:15px; }
 .eyebrow.light { color:var(--copper-light); }
