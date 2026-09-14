@@ -1,4 +1,4 @@
-import { cp, mkdir, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
@@ -8,9 +8,17 @@ import { versionStaticAssets } from './version-static-assets.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const execFileAsync = promisify(execFile);
 const dist = join(root, 'dist');
+// Do not publish a photographic site while its required originals are absent.
+const weatherImages = JSON.parse(await readFile(join(root, 'weathershield/assets/required-images.json'), 'utf8'));
+for (const asset of weatherImages.images) {
+  const bytes = await readFile(join(root, 'weathershield/assets', asset.file));
+  if (bytes.length < 24 || bytes.subarray(0, 8).toString('hex') !== '89504e470d0a1a0a') {
+    throw new Error('Invalid required Weathershield PNG: ' + asset.file);
+  }
+}
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
-const sites = ['reworxct', 'ember-and-iron', 'garys-hilltop', 'mach-detail', 'waterbury-aquarium', 'barbers-ink', 'empanadas-togo'];
+const sites = ['reworxct', 'ember-and-iron', 'garys-hilltop', 'mach-detail', 'waterbury-aquarium', 'barbers-ink', 'empanadas-togo', 'weathershield'];
 for (const site of sites) {
   await cp(join(root, site), join(dist, site), { recursive: true });
 }
@@ -19,7 +27,7 @@ await cp(join(root, 'styles.css'), join(dist, 'styles.css'));
 await cp(join(root, 'assets'), join(dist, 'assets'), { recursive: true });
 await writeFile(join(dist, 'robots.txt'), 'User-agent: *\nAllow: /\nSitemap: https://aethersites.net/sitemap.xml\n');
 await writeFile(join(dist, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://aethersites.net/</loc></url></urlset>\n');
-await writeFile(join(dist, '_headers'), '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n\n/reworxct/*\n  X-Robots-Tag: noindex, nofollow\n\n/ember-and-iron/*\n  X-Robots-Tag: noindex, nofollow\n\n/mach-detail/*\n  X-Robots-Tag: noindex, nofollow\n\n/garys-hilltop/*\n  X-Robots-Tag: noindex, nofollow\n\n/waterbury-aquarium/*\n  X-Robots-Tag: noindex, nofollow\n\n/barbers-ink/*\n  X-Robots-Tag: noindex, nofollow\n\n/empanadas-togo/*\n  X-Robots-Tag: noindex, nofollow\n\n/harbor-and-hollow/*\n  X-Robots-Tag: noindex, nofollow\n');
+await writeFile(join(dist, '_headers'), '/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n\n/reworxct/*\n  X-Robots-Tag: noindex, nofollow\n\n/ember-and-iron/*\n  X-Robots-Tag: noindex, nofollow\n\n/mach-detail/*\n  X-Robots-Tag: noindex, nofollow\n\n/garys-hilltop/*\n  X-Robots-Tag: noindex, nofollow\n\n/waterbury-aquarium/*\n  X-Robots-Tag: noindex, nofollow\n\n/barbers-ink/*\n  X-Robots-Tag: noindex, nofollow\n\n/empanadas-togo/*\n  X-Robots-Tag: noindex, nofollow\n\n/weathershield/*\n  X-Robots-Tag: noindex, nofollow\n\n/harbor-and-hollow/*\n  X-Robots-Tag: noindex, nofollow\n');
 const { stdout, stderr } = await execFileAsync(process.execPath, [
   join(root, 'node_modules', 'vite', 'bin', 'vite.js'),
   'build', '--config', join(root, 'harbor-and-hollow', 'vite.config.ts'),

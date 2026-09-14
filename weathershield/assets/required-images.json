@@ -1,0 +1,35 @@
+{
+  "description": "Original user-supplied photographs. Import the exact PNG attachments under these filenames before publishing. Dimensions are taken from the visible attachments, not from file-byte inspection.",
+  "images": [
+    {
+      "file": "05af93b1-9641-44f3-8d91-734e5df3c4f7.png",
+      "role": "Blue-gray house; hero and gallery",
+      "width": 616,
+      "height": 462
+    },
+    {
+      "file": "d1eab729-94df-4d9f-a409-4d956f03b8e2.png",
+      "role": "Green building; expertise section and gallery",
+      "width": 647,
+      "height": 475
+    },
+    {
+      "file": "6ca1ab7b-6382-4a35-95fd-e62e9af05a7b.png",
+      "role": "Shingle close-up; gallery and contact texture",
+      "width": 397,
+      "height": 487
+    },
+    {
+      "file": "da45e7e4-d61d-43e1-a603-63ab8262268b.png",
+      "role": "Unfinished roof; work-in-progress gallery",
+      "width": 608,
+      "height": 462
+    },
+    {
+      "file": "74f5fbd0-4387-480a-babb-3af4a451673c.png",
+      "role": "Chimney and flashing; gallery",
+      "width": 371,
+      "height": 461
+    }
+  ]
+}

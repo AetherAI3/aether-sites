@@ -23,6 +23,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `mach-detail/` | Mach Detail, Torrington; bold automotive type, cyan HUD styling, scroll-driven scenes, nine real photos, a cinematic Google review carousel, and an appointment-request planner. |
 | `empanadas-togo/` | Empanada's The place TOGO, Meriden; Golden Counter gradients, bold expanding menu frames, and a local pickup-list builder. |
 | `waterbury-aquarium/` | Waterbury Aquarium; detailed illustrative aquatic imagery, water gradients, scroll-driven frames, category filters and a local aquascape visit planner. |
+| `weathershield/` | Weathershield Roofing & Masonry; navy, copper and architectural typography, a photo gallery, service guide and local project-note planner. Original image import and browser verification pending; see `docs/weathershield.md`. |
 | `barbers-ink/` | Barber’s Ink, Torrington; black, chrome and cyan, bold expanding frames, a direct Booksy link and a local appointment-request planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
