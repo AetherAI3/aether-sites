@@ -2,15 +2,9 @@
 
 Standalone source: `weathershield/`. Intended route after merge and a successful deployment: `/weathershield/`.
 
-## Delivery status
+## Implementation and photographs
 
-The HTML, CSS, JavaScript, collection card, town-level map entry, build registration, and source checks are authored. The execution workspace is unavailable. The five original photo attachments and uploaded motion kit could not be read from scratch; no original attachment bytes have been uploaded to this branch. This is a DRAFT and must not be merged or presented as a complete deployed website until those assets are imported and the checks below pass.
-
-The interface was authored directly from the visible brief and mockup. It does not claim to reproduce the contents of the unread `weathershield.js`, `weathershield.css`, `index (1).html`, `README (1).md`, or `weathershield-motion-kit.zip` attachments.
-
-## Original photographs
-
-Import the original PNG files into `weathershield/assets/`, retaining the following names. The page, gallery links, collection card, and background texture already refer to these exact paths. Do not substitute generated imagery or unrelated stock work.
+The standalone site, collection card, town-level map entry, build registration, and source checks are implemented. All five original photographs were imported byte-for-byte from the reuploaded attachments on September 14, 2026. Their PNG dimensions and SHA-256 digests are recorded in `weathershield/assets/required-images.json`.
 
 - `05af93b1-9641-44f3-8d91-734e5df3c4f7.png`: Blue-gray house; hero and gallery.
 - `d1eab729-94df-4d9f-a409-4d956f03b8e2.png`: Green building; expertise section and gallery.
@@ -18,9 +12,9 @@ Import the original PNG files into `weathershield/assets/`, retaining the follow
 - `da45e7e4-d61d-43e1-a603-63ab8262268b.png`: Unfinished roof; work-in-progress gallery.
 - `74f5fbd0-4387-480a-babb-3af4a451673c.png`: Chimney and flashing; gallery.
 
-The upload directory supplied for this conversation is `/workspace/scratch/e90e7fba5df5/upload/`. Use those files when the execution workspace reconnects. The manifest in `weathershield/assets/required-images.json` documents the required assets. The build preflight checks that all five files are present and have PNG signatures. Existing HTML checks also require their local references to exist. Missing images deliberately prevent publication.
+The build preflight requires all five original PNG files; the HTML checks validate local references. No generated or stock substitutes are used. Image dimensions in markup match the files. The roof image with exposed wood is explicitly labeled as work in progress.
 
-Image dimensions in markup are based on the visible attachments and should be confirmed against the imported bytes. Preserve the roofs and house architecture. The fourth image contains exposed wood and is explicitly labeled as work in progress.
+The interface and motion were authored directly from the visible brief. The earlier supplemental motion-kit attachments were unavailable and are not represented as imported source.
 
 ## Design and interactions
 
@@ -46,22 +40,12 @@ Reviewed September 14, 2026. The map labels Bristol as the concept's town from t
 
 A future direct enquiry form requires the business's verified recipient, an approved delivery endpoint, accurate privacy copy, spam protection, and a real delivery check. The current page does not represent local draft preparation as a submitted lead.
 
-## Validation performed and remaining
+## Validation
 
-Performed in the orchestration runtime:
-- Parsed the new JavaScript with V8.
-- Inspected the repository build, HTML checks and versioned static asset flow.
-- Reviewed new markup and local asset references.
+`npm ci`, `npm run check`, and `npm run build` pass with the original photographs present. This covers JavaScript syntax, existing contact and planner tests, TypeScript, local references, fragment links, unique IDs, image labels, concept noindex, and versioned production assets.
 
-Remaining:
-1. Import all five original photos; read and reconcile the supplied motion kit without replacing the current work blindly.
-2. Run `npm ci`, `npm run check`, and `npm run build`.
-3. Use a browser at 390px, 768px and 1440px widths; verify 200% zoom, no horizontal overflow, loaded images, native image links without JavaScript, mobile menu, filtered lightbox, focus return, planner validation, copy fallback, download and reduced motion.
-4. Confirm the photo rights and business details before any official use.
-5. Observe GitHub CI and Cloudflare preview on the final commit. Merge only after the original images are available and the actual checks pass.
-
-Do not claim browser QA, delivery, or production deployment based only on source inspection.
+Browser verification is performed on the Cloudflare preview because the managed browser cannot reach the local development server. GitHub CI additionally verifies all nine collection cards at desktop and mobile widths, reduced motion, no-JavaScript fallback, and the deployed contact route without sending an inquiry. Inspect PR #4 and its workflow runs for results tied to the final commit; publication is confirmed separately after deployment.
 
 ## Collection integration update
 
-Merged the concurrent main update into this branch without discarding its Blackstar-style carousel, AE identity, contact endpoint, or CI browser checks. Weathershield is the ninth carousel card and a selectable Aether website style. The existing contact endpoint's style map accepts that choice; no enquiry has been sent. The existing browser checks now expect nine cards and will inspect the new card once all original assets are present.
+Merged the concurrent main update into this branch without discarding its Blackstar-style carousel, AE identity, contact endpoint, or CI browser checks. Weathershield is the ninth carousel card and a selectable Aether website style. The existing contact endpoint's style map accepts that choice; no enquiry has been sent. The existing browser checks now expect nine cards and include the new card and its original photograph.
