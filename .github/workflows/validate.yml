@@ -26,6 +26,10 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Verify showcase in browser
         run: node tests/showcase-browser.mjs
+      - name: Verify deployed contact route without sending an inquiry
+        env:
+          TARGET_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: node tests/contact-deployment.mjs
       - name: Upload showcase screenshots
         if: always()
         uses: actions/upload-artifact@v4

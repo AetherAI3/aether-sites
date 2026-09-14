@@ -86,13 +86,35 @@ try {
     }
     await page.locator('.project[data-position=current] [data-select-style]').click();
     assert.equal(await page.locator('#contact-style').inputValue(), 'mach');
+    await page.locator('#contact').scrollIntoViewIfNeeded();
+    // Native smooth anchor scrolling outlasts instant test fills; wait for it to settle.
+    await page.evaluate(() => new Promise(resolve => {
+      let previous = scrollY, stable = 0;
+      function tick() {
+        stable = Math.abs(scrollY - previous) < .5 ? stable + 1 : 0;
+        previous = scrollY;
+        if (stable >= 5) resolve();
+        else requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }));
     await page.locator('#contact-name').fill('Test Visitor');
     await page.locator('#contact-email').fill('visitor@example.com');
     await page.locator('#contact-message').fill('We would like a site for our business.');
     const submit = page.locator('#contact-form [type=submit]');
     for (mode of ['error', 'missing-id', 'rate', 'offline']) {
       await submit.click();
-      await page.waitForFunction(() => document.getElementById('contact-status').dataset.state === 'error');
+      try {
+        await page.waitForFunction(() => document.getElementById('contact-status').dataset.state === 'error');
+      } catch (error) {
+        console.log('Form diagnostic', { width, mode, posts, errors, state: await page.locator('#contact-form').evaluate(form => ({
+          status: document.getElementById('contact-status').textContent,
+          busy: form.getAttribute('aria-busy'),
+          invalid: [...form.elements].filter(el => el.validity && !el.validity.valid).map(el => ({ name: el.name, reason: el.validationMessage })),
+        })) });
+        await page.locator('#contact').screenshot({ path: 'artifacts/showcase/form-failure-' + width + '.png' });
+        throw error;
+      }
       assert.equal(await page.locator('#contact-message').inputValue(), 'We would like a site for our business.');
       assert.equal(await submit.isDisabled(), false);
     }

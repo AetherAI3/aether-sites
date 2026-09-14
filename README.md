@@ -98,3 +98,5 @@ The homepage reuses Blackstar’s visitor-controlled 3D carousel pattern, adapte
 Success requires a saved inquiry ID, not an HTTP 200 alone. Failures, malformed upstream responses, and rate limits preserve the browser draft. Native form submission also works without JavaScript. Existing upstream inbox notification delivery is best effort; a saved row is not evidence of email delivery.
 
 Checks: `npm run check` includes contact validation, payload, receipt, failure, and native-form cases. CI builds the collection, then runs `tests/showcase-browser.mjs` in Chromium at desktop and mobile widths, including reduced motion and no-JavaScript checks. Browser form responses are mocked; those tests do not send inquiries. Screenshot artifacts are attached to the validation run. An actual inbox-delivery test requires an explicitly authorized test message.
+
+CI also verifies the Cloudflare deployment for the tested commit and sends only empty, invalid payloads to the deployed endpoint and existing Aether service. These must reject with 422 before creating a submission. This proves routing and service availability without claiming inbox delivery.
