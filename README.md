@@ -23,6 +23,7 @@ Each concept has its own top-level folder. This repository holds the source coll
 | `mach-detail/` | Mach Detail, Torrington; bold automotive type, cyan HUD styling, scroll-driven scenes, nine real photos, a cinematic Google review carousel, and an appointment-request planner. |
 | `empanadas-togo/` | Empanada's The place TOGO, Meriden; Golden Counter gradients, bold expanding menu frames, and a local pickup-list builder. |
 | `waterbury-aquarium/` | Waterbury Aquarium; detailed illustrative aquatic imagery, water gradients, scroll-driven frames, category filters and a local aquascape visit planner. |
+| `weathershield/` | Weathershield Roofing & Masonry; navy, copper and architectural typography, a photo gallery, service guide and local project-note planner. Includes all five original photographs; see `docs/weathershield.md`. |
 | `barbers-ink/` | Barber’s Ink, Torrington; black, chrome and cyan, bold expanding frames, a direct Booksy link and a local appointment-request planner. |
 
 Ember & Iron's complete handoff notes are in [docs/ember-and-iron.md](docs/ember-and-iron.md). The source directive, CSS, and wireframe are retained in `reference/ember-and-iron/`.
@@ -91,7 +92,7 @@ Static HTML now loads CSS and JavaScript through content-versioned filenames gen
 
 ### Homepage showcase and contact
 
-The homepage reuses Blackstar’s visitor-controlled 3D carousel pattern, adapted for all eight concepts. The AE mark comes from the current Aether marketing navbar (`AETHER-CLOUD/web/src/components/SiteNavbar.jsx`). Green remains the primary site accent. Native links and a complete grid work without JavaScript; enhanced navigation supports arrows, keyboard, swipes, and a grid toggle.
+The homepage reuses Blackstar’s visitor-controlled 3D carousel pattern, adapted for all nine concepts. The AE mark comes from the current Aether marketing navbar (`AETHER-CLOUD/web/src/components/SiteNavbar.jsx`). Green remains the primary site accent. Native links and a complete grid work without JavaScript; enhanced navigation supports arrows, keyboard, swipes, and a grid toggle.
 
 `functions/api/contact.js` is a Cloudflare Pages Function, deployed from the repository root alongside the static `dist/` output. It forwards validated inquiries to Aether’s existing public `contact-submit` service, which stores `contact_submissions` and manages its existing team notifications. No new credentials or provider setup is required in this repository. The visitor’s real Origin is preserved; the function does not impersonate the marketing domain. Only Cloudflare’s trusted client-IP header is forwarded for the upstream rate limit. Browser data is not stored locally or placed in URLs.
 

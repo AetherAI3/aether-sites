@@ -35,7 +35,7 @@ try {
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.waitForSelector('.carousel-ready');
     await page.evaluate(() => document.fonts.ready);
-    assert.equal(await page.locator('.project').count(), 8);
+    assert.equal(await page.locator('.project').count(), 9);
     assert.equal(await page.locator('.project:not([aria-hidden])').count(), 1);
     assert.equal(await page.locator('.brand-name').first().textContent(), 'AETHER SITES');
     await page.screenshot({ path: 'artifacts/showcase/initial-' + width + '.png', fullPage: true });
@@ -49,12 +49,12 @@ try {
     assert.ok(overflow.scroll <= width + 1, 'page overflow: ' + JSON.stringify(overflow));
     await page.locator('#work').scrollIntoViewIfNeeded();
     await page.locator('[data-carousel-step="1"]').click();
-    assert.match(await page.locator('#style-count').textContent(), /2 \/ 8/);
+    assert.match(await page.locator('#style-count').textContent(), /2 \/ 9/);
     await page.locator('[data-carousel-step="1"]').press('End');
-    assert.match(await page.locator('#style-count').textContent(), /8 \/ 8/);
+    assert.match(await page.locator('#style-count').textContent(), /9 \/ 9/);
     await page.locator('[data-carousel-step="1"]').press('Home');
-    assert.match(await page.locator('#style-count').textContent(), /1 \/ 8/);
-    for (let i = 0; i < 8; i++) {
+    assert.match(await page.locator('#style-count').textContent(), /1 \/ 9/);
+    for (let i = 0; i < 9; i++) {
       await page.locator('[data-carousel-index="' + i + '"]').click();
       await page.waitForTimeout(750);
       const geometry = await page.locator('.project[data-position=current]').evaluate(card => {
@@ -80,7 +80,7 @@ try {
       const stage = page.locator('.projects');
       await stage.dispatchEvent('pointerdown', { isPrimary: true, button: 0, pointerId: 1, clientX: 250, clientY: 400 });
       await stage.dispatchEvent('pointerup', { isPrimary: true, button: 0, pointerId: 1, clientX: 120, clientY: 402 });
-      assert.match(await page.locator('#style-count').textContent(), /6 \/ 8/);
+      assert.match(await page.locator('#style-count').textContent(), /6 \/ 9/);
       await page.waitForTimeout(500);
       await page.locator('[data-carousel-index="4"]').click();
     }
@@ -134,7 +134,7 @@ try {
     await page.locator('.view-toggle').click();
     assert.equal(await page.locator('.project:not([aria-hidden])').count(), 1);
     await context.close();
-    console.log('PASS Chromium ' + width + 'px: 8 cards, geometry, keyboard, style selection, submission failures and receipt, grid toggle.');
+    console.log('PASS Chromium ' + width + 'px: 9 cards, geometry, keyboard, style selection, submission failures and receipt, grid toggle.');
   }
   const reduced = await browser.newContext({ reducedMotion: 'reduce', viewport: { width: 390, height: 844 } });
   const rp = await reduced.newPage();
@@ -146,7 +146,7 @@ try {
   const fallback = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const fp = await fallback.newPage();
   await fp.goto(base, { waitUntil: 'networkidle' });
-  assert.equal(await fp.locator('.project:visible').count(), 8);
+  assert.equal(await fp.locator('.project:visible').count(), 9);
   assert.equal(await fp.locator('#contact-form').getAttribute('action'), '/api/contact');
   assert.equal(await fp.locator('#contact-form').getAttribute('method'), 'post');
   assert.equal(await fp.locator('#contact-form [type=submit]').isVisible(), true);

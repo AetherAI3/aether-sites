@@ -5,7 +5,7 @@ const MAX_BYTES = 16384;
 const STYLES = {
   reworx: 'Reworx', ember: 'Ember & Iron', harbor: 'Harbor & Hollow',
   gary: 'Gary’s Hilltop', mach: 'Mach Detail', barbers: 'Barber’s Ink',
-  waterbury: 'Waterbury Aquarium', empanadas: 'Empanada’s',
+  waterbury: 'Waterbury Aquarium', empanadas: 'Empanada’s', weathershield: 'Weathershield',
   custom: 'Something completely new', '': 'Help me choose',
 };
 const MESSAGES = {

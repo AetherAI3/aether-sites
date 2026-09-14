@@ -1,0 +1,40 @@
+{
+  "description": "Five original user-supplied PNG photographs, imported byte-for-byte from the reuploaded attachments on September 14, 2026. Dimensions were verified from the image files.",
+  "images": [
+    {
+      "file": "05af93b1-9641-44f3-8d91-734e5df3c4f7.png",
+      "role": "Blue-gray house; hero and gallery",
+      "width": 616,
+      "height": 462,
+      "sha256": "1e7d6b75b947c930aba40376a52e2ed650997d31ff499819b7fce6588e736d57"
+    },
+    {
+      "file": "d1eab729-94df-4d9f-a409-4d956f03b8e2.png",
+      "role": "Green building; expertise section and gallery",
+      "width": 647,
+      "height": 475,
+      "sha256": "42eaae93d188141a906171715128bfd35a30d645c1f445369dcd3f77097a222d"
+    },
+    {
+      "file": "6ca1ab7b-6382-4a35-95fd-e62e9af05a7b.png",
+      "role": "Shingle close-up; gallery and contact texture",
+      "width": 397,
+      "height": 487,
+      "sha256": "5f61b062e10ab1ffc069ea2fb8cf4d765a019a9ef528c970c6b13867dc774bb1"
+    },
+    {
+      "file": "da45e7e4-d61d-43e1-a603-63ab8262268b.png",
+      "role": "Unfinished roof; work-in-progress gallery",
+      "width": 608,
+      "height": 462,
+      "sha256": "8357e478f9636c8e4bb1c5f4dee4e98744167acc33a33f10ab4b42fcae0b2054"
+    },
+    {
+      "file": "74f5fbd0-4387-480a-babb-3af4a451673c.png",
+      "role": "Chimney and flashing; gallery",
+      "width": 371,
+      "height": 461,
+      "sha256": "1ae00aea79fdb586c91468c5aa4bc7226e41fdc10f23bb546a95ee9716d358f1"
+    }
+  ]
+}

@@ -147,3 +147,8 @@ footer .brand-name{font-size:12px}
 @keyframes journey-line-mobile{to{transform:scaleY(1)}}
 @media(prefers-reduced-motion:reduce){.journey::after{transform:none}.journey-playing::after,.journey-playing .journey-icon{animation:none}.carousel-ready:not(.is-grid) .project[data-position=previous],.carousel-ready:not(.is-grid) .project[data-position=next]{visibility:hidden}.project-carousel::before{filter:none;opacity:.5}}
 @media print{.showcase-toolbar,.carousel-controls,.carousel-choices,.carousel-hint,.contact-form{display:none!important}.carousel-ready:not(.is-grid) .projects{display:grid;height:auto!important;overflow:visible}.carousel-ready:not(.is-grid) .project{position:static;width:auto;max-width:none;transform:none!important;visibility:visible!important;opacity:1!important;break-inside:avoid}.project-carousel::before,.projects::after{display:none!important}}
+
+/* Weathershield joins the shared carousel without changing its geometry. */
+.project-weathershield{--card-accent:#e9c09f;--card-tint:#cc936f30}
+.project .weathershield-title{font-size:16cqw;top:30%;left:8%}
+.project .weathershield-kicker{font-size:2cqw;left:8%;top:12%}
