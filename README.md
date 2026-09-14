@@ -4,7 +4,7 @@
 
 **All my website concepts and creations, in one place.** Built by Brandon at [Aether AI](https://aethersystems.net/).
 
-[**Explore the collection ↗**](https://aethersites.net/) · [**Purchase a site / arrange hosting ↗**](https://blackstarentertainment.org/#contact)
+[**Explore the collection ↗**](https://aethersites.net/) · [**Discuss your website / hosting ↗**](https://aethersites.net/#contact)
 
 Browse the concepts, open the full sites, and find a direction you love. Contact me to discuss purchasing an available concept, adapting it to your business, or arranging hosting and ongoing support. Include the concept name or link and what you need; we’ll agree availability, scope, pricing, and handoff before work begins.
 
@@ -89,3 +89,15 @@ Static HTML now loads CSS and JavaScript through content-versioned filenames gen
 ### Empanada's The place TOGO
 
 `/empanadas-togo/` adds the Golden Counter concept with expanding menu frames, native scroll motion and a persistent item bag. The pickup form generates a local list to copy or save; no order is sent and no payment is taken. Supplied design references are preserved in `reference/empanadas-togo/`. See [the implementation and source notes](docs/empanadas-togo.md).
+
+### Homepage showcase and contact
+
+The homepage reuses Blackstar’s visitor-controlled 3D carousel pattern, adapted for all nine concepts. The AE mark comes from the current Aether marketing navbar (`AETHER-CLOUD/web/src/components/SiteNavbar.jsx`). Green remains the primary site accent. Native links and a complete grid work without JavaScript; enhanced navigation supports arrows, keyboard, swipes, and a grid toggle.
+
+`functions/api/contact.js` is a Cloudflare Pages Function, deployed from the repository root alongside the static `dist/` output. It forwards validated inquiries to Aether’s existing public `contact-submit` service, which stores `contact_submissions` and manages its existing team notifications. No new credentials or provider setup is required in this repository. The visitor’s real Origin is preserved; the function does not impersonate the marketing domain. Only Cloudflare’s trusted client-IP header is forwarded for the upstream rate limit. Browser data is not stored locally or placed in URLs.
+
+Success requires a saved inquiry ID, not an HTTP 200 alone. Failures, malformed upstream responses, and rate limits preserve the browser draft. Native form submission also works without JavaScript. Existing upstream inbox notification delivery is best effort; a saved row is not evidence of email delivery.
+
+Checks: `npm run check` includes contact validation, payload, receipt, failure, and native-form cases. CI builds the collection, then runs `tests/showcase-browser.mjs` in Chromium at desktop and mobile widths, including reduced motion and no-JavaScript checks. Browser form responses are mocked; those tests do not send inquiries. Screenshot artifacts are attached to the validation run. An actual inbox-delivery test requires an explicitly authorized test message.
+
+CI also verifies the Cloudflare deployment for the tested commit and sends only empty, invalid payloads to the deployed endpoint and existing Aether service. These must reject with 422 before creating a submission. This proves routing and service availability without claiming inbox delivery.

@@ -61,3 +61,7 @@ Remaining:
 5. Observe GitHub CI and Cloudflare preview on the final commit. Merge only after the original images are available and the actual checks pass.
 
 Do not claim browser QA, delivery, or production deployment based only on source inspection.
+
+## Collection integration update
+
+Merged the concurrent main update into this branch without discarding its Blackstar-style carousel, AE identity, contact endpoint, or CI browser checks. Weathershield is the ninth carousel card and a selectable Aether website style. The existing contact endpoint's style map accepts that choice; no enquiry has been sent. The existing browser checks now expect nine cards and will inspect the new card once all original assets are present.
